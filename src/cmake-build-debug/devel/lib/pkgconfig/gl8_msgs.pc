@@ -1,0 +1,8 @@
+prefix=/home/hl/google/src/cmake-build-debug/devel
+
+Name: gl8_msgs
+Description: Description of gl8_msgs
+Version: 0.0.1
+Cflags: -I/home/hl/google/src/cmake-build-debug/devel/include
+Libs: -L/home/hl/google/src/cmake-build-debug/devel/lib 
+Requires: message_runtime roscpp std_msgs sensor_msgs geometry_msgs message_runtime

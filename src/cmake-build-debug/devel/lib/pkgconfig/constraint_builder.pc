@@ -1,0 +1,8 @@
+prefix=/home/hl/google/src/cmake-build-debug/devel
+
+Name: constraint_builder
+Description: Description of constraint_builder
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/hl/google/src/cmake-build-debug/devel/lib 
+Requires: 

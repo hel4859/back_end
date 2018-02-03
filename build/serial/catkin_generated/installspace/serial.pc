@@ -1,0 +1,8 @@
+prefix=/home/hl/google/install
+
+Name: serial
+Description: Description of serial
+Version: 1.2.1
+Cflags: -I/home/hl/google/install/include
+Libs: -L/home/hl/google/install/lib -lserial
+Requires: 

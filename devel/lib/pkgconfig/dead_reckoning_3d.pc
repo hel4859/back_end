@@ -1,0 +1,8 @@
+prefix=/home/hl/google/devel
+
+Name: dead_reckoning_3d
+Description: Description of dead_reckoning_3d
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/hl/google/devel/lib 
+Requires: 

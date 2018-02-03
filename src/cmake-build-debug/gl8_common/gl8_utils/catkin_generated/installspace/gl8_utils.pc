@@ -1,0 +1,8 @@
+prefix=/usr/local
+
+Name: gl8_utils
+Description: Description of gl8_utils
+Version: 0.0.1
+Cflags: -I/usr/local/include
+Libs: -L/usr/local/lib -lgl8_utils
+Requires: sensor_msgs

@@ -1,0 +1,8 @@
+prefix=/home/hl/google/install
+
+Name: geographic_msgs
+Description: Description of geographic_msgs
+Version: 0.5.2
+Cflags: -I/home/hl/google/install/include
+Libs: -L/home/hl/google/install/lib 
+Requires: message_runtime geometry_msgs uuid_msgs std_msgs

@@ -1,0 +1,8 @@
+prefix=/usr/local
+
+Name: gps_imu_constraint
+Description: Description of gps_imu_constraint
+Version: 0.0.0
+Cflags: 
+Libs: -L/usr/local/lib 
+Requires: 

@@ -1,0 +1,34 @@
+<!-- -->
+<launch>
+    <node pkg="fix2pose_tiggo" type="rtk2tfpose" name="raw" output="screen">
+        <param name="topic_pose" value="/rtk"/>
+	<param name="topic_gps" value="/Inertial/gps/fix"/>
+        <param name="frame_id" value="/rtk"/>
+        <param name="topic_imu" value="/Inertial/imu/data"/>
+    </node>
+    
+    <node pkg="fix2pose_tiggo" type="pose2path" name="raw" ns="lty" output="screen">
+        <param name="pose_name" type="string" value="/rtk"/>
+        <param name="path_name" type="string" value="/rtk_path"/>
+        <param name="gps_name" type="string" value="/strong/fix"/>
+        <param name="point_marker_type" type="int" value="6"/>
+        <param name="id" type="int" value="100"/>
+        <param name="display_type" type="int" value="2"/>
+    </node>
+    <node pkg="fix2pose_tiggo" type="rtk2tfpose" name="filter_pose" output="screen">
+        <param name="topic_pose" value="/filter"/>
+	<param name="topic_gps" value="/Inertial/gps/fix/filtered"/>
+        <param name="frame_id" value="/filter"/>
+	<param name="topic_imu" value="/Inertial/imu/data/filtered"/>
+    </node>
+    <node pkg="fix2pose_tiggo" type="pose2path" name="filter_path" output="screen">
+        <param name="pose_name" type="string" value="/filter"/>
+        <param name="path_name" type="string" value="/filter_path"/>
+        <param name="gps_name" type="string" value="/gps_filtered"/>
+        <param name="gps_raw_name" type="string" value="/strong/raw_data"/>
+        <param name="marker_size" type="double" value="0.02"/>
+        <param name="point_marker_type" type="int" value="7"/>
+        <param name="id" type="int" value="101"/>
+        <param name="display_type" type="int" value="2"/>
+    </node>
+</launch>

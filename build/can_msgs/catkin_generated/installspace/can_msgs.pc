@@ -1,0 +1,8 @@
+prefix=/home/hl/google/install
+
+Name: can_msgs
+Description: Description of can_msgs
+Version: 0.6.5
+Cflags: -I/home/hl/google/install/include
+Libs: -L/home/hl/google/install/lib 
+Requires: message_runtime std_msgs

@@ -1,0 +1,8 @@
+prefix=/home/hl/google/devel
+
+Name: tiggo_msgs
+Description: Description of tiggo_msgs
+Version: 0.0.1
+Cflags: -I/home/hl/google/devel/include
+Libs: -L/home/hl/google/devel/lib 
+Requires: message_runtime roscpp std_msgs geometry_msgs sensor_msgs

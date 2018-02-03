@@ -1,0 +1,22 @@
+#include <nav_msgs/Odometry.h>
+#include <ros/ros.h>
+#include <sensor_msgs/NavSatFix.h>
+#include <sensor_msgs/PointCloud2.h>
+#include <tf/transform_datatypes.h>
+#include <tf/transform_broadcaster.h>
+#include <tf/transform_listener.h>
+#include <fstream>
+#include <iostream>
+
+ros::Subscriber fix;
+
+//参数配置
+double Ellipse_L0= 120.4620;
+double OriginX= 529246.000;
+double OriginY= 3496650.000;
+double OffsetX= -1.1;
+double OffsetY= 1.03;
+double DisenableCtlNode;
+double latlon[2];
+double coordinate[2];
+std::ofstream  gps_data;

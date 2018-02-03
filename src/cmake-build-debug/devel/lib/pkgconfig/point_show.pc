@@ -1,0 +1,8 @@
+prefix=/home/hl/google/src/cmake-build-debug/devel
+
+Name: point_show
+Description: Description of point_show
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/hl/google/src/cmake-build-debug/devel/lib 
+Requires: 

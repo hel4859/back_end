@@ -1,0 +1,69 @@
+//
+// Created by hl on 18-1-19.
+//
+#include "dead_reckoning_3d.h"
+
+
+void Dead_reckoning::orientation_callback(const sensor_msgs::Imu::ConstPtr &imuIn) {
+
+    roll_vel=imuIn->angular_velocity.x;
+    pitch_vel=imuIn->angular_velocity.y;
+    yaw_vel=imuIn->angular_velocity.z;
+    std::cout<<"get the imu"<<std::endl;
+    std::cout<<"rotation_vel: "<<roll_vel<<" rad/s "<<pitch_vel<<" rad/s "<<yaw_vel<<" rad/s "<<std::endl;
+
+    dt=nowTime-pastTime;
+    std::cout<<"dt: "<<dt<<std::endl;
+
+    if (vel_flag)
+    {
+
+        pose[0]=pose[0]+cos(pose[5])*cos(pose[4])*vel*dt;
+        pose[1]=pose[1]+sin(pose[5])*cos(pose[4])*vel*dt;
+        pose[2]=pose[2]-sin(pose[4])*vel*dt;
+        pose[3]=pose[3]+roll_vel*dt;
+        pose[4]=pose[4]+pitch_vel*dt;
+        pose[5]=pose[5]+yaw_vel*dt;
+        vel_flag=false;
+
+        std::cout<<"get the pose"<<std::endl;
+
+    }
+
+    std::cout<<"pose: "<<pose[0]<<" m/s "<<pose[1]<<" m/s "<<pose[2]<<" m/s "
+            <<pose[4]<<" rad/s "<<pose[5]<<" rad/s "<<pose[6]<<" rad/s " <<std::endl;
+
+
+}
+void Dead_reckoning::odom_vel_callback(const geometry_msgs::TwistWithCovarianceStamped::ConstPtr &velIn) {
+
+    vel=sqrt((velIn->twist.twist.linear.x)*(velIn->twist.twist.linear.x)
+             +(velIn->twist.twist.linear.y)*(velIn->twist.twist.linear.y)
+             +(velIn->twist.twist.linear.z)*(velIn->twist.twist.linear.z));
+    vel_flag=true;
+
+    std::cout<<"get the velocity"<<std::endl;
+    std::cout<<"vel: "<<vel<<" m/s"<<std::endl;
+}
+
+Dead_reckoning::Dead_reckoning()
+{
+    std::cout<<"Dead_reckoning::Dead_reckoning()"<<std::endl;
+
+    orientation=nh.subscribe("/Inertial/imu/data",1,&Dead_reckoning::orientation_callback,this);
+    odom_vel=nh.subscribe("/Inertial/gps/vel",1,&Dead_reckoning::odom_vel_callback,this);
+}
+
+Dead_reckoning::~Dead_reckoning() {
+
+    std::cout<<"Dead_reckoning::~Dead_reckoning()"<<std::endl;
+
+}
+
+int main(int argc, char** argv)
+{
+    Dead_reckoning reck;
+    ros::MultiThreadedSpinner spinner(0); // Use all threads
+    spinner.spin(); // spin() will not return until the node has been shutdown
+}
+

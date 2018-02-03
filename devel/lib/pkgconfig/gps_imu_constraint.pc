@@ -1,0 +1,8 @@
+prefix=/home/hl/google/devel
+
+Name: gps_imu_constraint
+Description: Description of gps_imu_constraint
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/hl/google/devel/lib 
+Requires: 

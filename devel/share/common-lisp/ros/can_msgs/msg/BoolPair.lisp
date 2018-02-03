@@ -1,0 +1,92 @@
+; Auto-generated. Do not edit!
+
+
+(cl:in-package can_msgs-msg)
+
+
+;//! \htmlinclude BoolPair.msg.html
+
+(cl:defclass <BoolPair> (roslisp-msg-protocol:ros-message)
+  ((header
+    :reader header
+    :initarg :header
+    :type std_msgs-msg:Header
+    :initform (cl:make-instance 'std_msgs-msg:Header))
+   (first
+    :reader first
+    :initarg :first
+    :type cl:boolean
+    :initform cl:nil)
+   (second
+    :reader second
+    :initarg :second
+    :type cl:boolean
+    :initform cl:nil))
+)
+
+(cl:defclass BoolPair (<BoolPair>)
+  ())
+
+(cl:defmethod cl:initialize-instance :after ((m <BoolPair>) cl:&rest args)
+  (cl:declare (cl:ignorable args))
+  (cl:unless (cl:typep m 'BoolPair)
+    (roslisp-msg-protocol:msg-deprecation-warning "using old message class name can_msgs-msg:<BoolPair> is deprecated: use can_msgs-msg:BoolPair instead.")))
+
+(cl:ensure-generic-function 'header-val :lambda-list '(m))
+(cl:defmethod header-val ((m <BoolPair>))
+  (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader can_msgs-msg:header-val is deprecated.  Use can_msgs-msg:header instead.")
+  (header m))
+
+(cl:ensure-generic-function 'first-val :lambda-list '(m))
+(cl:defmethod first-val ((m <BoolPair>))
+  (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader can_msgs-msg:first-val is deprecated.  Use can_msgs-msg:first instead.")
+  (first m))
+
+(cl:ensure-generic-function 'second-val :lambda-list '(m))
+(cl:defmethod second-val ((m <BoolPair>))
+  (roslisp-msg-protocol:msg-deprecation-warning "Using old-style slot reader can_msgs-msg:second-val is deprecated.  Use can_msgs-msg:second instead.")
+  (second m))
+(cl:defmethod roslisp-msg-protocol:serialize ((msg <BoolPair>) ostream)
+  "Serializes a message object of type '<BoolPair>"
+  (roslisp-msg-protocol:serialize (cl:slot-value msg 'header) ostream)
+  (cl:write-byte (cl:ldb (cl:byte 8 0) (cl:if (cl:slot-value msg 'first) 1 0)) ostream)
+  (cl:write-byte (cl:ldb (cl:byte 8 0) (cl:if (cl:slot-value msg 'second) 1 0)) ostream)
+)
+(cl:defmethod roslisp-msg-protocol:deserialize ((msg <BoolPair>) istream)
+  "Deserializes a message object of type '<BoolPair>"
+  (roslisp-msg-protocol:deserialize (cl:slot-value msg 'header) istream)
+    (cl:setf (cl:slot-value msg 'first) (cl:not (cl:zerop (cl:read-byte istream))))
+    (cl:setf (cl:slot-value msg 'second) (cl:not (cl:zerop (cl:read-byte istream))))
+  msg
+)
+(cl:defmethod roslisp-msg-protocol:ros-datatype ((msg (cl:eql '<BoolPair>)))
+  "Returns string type for a message object of type '<BoolPair>"
+  "can_msgs/BoolPair")
+(cl:defmethod roslisp-msg-protocol:ros-datatype ((msg (cl:eql 'BoolPair)))
+  "Returns string type for a message object of type 'BoolPair"
+  "can_msgs/BoolPair")
+(cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql '<BoolPair>)))
+  "Returns md5sum for a message object of type '<BoolPair>"
+  "5c0f4db02c236649f59d7a1f43bf30cb")
+(cl:defmethod roslisp-msg-protocol:md5sum ((type (cl:eql 'BoolPair)))
+  "Returns md5sum for a message object of type 'BoolPair"
+  "5c0f4db02c236649f59d7a1f43bf30cb")
+(cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql '<BoolPair>)))
+  "Returns full string definition for message of type '<BoolPair>"
+  (cl:format cl:nil "Header header~%bool    first~%bool    second~%~%~%~%~%~%================================================================================~%MSG: std_msgs/Header~%# Standard metadata for higher-level stamped data types.~%# This is generally used to communicate timestamped data ~%# in a particular coordinate frame.~%# ~%# sequence ID: consecutively increasing ID ~%uint32 seq~%#Two-integer timestamp that is expressed as:~%# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')~%# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')~%# time-handling sugar is provided by the client library~%time stamp~%#Frame this data is associated with~%# 0: no frame~%# 1: global frame~%string frame_id~%~%~%"))
+(cl:defmethod roslisp-msg-protocol:message-definition ((type (cl:eql 'BoolPair)))
+  "Returns full string definition for message of type 'BoolPair"
+  (cl:format cl:nil "Header header~%bool    first~%bool    second~%~%~%~%~%~%================================================================================~%MSG: std_msgs/Header~%# Standard metadata for higher-level stamped data types.~%# This is generally used to communicate timestamped data ~%# in a particular coordinate frame.~%# ~%# sequence ID: consecutively increasing ID ~%uint32 seq~%#Two-integer timestamp that is expressed as:~%# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')~%# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')~%# time-handling sugar is provided by the client library~%time stamp~%#Frame this data is associated with~%# 0: no frame~%# 1: global frame~%string frame_id~%~%~%"))
+(cl:defmethod roslisp-msg-protocol:serialization-length ((msg <BoolPair>))
+  (cl:+ 0
+     (roslisp-msg-protocol:serialization-length (cl:slot-value msg 'header))
+     1
+     1
+))
+(cl:defmethod roslisp-msg-protocol:ros-message-to-list ((msg <BoolPair>))
+  "Converts a ROS message object to a list"
+  (cl:list 'BoolPair
+    (cl:cons ':header (header msg))
+    (cl:cons ':first (first msg))
+    (cl:cons ':second (second msg))
+))

@@ -1,0 +1,8 @@
+prefix=/home/hl/google/devel
+
+Name: slam_karto
+Description: Description of slam_karto
+Version: 0.7.3
+Cflags: 
+Libs: -L/home/hl/google/devel/lib 
+Requires: 

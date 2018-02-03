@@ -1,0 +1,8 @@
+prefix=/home/hl/google/install
+
+Name: geodesy
+Description: Description of geodesy
+Version: 0.5.2
+Cflags: -I/home/hl/google/install/include
+Libs: -L/home/hl/google/install/lib -lgeoconv
+Requires: geographic_msgs geometry_msgs sensor_msgs tf unique_id uuid_msgs

@@ -1,0 +1,8 @@
+prefix=/home/hl/google/devel
+
+Name: vertical_laser
+Description: Description of vertical_laser
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/hl/google/devel/lib 
+Requires: 

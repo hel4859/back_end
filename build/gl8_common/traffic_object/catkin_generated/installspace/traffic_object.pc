@@ -1,0 +1,8 @@
+prefix=/home/hl/google/install
+
+Name: traffic_object
+Description: Description of traffic_object
+Version: 0.0.1
+Cflags: -I/home/hl/google/install/include
+Libs: -L/home/hl/google/install/lib -ltraffic_object
+Requires: 

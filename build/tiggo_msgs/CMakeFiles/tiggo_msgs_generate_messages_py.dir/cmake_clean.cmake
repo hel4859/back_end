@@ -1,0 +1,40 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/tiggo_msgs_generate_messages_py"
+  "/home/hl/google/devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_Point2f.py"
+  "/home/hl/google/devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_RealCurb.py"
+  "/home/hl/google/devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_TrafficLightSend.py"
+  "/home/hl/google/devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_Tunnel.py"
+  "/home/hl/google/devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_TrafficLight.py"
+  "/home/hl/google/devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_pedestrian.py"
+  "/home/hl/google/devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_Complex.py"
+  "/home/hl/google/devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_Signal.py"
+  "/home/hl/google/devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_CanFrame.py"
+  "/home/hl/google/devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_Heading.py"
+  "/home/hl/google/devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_EsrObj.py"
+  "/home/hl/google/devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_ImuData.py"
+  "/home/hl/google/devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_LaneData.py"
+  "/home/hl/google/devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_Cloud_sorted.py"
+  "/home/hl/google/devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_EsrObjMultiArray.py"
+  "/home/hl/google/devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_StereoObjMultiArray.py"
+  "/home/hl/google/devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_Luzhui.py"
+  "/home/hl/google/devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_LocalTarget.py"
+  "/home/hl/google/devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_Path.py"
+  "/home/hl/google/devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_StopLine.py"
+  "/home/hl/google/devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_Uturn.py"
+  "/home/hl/google/devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_CrossLine.py"
+  "/home/hl/google/devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_MapTarget.py"
+  "/home/hl/google/devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_Line2f.py"
+  "/home/hl/google/devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_Intersection.py"
+  "/home/hl/google/devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_PixelCurb.py"
+  "/home/hl/google/devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_PixelLane.py"
+  "/home/hl/google/devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_Point3f.py"
+  "/home/hl/google/devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_ScanObstacle.py"
+  "/home/hl/google/devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_CruiseState.py"
+  "/home/hl/google/devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_Orientation.py"
+  "/home/hl/google/devel/lib/python2.7/dist-packages/tiggo_msgs/msg/__init__.py"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang )
+  include(CMakeFiles/tiggo_msgs_generate_messages_py.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

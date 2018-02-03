@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/hl/google/src/cmake-build-debug/devel/setup.sh

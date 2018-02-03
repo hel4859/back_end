@@ -1,0 +1,14 @@
+<package format="2">
+  <name>traffic_object</name>
+  <version>0.0.1</version>
+  <description>
+   traffic object modeling
+  </description>
+  <author>wenglihong</author>
+  <maintainer email="wengge987@163.com">wenglihong</maintainer>
+  <license>BSD</license>
+  <url></url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+ 
+</package>

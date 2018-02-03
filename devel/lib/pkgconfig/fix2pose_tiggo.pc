@@ -1,0 +1,8 @@
+prefix=/home/hl/google/devel
+
+Name: fix2pose_tiggo
+Description: Description of fix2pose_tiggo
+Version: 0.0.1
+Cflags: 
+Libs: -L/home/hl/google/devel/lib 
+Requires: roscpp std_msgs tf sensor_msgs visualization_msgs

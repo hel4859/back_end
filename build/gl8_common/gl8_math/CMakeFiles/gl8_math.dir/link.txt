@@ -1,0 +1,1 @@
+/usr/bin/c++  -fPIC   -shared -Wl,-soname,libgl8_math.so -o /home/hl/google/devel/lib/libgl8_math.so CMakeFiles/gl8_math.dir/src/gl8_math.cpp.o 

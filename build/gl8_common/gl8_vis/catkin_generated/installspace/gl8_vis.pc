@@ -1,0 +1,8 @@
+prefix=/home/hl/google/install
+
+Name: gl8_vis
+Description: Description of gl8_vis
+Version: 0.0.1
+Cflags: -I/home/hl/google/install/include
+Libs: -L/home/hl/google/install/lib -lgl8_vis
+Requires: 

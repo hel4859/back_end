@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/hl/google/src/gl8_common/traffic_object/include/traffic_object/basic_type.h
+
+/home/hl/google/src/gl8_common/traffic_object/include/traffic_object/traffic_object.h
+traffic_object/basic_type.h
+/home/hl/google/src/gl8_common/traffic_object/include/traffic_object/traffic_object/basic_type.h
+
+/home/hl/google/src/gl8_common/traffic_object/include/traffic_object/vehicle.h
+traffic_object/traffic_object.h
+/home/hl/google/src/gl8_common/traffic_object/include/traffic_object/traffic_object/traffic_object.h
+
+/home/hl/google/src/gl8_common/traffic_object/src/traffic_object.cpp
+traffic_object/traffic_object.h
+/home/hl/google/src/gl8_common/traffic_object/src/traffic_object/traffic_object.h
+
+/home/hl/google/src/gl8_common/traffic_object/src/vehicle.cpp
+traffic_object/vehicle.h
+/home/hl/google/src/gl8_common/traffic_object/src/traffic_object/vehicle.h
+

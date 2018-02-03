@@ -1,0 +1,18 @@
+<!-- -->
+<launch>
+    <node pkg="fix2pose_tiggo" type="rtk2tfpose" name="raw" output="screen">
+        <param name="topic_pose" value="/rtk"/>
+	<param name="topic_gps" value="/Inertial/gps/fix"/>
+        <param name="frame_id" value="/base_link"/>
+        <param name="topic_imu" value="/Inertial/imu/data"/>
+    </node>
+    
+    <node pkg="fix2pose_tiggo" type="pose2path" name="raw" ns="lty" output="screen">
+        <param name="pose_name" type="string" value="/rtk"/>
+        <param name="path_name" type="string" value="/rtk_path"/>
+        <param name="gps_name" type="string" value="/strong/fix"/>
+        <param name="point_marker_type" type="int" value="6"/>
+        <param name="id" type="int" value="100"/>
+        <param name="display_type" type="int" value="2"/>
+    </node>
+</launch>

@@ -1,0 +1,40 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/tiggo_msgs_generate_messages_py"
+  "../devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_Point2f.py"
+  "../devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_RealCurb.py"
+  "../devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_TrafficLightSend.py"
+  "../devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_Tunnel.py"
+  "../devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_TrafficLight.py"
+  "../devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_pedestrian.py"
+  "../devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_Complex.py"
+  "../devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_Signal.py"
+  "../devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_CanFrame.py"
+  "../devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_Heading.py"
+  "../devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_EsrObj.py"
+  "../devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_ImuData.py"
+  "../devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_LaneData.py"
+  "../devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_Cloud_sorted.py"
+  "../devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_EsrObjMultiArray.py"
+  "../devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_StereoObjMultiArray.py"
+  "../devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_Luzhui.py"
+  "../devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_LocalTarget.py"
+  "../devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_Path.py"
+  "../devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_StopLine.py"
+  "../devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_Uturn.py"
+  "../devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_CrossLine.py"
+  "../devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_MapTarget.py"
+  "../devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_Line2f.py"
+  "../devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_Intersection.py"
+  "../devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_PixelCurb.py"
+  "../devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_PixelLane.py"
+  "../devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_Point3f.py"
+  "../devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_ScanObstacle.py"
+  "../devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_CruiseState.py"
+  "../devel/lib/python2.7/dist-packages/tiggo_msgs/msg/_Orientation.py"
+  "../devel/lib/python2.7/dist-packages/tiggo_msgs/msg/__init__.py"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang )
+  include(CMakeFiles/tiggo_msgs_generate_messages_py.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

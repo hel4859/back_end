@@ -1,0 +1,8 @@
+prefix=/home/hl/google/devel
+
+Name: gl8_math
+Description: Description of gl8_math
+Version: 0.0.1
+Cflags: -I/home/hl/google/src/gl8_common/gl8_math/include/
+Libs: -L/home/hl/google/devel/lib -lgl8_math
+Requires: 

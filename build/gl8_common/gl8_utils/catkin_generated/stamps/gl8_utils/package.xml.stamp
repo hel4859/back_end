@@ -1,0 +1,17 @@
+<package format="2">
+  <name>gl8_utils</name>
+  <version>0.0.1</version>
+  <description>
+    utils fucntions for gl8 system
+  </description>
+  <author>wenglihong</author>
+  <maintainer email="wengge987@163.com">wenglihong</maintainer>
+  <license>BSD</license>
+  <url></url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>message_generation</build_depend>
+  <exec_depend>message_runtime</exec_depend>
+  <depend>sensor_msgs</depend>
+ 
+</package>

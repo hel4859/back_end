@@ -1,0 +1,211 @@
+/usr/local/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/hl/google/src
+-- Using CATKIN_DEVEL_PREFIX: /home/hl/google/src/cmake-build-debug/devel
+-- Using CMAKE_PREFIX_PATH: /home/hl/helei_ws/devel;/home/hl/google/devel;/home/hl/catkin_ws/devel;/opt/ros/indigo
+-- This workspace overlays: /home/hl/helei_ws/devel;/home/hl/google/devel;/home/hl/catkin_ws/devel;/opt/ros/indigo
+-- Using PYTHON_EXECUTABLE: /usr/bin/python
+-- Using Debian Python package layout
+-- Using empy: /usr/bin/empy
+-- Using CATKIN_ENABLE_TESTING: ON
+-- Call enable_testing()
+-- Using CATKIN_TEST_RESULTS_DIR: /home/hl/google/src/cmake-build-debug/test_results
+-- Found gtest sources under '/usr/src/gtest': gtests will be built
+-- Using Python nosetests: /usr/bin/nosetests-2.7
+-- catkin 0.6.18
+-- BUILD_SHARED_LIBS is on
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- ~~  traversing 28 packages in topological order:
+-- ~~  - constraint_builder
+-- ~~  - dead_reckoning_3d
+-- ~~  - geographic_info (metapackage)
+-- ~~  - gps_imu_constraint
+-- ~~  - imu_pipeline (metapackage)
+-- ~~  - gl8_math
+-- ~~  - gl8_vis
+-- ~~  - open_karto
+-- ~~  - optimal_function
+-- ~~  - point_show
+-- ~~  - serial
+-- ~~  - can_msgs
+-- ~~  - gl8_utils
+-- ~~  - traffic_object
+-- ~~  - geographic_msgs
+-- ~~  - gl8_msgs
+-- ~~  - gps_to_plane
+-- ~~  - tiggo_msgs
+-- ~~  - joy
+-- ~~  - fix2pose_tiggo
+-- ~~  - imu_processors
+-- ~~  - loam_velodyne
+-- ~~  - my_pcl_demo
+-- ~~  - pose_fusion
+-- ~~  - slam_karto
+-- ~~  - robot_localization
+-- ~~  - imu_transformer
+-- ~~  - geodesy
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- +++ processing catkin package: 'constraint_builder'
+-- ==> add_subdirectory(constraint_builder)
+-- +++ processing catkin package: 'dead_reckoning_3d'
+-- ==> add_subdirectory(dead_reckoning_3d)
+-- Using these message generators: gencpp;genlisp;genpy
+-- +++ processing catkin metapackage: 'geographic_info'
+-- ==> add_subdirectory(geographic_info-master/geographic_info)
+-- +++ processing catkin package: 'gps_imu_constraint'
+-- ==> add_subdirectory(gps_imu_constraint)
+-- Using these message generators: gencpp;genlisp;genpy
+-- +++ processing catkin metapackage: 'imu_pipeline'
+-- ==> add_subdirectory(imu_pipeline-indigo-devel/imu_pipeline)
+-- +++ processing catkin package: 'gl8_math'
+-- ==> add_subdirectory(gl8_common/gl8_math)
+-- +++ processing catkin package: 'gl8_vis'
+-- ==> add_subdirectory(gl8_common/gl8_vis)
+-- +++ processing catkin package: 'open_karto'
+-- ==> add_subdirectory(open_karto-indigo-devel)
+-- Boost version: 1.54.0
+-- Found the following Boost libraries:
+--   thread
+--   chrono
+--   system
+--   date_time
+--   atomic
+-- +++ processing catkin package: 'optimal_function'
+-- ==> add_subdirectory(optimal_function)
+-- Found required Ceres dependency: Eigen version 3.2.10 in /usr/local/include/eigen3
+-- Found required Ceres dependency: glog
+-- Found required Ceres dependency: gflags
+-- Found Ceres version: 1.13.0 installed in: /usr/local with components: [LAPACK, SuiteSparse, SparseLinearAlgebraLibrary, CXSparse, SchurSpecializations, OpenMP]
+-- Using these message generators: gencpp;genlisp;genpy
+-- +++ processing catkin package: 'point_show'
+-- ==> add_subdirectory(point_show)
+-- Using these message generators: gencpp;genlisp;genpy
+-- +++ processing catkin package: 'serial'
+-- ==> add_subdirectory(serial)
+-- +++ processing catkin package: 'can_msgs'
+-- ==> add_subdirectory(can_msgs)
+-- Using these message generators: gencpp;genlisp;genpy
+-- can_msgs: 35 messages, 0 services
+-- +++ processing catkin package: 'gl8_utils'
+-- ==> add_subdirectory(gl8_common/gl8_utils)
+-- +++ processing catkin package: 'traffic_object'
+-- ==> add_subdirectory(gl8_common/traffic_object)
+-- +++ processing catkin package: 'geographic_msgs'
+-- ==> add_subdirectory(geographic_info-master/geographic_msgs)
+-- Using these message generators: gencpp;genlisp;genpy
+-- geographic_msgs: 14 messages, 4 services
+-- +++ processing catkin package: 'gl8_msgs'
+-- ==> add_subdirectory(gl8_msgs )
+-- Using these message generators: gencpp;genlisp;genpy
+-- gl8_msgs: 15 messages, 0 services
+-- +++ processing catkin package: 'gps_to_plane'
+-- ==> add_subdirectory(gps_to_plane)
+-- Using these message generators: gencpp;genlisp;genpy
+-- +++ processing catkin package: 'tiggo_msgs'
+-- ==> add_subdirectory(tiggo_msgs)
+-- Using these message generators: gencpp;genlisp;genpy
+-- tiggo_msgs: 31 messages, 0 services
+-- +++ processing catkin package: 'joy'
+-- ==> add_subdirectory(joy)
+-- +++ processing catkin package: 'fix2pose_tiggo'
+-- ==> add_subdirectory(fix2pose_tiggo)
+-- Using these message generators: gencpp;genlisp;genpy
+-- +++ processing catkin package: 'imu_processors'
+-- ==> add_subdirectory(imu_pipeline-indigo-devel/imu_processors)
+-- Using these message generators: gencpp;genlisp;genpy
+-- +++ processing catkin package: 'loam_velodyne'
+-- ==> add_subdirectory(loam_velodyne)
+-- Using these message generators: gencpp;genlisp;genpy
+-- Boost version: 1.54.0
+-- Found the following Boost libraries:
+--   system
+--   filesystem
+--   thread
+--   date_time
+--   iostreams
+--   serialization
+--   chrono
+--   atomic
+--   regex
+** WARNING ** io features related to pcap will be disabled
+** WARNING ** io features related to png will be disabled
+-- looking for PCL_COMMON
+-- looking for PCL_KDTREE
+-- looking for PCL_OCTREE
+-- looking for PCL_SEARCH
+-- looking for PCL_SURFACE
+-- looking for PCL_SAMPLE_CONSENSUS
+-- looking for PCL_IO
+-- looking for PCL_FILTERS
+-- looking for PCL_FEATURES
+-- looking for PCL_GEOMETRY
+-- looking for PCL_KEYPOINTS
+-- looking for PCL_REGISTRATION
+-- looking for PCL_SEGMENTATION
+-- looking for PCL_RECOGNITION
+-- looking for PCL_VISUALIZATION
+-- looking for PCL_PEOPLE
+-- looking for PCL_OUTOFCORE
+-- looking for PCL_TRACKING
+-- looking for PCL_APPS
+CMake Warning (dev) at loam_velodyne/CMakeLists.txt:18 (find_package):
+  Ignoring EXACT since no version is requested.
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- +++ processing catkin package: 'my_pcl_demo'
+-- ==> add_subdirectory(my_pcl_demo)
+-- Using these message generators: gencpp;genlisp;genpy
+-- +++ processing catkin package: 'pose_fusion'
+-- ==> add_subdirectory(pose_fusion_gl8)
+-- Using these message generators: gencpp;genlisp;genpy
+CMake Warning at pose_fusion_gl8/CMakeLists.txt:16 (find_package):
+  By not providing "FindEigen3.cmake" in CMAKE_MODULE_PATH this project has
+  asked CMake to find a package configuration file provided by "Eigen3", but
+  CMake did not find one.
+
+  Could not find a package configuration file provided by "Eigen3" with any
+  of the following names:
+
+    Eigen3Config.cmake
+    eigen3-config.cmake
+
+  Add the installation prefix of "Eigen3" to CMAKE_PREFIX_PATH or set
+  "Eigen3_DIR" to a directory containing one of the above files.  If "Eigen3"
+  provides a separate development package or SDK, be sure it has been
+  installed.
+
+
+-- Eigen found (include: /usr/local/include/eigen3)
+-- +++ processing catkin package: 'slam_karto'
+-- ==> add_subdirectory(slam_karto-indigo-devel)
+-- Using these message generators: gencpp;genlisp;genpy
+-- Eigen found (include: /usr/local/include/eigen3)
+-- +++ processing catkin package: 'robot_localization'
+-- ==> add_subdirectory(robot_localization-indigo-devel)
+-- Using these message generators: gencpp;genlisp;genpy
+CMake Warning at robot_localization-indigo-devel/CMakeLists.txt:22 (find_package):
+  By not providing "FindEigen3.cmake" in CMAKE_MODULE_PATH this project has
+  asked CMake to find a package configuration file provided by "Eigen3", but
+  CMake did not find one.
+
+  Could not find a package configuration file provided by "Eigen3" with any
+  of the following names:
+
+    Eigen3Config.cmake
+    eigen3-config.cmake
+
+  Add the installation prefix of "Eigen3" to CMAKE_PREFIX_PATH or set
+  "Eigen3_DIR" to a directory containing one of the above files.  If "Eigen3"
+  provides a separate development package or SDK, be sure it has been
+  installed.
+
+
+-- Eigen found (include: /usr/local/include/eigen3)
+-- robot_localization: 0 messages, 2 services
+-- +++ processing catkin package: 'imu_transformer'
+-- ==> add_subdirectory(imu_pipeline-indigo-devel/imu_transformer)
+-- Using these message generators: gencpp;genlisp;genpy
+-- +++ processing catkin package: 'geodesy'
+-- ==> add_subdirectory(geographic_info-master/geodesy)
+-- Using these message generators: gencpp;genlisp;genpy
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/hl/google/src/cmake-build-debug

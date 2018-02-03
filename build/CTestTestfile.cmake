@@ -1,0 +1,35 @@
+# CMake generated Testfile for 
+# Source directory: /home/hl/google/src
+# Build directory: /home/hl/google/build
+# 
+# This file includes the relevant testing commands required for 
+# testing this directory and lists subdirectories to be tested as well.
+subdirs(gtest)
+subdirs(constraint_builder)
+subdirs(dead_reckoning_3d)
+subdirs(geographic_info-master/geographic_info)
+subdirs(gps_imu_constraint)
+subdirs(imu_pipeline-indigo-devel/imu_pipeline)
+subdirs(gl8_common/gl8_math)
+subdirs(gl8_common/gl8_vis)
+subdirs(open_karto-indigo-devel)
+subdirs(optimal_function)
+subdirs(point_show)
+subdirs(serial)
+subdirs(can_msgs)
+subdirs(gl8_common/gl8_utils)
+subdirs(gl8_common/traffic_object)
+subdirs(geographic_info-master/geographic_msgs)
+subdirs(gl8_msgs )
+subdirs(gps_to_plane)
+subdirs(tiggo_msgs)
+subdirs(joy)
+subdirs(fix2pose_tiggo)
+subdirs(imu_pipeline-indigo-devel/imu_processors)
+subdirs(loam_velodyne)
+subdirs(my_pcl_demo)
+subdirs(pose_fusion_gl8)
+subdirs(slam_karto-indigo-devel)
+subdirs(robot_localization-indigo-devel)
+subdirs(imu_pipeline-indigo-devel/imu_transformer)
+subdirs(geographic_info-master/geodesy)
