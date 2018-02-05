@@ -227,19 +227,21 @@ public:
                           const Eigen::Vector3d& pose_translation,
                           const Eigen::Quaterniond& pose_rotation);
 
-    void OptimalSolve(const std::vector<Node> &nodes,const std::vector<Constraint> &constraints);
+    void OptimalSolve(const std::vector<Node> &nodes,
+                      const std::vector<Constraint> &constraints,
+                      const std::vector<Constraint> &fix_constraints);
 
 
     void AddLocalNode(int trajectory_id,ros::Time time,
                       const Eigen::Vector3d& pose_translation,
                       const Eigen::Quaterniond& pose_rotation);
 
-    void AddGlobalNode(std::vector<Node> &imu_odom_1,std::vector<Node> &laser_odom_1,std::vector<Node> &fix_odom_1);
+    void AddGlobalNode();
 
     void AddSubmap(int trajectory_id,
                    const Eigen::Vector3d& global_submap_pose_translation,
                    const Eigen::Quaterniond& global_submap_pose_rotation);
-    void Local_Constraint(std::vector<Node> &imu_odom_1,std::vector<Node> &fix_odom_1,std::vector<Node>& global_node);
+    void Local_Constraint();
     void Global_Constraint(std::vector<Node> imu_odom_1,std::vector<Node> laser_odom_1);
     void Fix_Constraint(std::vector<Node> &fix_odom_1,std::vector<Node>& global_node);
 
@@ -268,6 +270,7 @@ public:
 
     int solve_node_id=0;
     int solve_constraint_id=0;
+    int solve_fix_constraint_id=0;
 
     int compare_node_id=0;
     int compare_constraint_id=0;
@@ -281,7 +284,6 @@ public:
     std::vector<Node> laser_odom_;
     std::vector<Constraint> constraint_;
     std::vector<Constraint> fix_constraint_;
-    std::vector<Constraint> fix_constraint_temp_;
     std::vector<Opt_Node>before_opt_node_;
     std::vector<Opt_Constraint>before_opt_constraint_;
 

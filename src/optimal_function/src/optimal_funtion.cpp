@@ -50,26 +50,25 @@ void Optimal_Function::AddLocalNode(int trajectory_id, ros::Time time, const Eig
 
 }
 
-void Optimal_Function::AddGlobalNode(std::vector<Node> &imu_odom_1,
-                                     std::vector<Node> &laser_odom_1,
-                                     std::vector<Node> &fix_odom_1) {
+void Optimal_Function::AddGlobalNode() {
     pthread_mutex_lock(&laser_mutex_);
     pthread_mutex_lock(&imu_mutex_);
     pthread_mutex_lock(&fix_mutex_);
 
-    if (first_pose_flag) {
+    if (Optimal_Function::first_pose_flag) {
 
-        if( laser_odom_1[0].time_<= std::max(imu_odom_1[0].time_,
-                                                     laser_odom_1[0].time_))
+        if( Optimal_Function::laser_odom_[0].time_<= std::max(Optimal_Function::imu_odom_[0].time_,
+                                                              Optimal_Function::laser_odom_[0].time_))
         {
-            for (int i=0;i!=laser_odom_1.size();i++) {
-                    if(laser_odom_1[i].time_>=std::max(imu_odom_1[0].time_,
-                                                              laser_odom_1[0].time_)) {
-                        Optimal_Function::global_node_.push_back(Node(laser_odom_1[i].trajectory_id_, laser_odom_1[i].time_,
-                                                                      laser_odom_1[i].pose_translation_,
-                                                                      laser_odom_1[i].pose_rotation_));
+            for (int i=0;i!=Optimal_Function::laser_odom_.size();i++) {
+                    if(Optimal_Function::laser_odom_[i].time_>=std::max(Optimal_Function::imu_odom_[0].time_,
+                                                                        Optimal_Function::laser_odom_[0].time_)) {
+                        Optimal_Function::global_node_.push_back(Node(Optimal_Function::laser_odom_[i].trajectory_id_,
+                                                                      Optimal_Function::laser_odom_[i].time_,
+                                                                      Optimal_Function::laser_odom_[i].pose_translation_,
+                                                                      Optimal_Function::laser_odom_[i].pose_rotation_));
                         Optimal_Function::laser_odom_id=i;
-                        first_pose_flag=false;
+                        Optimal_Function::first_pose_flag=false;
                         pthread_mutex_unlock(&laser_mutex_);
                         pthread_mutex_unlock(&imu_mutex_);
                         pthread_mutex_unlock(&fix_mutex_);
@@ -79,23 +78,25 @@ void Optimal_Function::AddGlobalNode(std::vector<Node> &imu_odom_1,
         }
         else
         {
-            Optimal_Function::global_node_.push_back(Node(laser_odom_1[0].trajectory_id_, laser_odom_1[0].time_,
-                                                              laser_odom_1[0].pose_translation_,
-                                                              laser_odom_1[0].pose_rotation_));
+            Optimal_Function::global_node_.push_back(Node(Optimal_Function::laser_odom_[0].trajectory_id_,
+                                                          Optimal_Function:: laser_odom_[0].time_,
+                                                          Optimal_Function::laser_odom_[0].pose_translation_,
+                                                          Optimal_Function::laser_odom_[0].pose_rotation_));
                 Optimal_Function::laser_odom_id=0;
                 first_pose_flag=false;
         }
     }
     else {
 
-        if (laser_odom_1.size()-1>Optimal_Function::laser_odom_id) {
-            for (int i=laser_odom_id+1;i!=laser_odom_1.size();i++)
+        if (Optimal_Function::laser_odom_.size()-1>Optimal_Function::laser_odom_id) {
+            for (int i=Optimal_Function::laser_odom_id+1;i!=Optimal_Function::laser_odom_.size();i++)
             {
-                Optimal_Function::global_node_.push_back(Node(laser_odom_1[i].trajectory_id_, laser_odom_1[i].time_,
-                                                              laser_odom_1[i].pose_translation_,
-                                                              laser_odom_1[i].pose_rotation_));
+                Optimal_Function::global_node_.push_back(Node(Optimal_Function::laser_odom_[i].trajectory_id_,
+                                                              Optimal_Function::laser_odom_[i].time_,
+                                                              Optimal_Function::laser_odom_[i].pose_translation_,
+                                                              Optimal_Function::laser_odom_[i].pose_rotation_));
             }
-            laser_odom_id=laser_odom_1.size()-1;
+            Optimal_Function::laser_odom_id=Optimal_Function::laser_odom_.size()-1;
 
         }
     }
@@ -115,88 +116,47 @@ void Optimal_Function::AddSubmap(int trajectory_id, const Eigen::Vector3d &globa
 
 }
 
-void Optimal_Function::Local_Constraint(std::vector<Node> &imu_odom_1,std::vector<Node> &fix_odom_1,std::vector<Node>& global_node) {
-    if(global_node.size()>=((Optimal_Function::trajectory_id_+1)*10) &&
-            global_node.size()<((Optimal_Function::trajectory_id_+2)*10))
-
-
+void Optimal_Function::Local_Constraint() {
+    if(Optimal_Function::global_node_.size()>=((Optimal_Function::trajectory_id_+1)*10) &&
+            Optimal_Function::global_node_.size()<((Optimal_Function::trajectory_id_+2)*10))
     {
-        pthread_mutex_lock(&imu_mutex_);
-        pthread_mutex_lock(&fix_mutex_);
         pthread_mutex_lock(&node_mutex);
         for (int j=Optimal_Function::trajectory_id_*10;j!=(Optimal_Function::trajectory_id_+1)*10;j++)
         {
-            global_node[j].trajectory_id_=Optimal_Function::trajectory_id_;
-            Optimal_Function::local_node_.push_back(global_node[j]);
-            Optimal_Function::before_opt_node_.push_back(Opt_Node(j,global_node[j].trajectory_id_,global_node[j].time_,
-                                                                  std::array<double, 3>{{global_node[j].pose_translation_[0],
-                                                                                                global_node[j].pose_translation_[1],
-                                                                                                global_node[j].pose_translation_[2]}},
-                                                                  std::array<double, 4>{{global_node[j].pose_rotation_.w(),
-                                                                                                global_node[j].pose_rotation_.x(),
-                                                                                                global_node[j].pose_rotation_.y(),
-                                                                                                global_node[j].pose_rotation_.z()}}));
-        }
+            Optimal_Function::global_node_[j].trajectory_id_=Optimal_Function::trajectory_id_;
+            Optimal_Function::local_node_.push_back(Optimal_Function::global_node_[j]);
 
-        pthread_mutex_unlock(&node_mutex);
-        //for imu
-        for(int m=0+Optimal_Function::trajectory_id_*10;m!=10+Optimal_Function::trajectory_id_*10;m++)
-        {
-            for(int p=Optimal_Function::constraint_first_id;p!=imu_odom_1.size();p++)
+            for(int p=Optimal_Function::constraint_first_id;p!=Optimal_Function::imu_odom_.size();p++)
             {
-                imu_odom_1[p].trajectory_id_=Optimal_Function::trajectory_id_;
-                if(imu_odom_1[p].time_>=Optimal_Function::global_node_[m].time_)
+                Optimal_Function::imu_odom_[p].trajectory_id_=Optimal_Function::trajectory_id_;
+                if(Optimal_Function::imu_odom_[p].time_>=Optimal_Function::global_node_[j].time_)
                 {
                     Optimal_Function::constraint_node_.push_back(
-                            Optimal_Function::Interpolation(p,imu_odom_1,Optimal_Function::global_node_[m].time_)) ;
+                            Optimal_Function::Interpolation(p,Optimal_Function::imu_odom_,Optimal_Function::global_node_[j].time_)) ;
                     if (Optimal_Function::constraint_node_.size()>=2)
                     {
                         Optimal_Function::constraint_.push_back(
-                                Constraint(m-1,m,Optimal_Function::constraint_node_[m].trajectory_id_,
-                                           Optimal_Function::constraint_node_[m-1].pose_rotation_.inverse()*
-                                           (Optimal_Function::constraint_node_[m].pose_translation_
-                                            -Optimal_Function::constraint_node_[m-1].pose_translation_),
-                                           (Optimal_Function::constraint_node_[m-1].pose_rotation_.inverse()*
-                                            Optimal_Function::constraint_node_[m].pose_rotation_)));
-
-                       // std::cout<<"m:"<<m<<std::endl;
-                        Optimal_Function::before_opt_constraint_.push_back(Opt_Constraint(m-1,m,
-                                                                                           Optimal_Function::constraint_node_[m-1].trajectory_id_,
-                                                                                           std::array<double, 3>{{Optimal_Function::constraint_[m-1].pose_translation_[0],
-                                                                                                                 Optimal_Function::constraint_[m-1].pose_translation_[1],
-                                                                                                                 Optimal_Function::constraint_[m-1].pose_translation_[2]}},
-                                                                                            std::array<double, 4>{{Optimal_Function::constraint_[m-1].pose_rotation_.w(),
-                                                                                                                          Optimal_Function::constraint_[m-1].pose_rotation_.x(),
-                                                                                                                          Optimal_Function::constraint_[m-1].pose_rotation_.y(),
-                                                                                                                          Optimal_Function::constraint_[m-1].pose_rotation_.z()}}));
-
-
+                                Constraint(j-1,j,Optimal_Function::constraint_node_[j].trajectory_id_,
+                                           Optimal_Function::constraint_node_[j-1].pose_rotation_.inverse()*
+                                           (Optimal_Function::constraint_node_[j].pose_translation_
+                                            -Optimal_Function::constraint_node_[j-1].pose_translation_),
+                                           (Optimal_Function::constraint_node_[j-1].pose_rotation_.inverse()*
+                                            Optimal_Function::constraint_node_[j].pose_rotation_)));
                     }
-
-//                    std::cout<<" Optimal_Function::local_node_:"<< Optimal_Function::local_node_.size()<<std::endl;
-//                    std::cout<<"Optimal_Function::constraint_:"<<Optimal_Function::constraint_.size()<<std::endl;
                     Optimal_Function::constraint_first_id=p;
                     break;
                 }
             }
 
-        }
-
-        pthread_mutex_unlock(&imu_mutex_);
-        //for gps
-        for(int m=0+Optimal_Function::trajectory_id_*10;m!=11+Optimal_Function::trajectory_id_*10;m++)
-        {
-            for(int p=Optimal_Function::fix_constraint_first_id;p!=fix_odom_1.size();p++)
+            for(int p=Optimal_Function::fix_constraint_first_id;p!=Optimal_Function::fix_odom_.size();p++)
             {
-                fix_odom_1[p].trajectory_id_=Optimal_Function::trajectory_id_;
-                if(fix_odom_1[p].time_>=local_node_[m].time_&&(fix_odom_1[p].time_.toSec()-fix_odom_1[p-1].time_.toSec())<0.1)
+                Optimal_Function::fix_odom_[p].trajectory_id_=Optimal_Function::trajectory_id_;
+                if(Optimal_Function::fix_odom_[p].time_>=local_node_[j].time_
+                   && (Optimal_Function::fix_odom_[p].time_.toSec()-Optimal_Function::fix_odom_[p-1].time_.toSec())<0.1)
                 {
-                   // std::cout<<"m:"<<m<<std::endl;
                     Optimal_Function::fix_constraint_node_.push_back(
-                            Constraint_Node(m,Optimal_Function::Interpolation(p,fix_odom_1,Optimal_Function::local_node_[m].time_))) ;
-
+                            Constraint_Node(j,Optimal_Function::Interpolation(p,Optimal_Function::fix_odom_,Optimal_Function::local_node_[j].time_))) ;
                     if (Optimal_Function::fix_constraint_node_.size()>=2) {
-//                      std::cout<<"fix:"<<Optimal_Function::fix_constraint_node_[fix_constraint_node_.size()-1].node_.trajectory_id_<<std::endl;
                         Optimal_Function::fix_constraint_.push_back(
                                 Constraint(fix_constraint_node_[fix_constraint_node_.size()-2].node_id_,
                                            fix_constraint_node_[fix_constraint_node_.size()-1].node_id_,
@@ -211,22 +171,18 @@ void Optimal_Function::Local_Constraint(std::vector<Node> &imu_odom_1,std::vecto
                     break;
                 }
                 else {
-                    if(fix_odom_1[p].time_>=local_node_[m].time_){
-                    //    std::cout<<"dfix_odom_time_"<<(fix_odom_1[p].time_.toSec()-fix_odom_1[p-1].time_.toSec())
-                          //       <<std::endl;
+                    if(fix_odom_[p].time_>=local_node_[j].time_){
+                        std::cout<<"dfix_odom_time_"<<(fix_odom_[p].time_.toSec()-fix_odom_[p-1].time_.toSec())
+                               <<std::endl;
                     }
-
                 }
             }
-
         }
-        pthread_mutex_unlock(&fix_mutex_);
+   //     std::cout<<"Optimal_Function::fix_constraint:"<<Optimal_Function::fix_constraint_.size()<<std::endl;
+        pthread_mutex_unlock(&node_mutex);
         Optimal_Function::trajectory_id_++;
-        //constraint_node_.clear();
     }
-
-
-    }
+}
 
 
 
@@ -255,9 +211,10 @@ void Optimal_Function::imu_odom_callback(const nav_msgs::Odometry::ConstPtr &Imu
                                                ImuOdomIn->pose.pose.orientation.x,
                                                ImuOdomIn->pose.pose.orientation.y,
                                                ImuOdomIn->pose.pose.orientation.z);
-    imu_odom_.push_back(imu_odom);
+    Optimal_Function::imu_odom_.push_back(imu_odom);
 
     pthread_mutex_unlock(&imu_mutex_);
+  //  std::cout<<"imu_odom_:"<<Optimal_Function::imu_odom_.size()<<std::endl;
 }
 
 void Optimal_Function::laser_odom_callback(const nav_msgs::Odometry::ConstPtr &LaserOdomIn) {
@@ -273,7 +230,7 @@ void Optimal_Function::laser_odom_callback(const nav_msgs::Odometry::ConstPtr &L
                                                  LaserOdomIn->pose.pose.orientation.x,
                                                  LaserOdomIn->pose.pose.orientation.y,
                                                  LaserOdomIn->pose.pose.orientation.z);
-    laser_odom_.push_back(laser_odom);
+    Optimal_Function::laser_odom_.push_back(laser_odom);
     pthread_mutex_unlock(&laser_mutex_);
 }
 
@@ -289,8 +246,9 @@ void Optimal_Function::fix_odom_callback(const nav_msgs::Odometry::ConstPtr &Fix
                                                  FixOdomIn->pose.pose.orientation.x,
                                                  FixOdomIn->pose.pose.orientation.y,
                                                  FixOdomIn->pose.pose.orientation.z);
-    fix_odom_.push_back(fix_odom);
+    Optimal_Function::fix_odom_.push_back(fix_odom);
     pthread_mutex_unlock(&fix_mutex_);
+   // std::cout<<"fix_odom:"<<Optimal_Function::fix_odom_.size()<<std::endl;
 
 }
 
@@ -306,49 +264,26 @@ Node Optimal_Function::Interpolation(int id,std::vector<Node> odom,ros::Time tim
             Eigen::Quaterniond(odom[id-1].pose_rotation_)
                     .slerp(factor, Eigen::Quaterniond(odom[id].pose_rotation_));
     return Node(odom[id].trajectory_id_,time,origin,rotation);
-
-
 }
 
-void Optimal_Function::OptimalSolve(const std::vector<Node> &nodes,
-                                    const std::vector<Constraint> &constraints) {
+void Optimal_Function::OptimalSolve(const std::vector<Node> &nodes, const std::vector<Constraint> &constraints,
+                                    const std::vector<Constraint> &fix_constraints) {
 
     ceres::Problem problem;
-
     bool first_flag=true;
     std::cout<<"constraints:"<<constraints.size()<<std::endl;
 
-    if(Optimal_Function::fix_constraint_.size()>=1)
-    {
-        pthread_mutex_lock(&fix_mutex_);
-        for (int j=Optimal_Function::fix_constraint_trajectory;j!=Optimal_Function::fix_constraint_.size();j++)
-        {
-         //   std::cout<<"Optimal_Function::fix_constraint_[j].trajectory_id_:"
-               //      <<Optimal_Function::fix_constraint_[j].trajectory_id_<<std::endl;
-            //std::cout<<"constraints[constraints.size()-1].trajectory_id_"<<constraints[constraints.size()-1].trajectory_id_<<std::endl;
-            if(Optimal_Function::fix_constraint_[j].trajectory_id_<= constraints[constraints.size()-1].trajectory_id_ &&
-               Optimal_Function::fix_constraint_[j].second_id_<=constraints[constraints.size()-1].second_id_)
-            {
-                //  std::cout<<"j:"<<j<<std::endl;
-                Optimal_Function::fix_constraint_temp_.push_back(Optimal_Function::fix_constraint_[j]);
-            }
-            else
-            {
-                Optimal_Function::fix_constraint_trajectory=j;
-                std::cout<<"j:"<<Optimal_Function::fix_constraint_trajectory<<std::endl;
-                break;
-            }
+    if(fix_constraints.size()!=0){
+    //    std::cout<<"fix_constraint_temp:"<<fix_constraints.size()<<std::endl;
 
-        }
-        std::cout<<"fix_constraint_temp:"<<Optimal_Function::fix_constraint_temp_.size()<<std::endl;
-        pthread_mutex_unlock(&fix_mutex_);
-        if(Optimal_Function::fix_constraint_temp_[0].first_id_+1<Optimal_Function::fix_constraint_temp_[0].second_id_)
+        //std::cout<<"fix_constraints[0].first_id:"<<fix_constraints[0].first_id_<<std::endl;
+        if(fix_constraints[0].first_id_+1<fix_constraints[0].second_id_)
         {
-            if(Optimal_Function::fix_constraint_temp_[0].first_id_<constraints[0].first_id_)
+            if(fix_constraints[0].first_id_<constraints[0].first_id_)
             {
-                for(int i=Optimal_Function::fix_constraint_temp_[0].first_id_;i!=constraints[0].first_id_;i++)
+                for(int i=fix_constraints[0].first_id_;i!=constraints[0].first_id_;i++)
                 {
-                    if(i==Optimal_Function::fix_constraint_temp_[0].first_id_)
+                    if(i==fix_constraints[0].first_id_)
                     {
                         std::cout<<Optimal_Function::constraint_[i].first_id_;
                     }
@@ -358,6 +293,8 @@ void Optimal_Function::OptimalSolve(const std::vector<Node> &nodes,
                         std::cout<< std::endl;
                     }
                     Constraint_Pose pose;
+                    pose.rotation_weight=22.0;
+                    pose.translation_weight=20.0;
                     pose.rotation= Eigen::Vector4d(Optimal_Function::constraint_[i].pose_rotation_.w(),
                                                    Optimal_Function::constraint_[i].pose_rotation_.x(),
                                                    Optimal_Function::constraint_[i].pose_rotation_.y(),
@@ -404,11 +341,14 @@ void Optimal_Function::OptimalSolve(const std::vector<Node> &nodes,
                 }
             }
         }
-        for(const Constraint& fix_constraint : Optimal_Function::fix_constraint_temp_)
+        for(const Constraint& fix_constraint : fix_constraints)
         {
+           // std::cout<<"test1:"<<fix_constraint.trajectory_id_<<std::endl;
             std::cout<<fix_constraint.first_id_<<"f-f"<<fix_constraint.second_id_<<std::endl;
             //std::cout<<fix_constraint.first_id_<<std::endl;
             Constraint_Pose pose;
+            pose.translation_weight=100.0;
+            pose.rotation_weight=120.0;
             pose.rotation= Eigen::Vector4d(fix_constraint.pose_rotation_.w(),
                                            fix_constraint.pose_rotation_.x(),
                                            fix_constraint.pose_rotation_.y(),
@@ -452,22 +392,23 @@ void Optimal_Function::OptimalSolve(const std::vector<Node> &nodes,
                     temp4.data());
 
         }
-        Optimal_Function::fix_constraint_temp_.clear();
+        //Optimal_Function::fix_constraint_temp_.clear();
 
-    }
+   }
 
 
     bool constraint_flag=true;
 
-    std::cout<<"constraints:"<<constraints.size()<<std::endl;
+   // std::cout<<"constraints:"<<constraints.size()<<std::endl;
     for (const Constraint& constraint : constraints) {
+    //    std::cout<<"test:"<<constraint.trajectory_id_<<std::endl;
         if(constraint_flag)
         {
             std::cout<<constraint.first_id_;
             constraint_flag=false;
         }
 
-            std::cout<<"c-c"<<constraint.second_id_;
+        std::cout<<"c-c"<<constraint.second_id_;
         if(constraint.first_id_==constraints[constraints.size()-1].first_id_)
         {
             std::cout<<std::endl;
@@ -520,22 +461,23 @@ void Optimal_Function::OptimalSolve(const std::vector<Node> &nodes,
 
     ceres::Solver::Options options;
     options.linear_solver_type=ceres::DENSE_QR;
-    options.minimizer_progress_to_stdout=true;
+    //options.minimizer_progress_to_stdout=true;
 
     ceres::Solver::Summary summary;
-    std::chrono::steady_clock::time_point t1=std::chrono::steady_clock::now();
+  //  std::chrono::steady_clock::time_point t1=std::chrono::steady_clock::now();
     ceres::Solve(options,&problem,&summary);
+
     //储存优化结果
-    for (auto node :nodes)
-    {
-        opt_node_.push_back(node);
-    }
-    std::chrono::steady_clock::time_point t2=
-            std::chrono::steady_clock::now();
-    std::chrono::duration<double> time_used =
-            std::chrono::duration_cast<std::chrono::duration<double>>(t2-t1);
-    std::cout<<"solve time cost= "<<time_used.count()<<"seconds."<<std::endl;
-    std::cout<<summary.BriefReport() <<std::endl;
+//    for (auto node :nodes)
+//    {
+//        opt_node_.push_back(node);
+//    }
+  //  std::chrono::steady_clock::time_point t2=
+         //   std::chrono::steady_clock::now();
+  //  std::chrono::duration<double> time_used =
+         //   std::chrono::duration_cast<std::chrono::duration<double>>(t2-t1);
+   // std::cout<<"solve time cost= "<<time_used.count()<<"seconds."<<std::endl;
+   // std::cout<<summary.BriefReport() <<std::endl;
    // std::cout<<"estimated a,b,c = ";
  //   for ( auto node :nodes ) std::cout<<node<<" ";
   //  std::cout<<std::endl;
@@ -551,11 +493,8 @@ void Optimal_Function::AddImuNodeConstraintThread() {
     {
         if(Optimal_Function::imu_odom_.size()>0 && Optimal_Function::laser_odom_.size()>0)
         {
-           Optimal_Function::AddGlobalNode(Optimal_Function::imu_odom_,
-                                           Optimal_Function::laser_odom_,
-                                           Optimal_Function::fix_odom_);
-           Optimal_Function::Local_Constraint(Optimal_Function::imu_odom_,Optimal_Function::fix_odom_,
-                                              Optimal_Function::global_node_);
+           Optimal_Function::AddGlobalNode();
+           Optimal_Function::Local_Constraint();
            usleep(1000);
         }
 
@@ -572,25 +511,26 @@ void Optimal_Function::OptimalThread() {
     while(ros::ok())
     {
         if (Optimal_Function::constraint_.size()!=0 &&
-                Optimal_Function::local_node_.size()!=0)
+            Optimal_Function::local_node_.size()!=0)
         {
             if(Optimal_Function::constraint_[Optimal_Function::constraint_.size()-1].trajectory_id_
                >= Optimal_Function::solve_constraint_id &&
                Optimal_Function::local_node_[Optimal_Function::local_node_.size()-1].trajectory_id_
-               >=Optimal_Function::solve_node_id ) {
+               >=Optimal_Function::solve_node_id) {
 
                 std::vector<Node> nodes_temp;
                 std::vector<Constraint> constraints_temp;
+                std::vector<Constraint> fix_constraints_temp;
 
                 pthread_mutex_lock(&node_mutex);
-              //  std::cout<<node_trajectory<<std::endl;
+                //  std::cout<<node_trajectory<<std::endl;
                 for (int i=Optimal_Function::node_trajectory;i!=Optimal_Function::local_node_.size()-1;i++)
                 {
 
 
                     if (Optimal_Function::local_node_[i].trajectory_id_==Optimal_Function::solve_node_id)
                     {
-                       nodes_temp.push_back(Optimal_Function::local_node_[i]);
+                        nodes_temp.push_back(Optimal_Function::local_node_[i]);
                     }
                     else
                     {
@@ -603,44 +543,97 @@ void Optimal_Function::OptimalThread() {
                 }
 
                 pthread_mutex_unlock(&node_mutex);
-                pthread_mutex_lock(&constraint_mutex);
-                for (int j=Optimal_Function::constraint_trajectory;j!=Optimal_Function::constraint_.size();j++)
-                {
-                    if(Optimal_Function::constraint_[j].trajectory_id_==Optimal_Function::solve_constraint_id)
-                    {
-                        constraints_temp.push_back(Optimal_Function::constraint_[j]);
-                      //  std::cout<<"constraints_temp:"<<constraints_temp.size()<<std::endl;
-                    }
-                    else
-                    {
-                        Optimal_Function::constraint_trajectory=j;
-                        Optimal_Function::solve_constraint_id++;
-                        break;
-                    }
 
+                pthread_mutex_lock(&constraint_mutex);
+                if((Optimal_Function::constraint_.size()-Optimal_Function::constraint_trajectory)>0)
+                {
+                    for (int j=Optimal_Function::constraint_trajectory;j!=Optimal_Function::constraint_.size();j++)
+                    {
+                        //std::cout<<"constraint_trajectory:"<<Optimal_Function::constraint_trajectory<<std::endl;
+                        if(Optimal_Function::constraint_[j].trajectory_id_==Optimal_Function::solve_constraint_id)
+                        {
+                            constraints_temp.push_back(Optimal_Function::constraint_[j]);
+                            Optimal_Function::constraint_trajectory=j+1;
+                            Optimal_Function::solve_fix_constraint_id=Optimal_Function::solve_constraint_id;
+                            //  std::cout<<"constraints_temp:"<<constraints_temp.size()<<std::endl;
+                        }
+                        else
+                        {
+                            // std::cout<<"ddd"<<std::endl;
+                            Optimal_Function::constraint_trajectory=j;
+                            Optimal_Function::solve_constraint_id++;
+                            break;
+                        }
+
+                    }
                 }
+                else
+                {
+                    constraints_temp.clear();
+                }
+
+
+//                std::cout<<
+//                         "Optimal_Function::constraint_:"<<Optimal_Function::constraint_.size()-1<<","
+//                         <<Optimal_Function::constraint_[Optimal_Function::constraint_.size()-1].trajectory_id_<<std::endl;
                 pthread_mutex_unlock(&constraint_mutex);
 
+                pthread_mutex_lock(&fix_constraint_mutex);
+                //std::cout<<"fix_constraint_trajectory:"<<Optimal_Function::fix_constraint_trajectory<<std::endl;
+                //std::cout<<"fix_constraint:"<<Optimal_Function::fix_constraint_.size()<<std::endl;
+                if((Optimal_Function::fix_constraint_.size()-Optimal_Function::fix_constraint_trajectory)>0) {
+                    if (Optimal_Function::fix_constraint_[Optimal_Function::fix_constraint_.size() - 1].trajectory_id_
+                        >= Optimal_Function::solve_fix_constraint_id) {
+
+                        for (int j = Optimal_Function::fix_constraint_trajectory;
+                             j != Optimal_Function::fix_constraint_.size(); j++) {
+                            if (Optimal_Function::fix_constraint_[j].trajectory_id_ ==
+                                Optimal_Function::solve_fix_constraint_id) {
+                                fix_constraints_temp.push_back(Optimal_Function::fix_constraint_[j]);
+//                                std::cout<<Optimal_Function::fix_constraint_[j].trajectory_id_<<","
+//                                         <<Optimal_Function::solve_fix_constraint_id<<std::endl;
+                               // std::cout<<fix_constraints_temp[fix_constraints_temp.size()-1].trajectory_id_<<","<<fix_constraints_temp[fix_constraints_temp.size()-1].first_id_<<","<<fix_constraints_temp[fix_constraints_temp.size()-1].second_id_<<std::endl;
+                                Optimal_Function::fix_constraint_trajectory=j+1;
+                                //   std::cout<<"fix_constraints_temp:"<<fix_constraints_temp.size()<<std::endl;
+                            }
+                            else {
+                                Optimal_Function::fix_constraint_trajectory = j;
+                                Optimal_Function::solve_fix_constraint_id++;
+                                break;
+                            }
+
+                        }
+
+                    }
+                }
+                pthread_mutex_unlock(&fix_constraint_mutex);
+
+//              std::cout<<
+//                         "Optimal_Function::fix_constraint_:"<<Optimal_Function::fix_constraint_.size()-1<<","
+//                         <<Optimal_Function::fix_constraint_[Optimal_Function::fix_constraint_.size()-1].trajectory_id_<<std::endl;
                 if(nodes_temp[nodes_temp.size()-1].trajectory_id_==Optimal_Function::compare_node_id)
                 {
                     //std::cout<<"opt_node"<<opt_node_.size()<<std::endl;
 
-                    if(opt_node_.size()!=0)
-                    {
-                        nodes_temp[0]=opt_node_[opt_node_.size()-1];
-                        nodes_temp[0].trajectory_id_++;
-                    }
+//                    if(opt_node_.size()!=0)
+//                    {
+//                        nodes_temp[0]=opt_node_[opt_node_.size()-1];
+//                        nodes_temp[0].trajectory_id_++;
+//                    }
                     Optimal_Function::compare_node_id++;
-                    Optimal_Function::OptimalSolve(Optimal_Function::local_node_,constraints_temp);
+                    //std::cout<<"constraints_temp:"<<constraints_temp.size()<<std::endl;
+                    Optimal_Function::OptimalSolve(Optimal_Function::local_node_,constraints_temp,fix_constraints_temp);
                 }
 
                 nodes_temp.clear();
                 constraints_temp.clear();
+                fix_constraints_temp.clear();
 
 
             }
 
         }
+
 
         usleep(1000);
 
