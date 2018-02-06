@@ -19,7 +19,7 @@
 #include <chrono>
 
 
-
+//建立约束的类
 class Constraint_Pose
 {
 public:
@@ -31,6 +31,7 @@ public:
 
 };
 
+//约束的首尾位置
 class Constraint_Node
 {
 public:
@@ -41,6 +42,7 @@ public:
 
 };
 
+//用于优化的节点的类
 class Opt_Node
 {
 public:
@@ -60,44 +62,8 @@ public:
     std::array<double, 4> pose_rotation_array_;
 
 };
-class Opt_Constraint
-{
-public:
 
-    int first_id_;
-    int second_id_;
-    int trajectory_id_;
-    std::array<double, 3> pose_translation_array_;
-    std::array<double, 4> pose_rotation_array_;
-    Opt_Constraint(int first_id, int second_id,
-               int trajectory_id,
-               std::array<double, 3> pose_translation_array,
-    std::array<double, 4> pose_rotation_array):first_id_(first_id),
-                                               second_id_(second_id),
-                                               trajectory_id_(trajectory_id),
-                                               pose_translation_array_(pose_translation_array),
-                                               pose_rotation_array_(pose_rotation_array){};
-
-};
-
-
-
-
-
-
-
-std::ostream &operator<<(std::ostream &out, Node &c1)
-{
-    std::cout<<"node"<<std::endl;
-    std::cout<<"trajectory_id: "<<c1.trajectory_id_<<","<<"pose_translation: "<<c1.pose_translation_<<"pose_rotation: "<<c1.pose_rotation_<<std::endl;
-    return out;
-}
-
-
-
-
-
-
+//约束
 class Constraint
 {
 public:
@@ -114,6 +80,7 @@ public:
    friend std::ostream& operator<<(std::ostream &out, Constraint &c1);
 };
 
+//重载输出约束的数据
 std::ostream  &operator<<(std::ostream &out, Constraint &c1)
 {
     std::cout<<"constraint:"<<std::endl;
@@ -121,17 +88,15 @@ std::ostream  &operator<<(std::ostream &out, Constraint &c1)
     return out;
 }
 
-
-
-
-class Submap
+//重载输出节点的数据
+std::ostream &operator<<(std::ostream &out, Node &c1)
 {
-public:
-    int trajectory_id_;
-    Eigen::Vector3d global_submap_pose_translation_;
-    Eigen::Quaterniond global_submap_pose_rotation_;
-};
+    std::cout<<"node"<<std::endl;
+    std::cout<<"trajectory_id: "<<c1.trajectory_id_<<","<<"pose_translation: "<<c1.pose_translation_<<"pose_rotation: "<<c1.pose_rotation_<<std::endl;
+    return out;
+}
 
+//优化函数
 class SpaCostFunction
 {
 public:
@@ -208,6 +173,8 @@ private:
 
 
 };
+
+//优化的类
 class Optimal_Function
 {
     ros::NodeHandle nh;
@@ -223,39 +190,20 @@ public:
     void laser_odom_callback(const nav_msgs::Odometry::ConstPtr &LaserOdomIn);
     void fix_odom_callback(const nav_msgs::Odometry::ConstPtr &FixOdomIn);
 
-    void AddDeadReckoning(ros::Time time,
-                          const Eigen::Vector3d& pose_translation,
-                          const Eigen::Quaterniond& pose_rotation);
 
-    void OptimalSolve(const std::vector<Node> &nodes,
-                      const std::vector<Constraint> &constraints,
+    void OptimalSolve(const std::vector<Constraint> &constraints,
                       const std::vector<Constraint> &fix_constraints);
 
 
-    void AddLocalNode(int trajectory_id,ros::Time time,
-                      const Eigen::Vector3d& pose_translation,
-                      const Eigen::Quaterniond& pose_rotation);
-
     void AddGlobalNode();
 
-    void AddSubmap(int trajectory_id,
-                   const Eigen::Vector3d& global_submap_pose_translation,
-                   const Eigen::Quaterniond& global_submap_pose_rotation);
     void Local_Constraint();
-    void Global_Constraint(std::vector<Node> imu_odom_1,std::vector<Node> laser_odom_1);
-    void Fix_Constraint(std::vector<Node> &fix_odom_1,std::vector<Node>& global_node);
-
-    void Submap_Constraint(int trajectory_id,
-                           const Eigen::Vector3d& global_submap_pose_translation,
-                           const Eigen::Quaterniond& global_submap_pose_rotation);
     Node Interpolation (int id,std::vector<Node>odom,ros::Time time);
 
 
     //进程
     void AddImuNodeConstraintThread();
     void OptimalThread();
-    void fixThread(){};
-
 
     //id
     int node_id=0;
@@ -284,10 +232,7 @@ public:
     std::vector<Node> laser_odom_;
     std::vector<Constraint> constraint_;
     std::vector<Constraint> fix_constraint_;
-    std::vector<Opt_Node>before_opt_node_;
-    std::vector<Opt_Constraint>before_opt_constraint_;
-
-
+    std::vector<Opt_Node> nodes;
 
 
     std::vector<Node> local_node_;
@@ -295,14 +240,12 @@ public:
     std::vector<Node> constraint_node_;
     std::vector<Constraint_Node> fix_constraint_node_;
     std::vector<Node> optimal_node_;
-    std::vector<Submap> submap_;
 
 
 
     //线程定义
     pthread_t imu_thread_id_;
     pthread_t optimal_thread_id_;
-    pthread_t fix_thread_id_;
 
     //线程锁
     pthread_mutex_t imu_mutex_;
@@ -320,9 +263,6 @@ public:
 
     //优化结果
     std::vector<Node> opt_node_;
-
-
-
 
 };
 
