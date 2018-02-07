@@ -4,6 +4,8 @@
 
 #ifndef PROJECT_QUATERNIONTORPY_H
 #define PROJECT_QUATERNIONTORPY_H
+#include <ros/ros.h>
+#include <fstream>
 template <typename T>
 Eigen::Matrix<T, 3, 1> RotationQuaternionToAngleAxisVector(
         const Eigen::Quaternion<T>& quaternion) {

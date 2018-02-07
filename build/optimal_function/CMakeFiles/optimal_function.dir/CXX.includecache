@@ -6,33 +6,41 @@
 
 #IncludeRegexTransform: 
 
-/home/hl/google/src/optimal_function/include/optimal_function.h
-ceres/ceres.h
--
-ceres/jet.h
+/home/hl/google/src/optimal_function/include/SpaCostFunction.h
+quaterniontorpy.h
+/home/hl/google/src/optimal_function/include/quaterniontorpy.h
+iostream
 -
 Eigen/Core
 -
 Eigen/Geometry
 -
+
+/home/hl/google/src/optimal_function/include/optimal_function.h
+ceres/ceres.h
+-
+ceres/jet.h
+-
+SpaCostFunction.h
+/home/hl/google/src/optimal_function/include/SpaCostFunction.h
 tf/transform_datatypes.h
 -
 tf/transform_broadcaster.h
 -
-quaterniontorpy.h
-/home/hl/google/src/optimal_function/include/quaterniontorpy.h
 nav_msgs/Odometry.h
 -
 thread
 -
 mutex
 -
-iostream
--
 chrono
 -
 
 /home/hl/google/src/optimal_function/include/quaterniontorpy.h
+ros/ros.h
+-
+fstream
+-
 
 /home/hl/google/src/optimal_function/src/optimal_funtion.cpp
 optimal_function.h

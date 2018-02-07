@@ -6743,6 +6743,9 @@
 		<Unit filename="/home/hl/google/src/open_karto-indigo-devel/src/Mapper.cpp">
 			<Option target="karto"/>
 		</Unit>
+		<Unit filename="/home/hl/google/src/optimal_function/include/SpaCostFunction.h">
+			<Option target="optimal_function"/>
+		</Unit>
 		<Unit filename="/home/hl/google/src/optimal_function/src/optimal_funtion.cpp">
 			<Option target="optimal_function"/>
 		</Unit>
