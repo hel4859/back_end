@@ -14,8 +14,8 @@ class Constraint_Pose
 {
 public:
     // Constraint_Pose(Eigen::Vector4d rotation_,Eigen::Vector3d translation_): rotation_(rotation),translation_(translation){};
-    double translation_weight=10.0;
-    double rotation_weight=12.0;
+    double translation_weight=0.001;
+    double rotation_weight=0.002;
     Eigen::Vector4d rotation;
     Eigen::Vector3d translation;
 

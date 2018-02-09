@@ -39,8 +39,11 @@ include_directories(
 )
 include_directories(include)
 
-add_executable(optimal_function src/optimal_funtion.cpp include/SpaCostFunction.h)
+# 测试的时候用这一行,将下一行注释
+#add_executable(optimal_function src/test.cpp include/SpaCostFunction.h )
 
+#实际使用的时候用这一行,将上一行注释
+add_executable(optimal_function src/optimal_funtion.cpp include/SpaCostFunction.h )
 
 target_link_libraries(optimal_function
         ${catkin_LIBRARIES}

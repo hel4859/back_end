@@ -356,8 +356,8 @@ int main(int argc, char **argv)
   aftMappedTrans.frame_id_ = "camera_init";
   aftMappedTrans.child_frame_id_ = "aft_mapped";
 
-  laser_odom_map.open ("/home/hl/helei_ws/src/loam_velodyne/txt/laser_odom_map.txt");
-    submap_index.open("/home/hl/helei_ws/src/loam_velodyne/txt/submap_index.txt");
+  laser_odom_map.open ("/home/hl/google/src/loam_velodyne/txt/laser_odom_map.txt");
+    submap_index.open("/home/hl/google/src/loam_velodyne/txt/submap_index.txt");
   std::vector<int> pointSearchInd;
   std::vector<float> pointSearchSqDis;
 

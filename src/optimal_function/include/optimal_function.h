@@ -58,6 +58,7 @@ private:
     int laser_odom_id=0;
     int solve_node_id=0;
     int solve_constraint_id=0;
+    int solve_node_constraint_id=0;
     int solve_fix_constraint_id=0;
 
     int compare_node_id=0;
@@ -65,12 +66,14 @@ private:
 
     int node_trajectory=0;
     int constraint_trajectory=0;
+    int node_constraint_trajectory=0;
     int fix_constraint_trajectory=0;
 
     std::vector<Node> imu_odom_;
     std::vector<Node> fix_odom_;
     std::vector<Node> laser_odom_;
     std::vector<Constraint> constraint_;
+    std::vector<Constraint> node_constraint_;
     std::vector<Constraint> fix_constraint_;
     std::vector<Opt_Node> nodes;
 
@@ -94,6 +97,7 @@ private:
     pthread_mutex_t node_mutex;
     pthread_mutex_t constraint_mutex;
     pthread_mutex_t fix_constraint_mutex;
+    pthread_mutex_t node_constraint_mutex;
 
 
 
@@ -106,6 +110,7 @@ private:
 
 
     std::ofstream opt_solution;
+    std::ofstream fix_node;
 
 };
 
