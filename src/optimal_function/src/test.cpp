@@ -33,42 +33,42 @@ Optimal_Function::Optimal_Function() {
 
 
     //全局优化
-//    for (const Constraint& constraint :constraint_ ) {
-//        //    std::cout<<"test:"<<constraint.trajectory_id_<<std::endl;
-////        if(constraint_flag)
-////        {
-////            std::cout<<constraint.first_id_;
-////            constraint_flag=false;
-////        }
-//
-//
-//        Constraint_Pose pose;
-//        pose.rotation= Eigen::Vector4d(constraint.pose_rotation_.w(),
-//                                       constraint.pose_rotation_.x(),
-//                                       constraint.pose_rotation_.y(),
-//                                       constraint.pose_rotation_.z());
-//        pose.translation=Eigen::Vector3d(constraint.pose_translation_);
-//        // std::cout<<"nodes:"<<nodes.size()<<std::endl;
-//        problem.AddParameterBlock(nodes[constraint.first_id_].pose_rotation_array_.data(),4);
-//        problem.AddParameterBlock(nodes[constraint.first_id_].pose_translation_array_.data(),3);
-//        problem.AddParameterBlock(nodes[constraint.second_id_].pose_rotation_array_.data(),4);
-//        problem.AddParameterBlock(nodes[constraint.second_id_].pose_translation_array_.data(),3);
-//
+    for (const Constraint& constraint :constraint_ ) {
+        //    std::cout<<"test:"<<constraint.trajectory_id_<<std::endl;
+//        if(constraint_flag)
+//        {
+//            std::cout<<constraint.first_id_;
+//            constraint_flag=false;
+//        }
+
+
+        Constraint_Pose pose;
+        pose.rotation= Eigen::Vector4d(constraint.pose_rotation_.w(),
+                                       constraint.pose_rotation_.x(),
+                                       constraint.pose_rotation_.y(),
+                                       constraint.pose_rotation_.z());
+        pose.translation=Eigen::Vector3d(constraint.pose_translation_);
+        // std::cout<<"nodes:"<<nodes.size()<<std::endl;
+        problem.AddParameterBlock(nodes[constraint.first_id_].pose_rotation_array_.data(),4);
+        problem.AddParameterBlock(nodes[constraint.first_id_].pose_translation_array_.data(),3);
+        problem.AddParameterBlock(nodes[constraint.second_id_].pose_rotation_array_.data(),4);
+        problem.AddParameterBlock(nodes[constraint.second_id_].pose_translation_array_.data(),3);
+
 //        if (first_flag)
 //        {
 //            problem.SetParameterBlockConstant(nodes[constraint.first_id_].pose_rotation_array_.data());
 //            problem.SetParameterBlockConstant(nodes[constraint.first_id_].pose_translation_array_.data());
 //            first_flag=false;
 //        }
-//        problem.AddResidualBlock(
-//                SpaCostFunction::CreateAutoDiffCostFunction(pose),
-//                nullptr /* loss function */,
-//                nodes[constraint.first_id_].pose_rotation_array_.data(),
-//                nodes[constraint.first_id_].pose_translation_array_.data(),
-//                nodes[constraint.second_id_].pose_rotation_array_.data(),
-//                nodes[constraint.second_id_].pose_translation_array_.data());
-//
-//    }
+        problem.AddResidualBlock(
+                SpaCostFunction::CreateAutoDiffCostFunction(pose),
+                nullptr /* loss function */,
+                nodes[constraint.first_id_].pose_rotation_array_.data(),
+                nodes[constraint.first_id_].pose_translation_array_.data(),
+                nodes[constraint.second_id_].pose_rotation_array_.data(),
+                nodes[constraint.second_id_].pose_translation_array_.data());
+
+    }
     int last_node_id=0;
     for(const Constraint& fix_constraint : fix_constraint_)
     {
@@ -76,8 +76,8 @@ Optimal_Function::Optimal_Function() {
 
         //    std::cout<<fix_constraint.first_id_<<"f-f"<<fix_constraint.second_id_<<std::endl;
         Constraint_Pose pose;
-        pose.translation_weight=100.0;
-        pose.rotation_weight=100.0;
+        pose.translation_weight=0.1000;
+        pose.rotation_weight=0.1000;
         pose.rotation= Eigen::Vector4d(fix_constraint.pose_rotation_.w(),
                                        fix_constraint.pose_rotation_.x(),
                                        fix_constraint.pose_rotation_.y(),

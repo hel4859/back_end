@@ -45,87 +45,6 @@ Optimal_Function::Optimal_Function() {
 Optimal_Function::~Optimal_Function() {
 
     std::cout<<"Optimal_Function::~Optimal_Function()"<<std::endl;
-//    ceres::Problem problem;
-//    bool first_flag=true;
-//    //全局优化
-//    for (const Constraint& constraint :constraint_ ) {
-//        //    std::cout<<"test:"<<constraint.trajectory_id_<<std::endl;
-////        if(constraint_flag)
-////        {
-////            std::cout<<constraint.first_id_;
-////            constraint_flag=false;
-////        }
-//
-//
-//        Constraint_Pose pose;
-//        pose.rotation= Eigen::Vector4d(constraint.pose_rotation_.w(),
-//                                       constraint.pose_rotation_.x(),
-//                                       constraint.pose_rotation_.y(),
-//                                       constraint.pose_rotation_.z());
-//        pose.translation=Eigen::Vector3d(constraint.pose_translation_);
-//        // std::cout<<"nodes:"<<nodes.size()<<std::endl;
-//        problem.AddParameterBlock(nodes[constraint.first_id_].pose_rotation_array_.data(),4);
-//        problem.AddParameterBlock(nodes[constraint.first_id_].pose_translation_array_.data(),3);
-//        problem.AddParameterBlock(nodes[constraint.second_id_].pose_rotation_array_.data(),4);
-//        problem.AddParameterBlock(nodes[constraint.second_id_].pose_translation_array_.data(),3);
-//
-//        if (first_flag)
-//        {
-//            problem.SetParameterBlockConstant(nodes[constraint.first_id_].pose_rotation_array_.data());
-//            problem.SetParameterBlockConstant(nodes[constraint.first_id_].pose_translation_array_.data());
-//            first_flag=false;
-//        }
-//        problem.AddResidualBlock(
-//                SpaCostFunction::CreateAutoDiffCostFunction(pose),
-//                nullptr /* loss function */,
-//                nodes[constraint.first_id_].pose_rotation_array_.data(),
-//                nodes[constraint.first_id_].pose_translation_array_.data(),
-//                nodes[constraint.second_id_].pose_rotation_array_.data(),
-//                nodes[constraint.second_id_].pose_translation_array_.data());
-//
-//    }
-//    for(const Constraint& fix_constraint : fix_constraint_)
-//    {
-//        //    std::cout<<fix_constraint.first_id_<<"f-f"<<fix_constraint.second_id_<<std::endl;
-//        Constraint_Pose pose;
-//        pose.translation_weight=1000.0;
-//        pose.rotation_weight=1200.0;
-//        pose.rotation= Eigen::Vector4d(fix_constraint.pose_rotation_.w(),
-//                                       fix_constraint.pose_rotation_.x(),
-//                                       fix_constraint.pose_rotation_.y(),
-//                                       fix_constraint.pose_rotation_.z());
-//        pose.translation=Eigen::Vector3d(fix_constraint.pose_translation_);
-//        //  std::cout<<"nodes:"<<nodes.size()<<std::endl;
-//
-//        problem.AddParameterBlock(nodes[fix_constraint.first_id_].pose_rotation_array_.data(),4);
-//        problem.AddParameterBlock(nodes[fix_constraint.first_id_].pose_translation_array_.data(),3);
-//        problem.AddParameterBlock(nodes[fix_constraint.second_id_].pose_rotation_array_.data(),4);
-//        problem.AddParameterBlock(nodes[fix_constraint.second_id_].pose_translation_array_.data(),3);
-//        problem.AddResidualBlock(
-//                SpaCostFunction::CreateAutoDiffCostFunction(pose),
-//                nullptr /* loss function */,
-//                nodes[fix_constraint.first_id_].pose_rotation_array_.data(),
-//                nodes[fix_constraint.first_id_].pose_translation_array_.data(),
-//                nodes[fix_constraint.second_id_].pose_rotation_array_.data(),
-//                nodes[fix_constraint.second_id_].pose_translation_array_.data());
-//
-//    }
-//    ceres::Solver::Options options;
-//    options.linear_solver_type=ceres::DENSE_QR;
-//    //options.minimizer_progress_to_stdout=true;
-//    options.num_threads=1;
-//    options.max_num_iterations=25;
-//    //options.max_solver_time_in_seconds
-//
-//    ceres::Solver::Summary summary;
-//    std::chrono::steady_clock::time_point t1=std::chrono::steady_clock::now();
-//    ceres::Solve(options,&problem,&summary);
-//
-//    std::chrono::steady_clock::time_point t2=std::chrono::steady_clock::now();
-//    std::chrono::duration<double> time_used = std::chrono::duration_cast<std::chrono::duration<double>>(t2-t1);
-//    std::cout<<"solve time cost= "<<time_used.count()<<"seconds."<<std::endl;
-//    std::cout<<summary.BriefReport() <<std::endl;
-
 
     for (auto node: nodes)
     {
@@ -154,6 +73,78 @@ Node Optimal_Function::Interpolation(int id,std::vector<Node> odom,ros::Time tim
     return Node(odom[id].trajectory_id_,time,origin,rotation);
 }
 
+//四元数到旋转矩阵的变换
+inline Eigen::Matrix4f GetMatrixLH(double x,double y,double z,double w)
+{
+    Eigen::Matrix4f ret;
+    double xx = x*x;
+    double yy = y*y;
+    double zz = z*z;
+    double xy = x*y;
+    double wz = w*z;
+    double wy = w*y;
+    double xz = x*z;
+    double yz = y*z;
+    double wx = w*x;
+
+    ret (0,0) = 1.0f-2*(yy+zz);
+    ret(0,1)= 2*(xy-wz);
+    ret(0,2) = 2*(wy+xz);
+    ret(0,3) = 0.0f;
+
+    ret(1,0)= 2*(xy+wz);
+    ret(1,1) = 1.0f-2*(xx+zz);
+    ret(1,2) = 2*(yz-wx);
+    ret(1,3)= 0.0f;
+
+    ret(2,0) = 2*(xz-wy);
+    ret(2,1) = 2*(yz+wx);
+    ret(2,2) = 1.0f-2*(xx+yy);
+    ret(2,3) = 0.0f;
+
+    ret(3,0) = 0.0f;
+    ret(3,1) = 0.0f;
+    ret(3,2) = 0.0f;
+    ret(3,3)= 1.0f;
+
+    return ret;
+};
+void Optimal_Function::OptimizationPreprocess(int first_id, int second_id) {
+    std::vector<Node> temp_node;
+    for(int i=first_id;i!=second_id+1;i++)
+    {
+        temp_node.push_back(Node(nodes[i].trajectory_id_,nodes[i].time_,
+                                 Eigen::Vector3d(nodes[i].pose_translation_array_[0],
+                                                 nodes[i].pose_translation_array_[1],
+                                                 nodes[i].pose_translation_array_[2]),
+                                 Eigen::Quaterniond(nodes[i].pose_rotation_array_[3],
+                                                    nodes[i].pose_rotation_array_[0],
+                                                    nodes[i].pose_rotation_array_[1],
+                                                    nodes[i].pose_rotation_array_[2])));
+    }
+    for(auto & node_:temp_node)
+    {
+      // std::cout<<"node_.pose_translation:"<<node_.pose_translation_<<std::endl;
+        node_.pose_rotation_ = second_rotation * first_rotation.inverse() *node_.pose_rotation_ ;
+        node_.pose_translation_= node_.pose_translation_ + node_.pose_rotation_*
+                                         ( first_rotation.inverse() * (second_origin - first_origin));
+      //  node_.pose_translation_=  second_rotation *first_rotation.inverse()* (node_.pose_translation_+(second_origin - first_origin));
+      //  node_.pose_translation_=Eigen::Vector3d(111,111,111);
+      //  std::cout<<"node_.pose_translation:"<<node_.pose_translation_<<std::endl;
+    }
+    for(int i=first_id;i!=second_id+1;i++)
+    {
+       // std::cout<<"pose_translation_array_:"<<nodes[i].pose_translation_array_[2]<<std::endl;
+        nodes[i].pose_rotation_array_={temp_node[i-first_id].pose_rotation_.x(),
+                                                                    temp_node[i-first_id].pose_rotation_.y(),
+                                                                    temp_node[i-first_id].pose_rotation_.z(),
+                                                                    temp_node[i-first_id].pose_rotation_.w()};
+        nodes[i].pose_translation_array_={temp_node[i-first_id].pose_translation_[0],
+                                                                       temp_node[i-first_id].pose_translation_[1],
+                                                                       temp_node[i-first_id].pose_translation_[2]};
+       // std::cout<<"pose_translation_array_:"<<nodes[i].pose_translation_array_[2]<<std::endl;
+    }
+}
 //---------------------------------------------数据回调------------------------------------------------------
 
 //惯导及里程计数据
@@ -228,20 +219,20 @@ void Optimal_Function::AddGlobalNode() {
                                                               Optimal_Function::laser_odom_[0].time_))
         {
             for (int i=0;i!=Optimal_Function::laser_odom_.size();i++) {
-                    if(Optimal_Function::laser_odom_[i].time_>=std::max(Optimal_Function::imu_odom_[0].time_,
-                                                                        Optimal_Function::laser_odom_[0].time_)) {
-                        Optimal_Function::global_node_.push_back(Node(Optimal_Function::laser_odom_[i].trajectory_id_,
-                                                                      Optimal_Function::laser_odom_[i].time_,
-                                                                      Optimal_Function::laser_odom_[i].pose_translation_,
-                                                                      Optimal_Function::laser_odom_[i].pose_rotation_));
-                        Optimal_Function::laser_odom_id=i;
-                        Optimal_Function::first_pose_flag=false;
-                        pthread_mutex_unlock(&laser_mutex_);
-                        pthread_mutex_unlock(&imu_mutex_);
-                        pthread_mutex_unlock(&fix_mutex_);
-                        return;
-                    }
+                if(Optimal_Function::laser_odom_[i].time_>=std::max(Optimal_Function::imu_odom_[0].time_,
+                                                                    Optimal_Function::laser_odom_[0].time_)) {
+                    Optimal_Function::global_node_.push_back(Node(Optimal_Function::laser_odom_[i].trajectory_id_,
+                                                                  Optimal_Function::laser_odom_[i].time_,
+                                                                  Optimal_Function::laser_odom_[i].pose_translation_,
+                                                                  Optimal_Function::laser_odom_[i].pose_rotation_));
+                    Optimal_Function::laser_odom_id=i;
+                    Optimal_Function::first_pose_flag=false;
+                    pthread_mutex_unlock(&laser_mutex_);
+                    pthread_mutex_unlock(&imu_mutex_);
+                    pthread_mutex_unlock(&fix_mutex_);
+                    return;
                 }
+            }
         }
         else
         {
@@ -249,8 +240,8 @@ void Optimal_Function::AddGlobalNode() {
                                                           Optimal_Function:: laser_odom_[0].time_,
                                                           Optimal_Function::laser_odom_[0].pose_translation_,
                                                           Optimal_Function::laser_odom_[0].pose_rotation_));
-                Optimal_Function::laser_odom_id=0;
-                first_pose_flag=false;
+            Optimal_Function::laser_odom_id=0;
+            first_pose_flag=false;
         }
         pthread_mutex_unlock(&laser_mutex_);
         pthread_mutex_unlock(&imu_mutex_);
@@ -278,27 +269,28 @@ void Optimal_Function::Local_Constraint() {
 
 
 
+   int temp=30;
 
     //每十帧做一次处理,其中 10可以作为一个参数传入
-    if(Optimal_Function::global_node_.size()>=((Optimal_Function::trajectory_id_+1)*50) &&
-            Optimal_Function::global_node_.size()<((Optimal_Function::trajectory_id_+2)*50))
+    if(Optimal_Function::global_node_.size()>=((Optimal_Function::trajectory_id_+1)*temp) &&
+       Optimal_Function::global_node_.size()<((Optimal_Function::trajectory_id_+2)*temp))
     {
-        for (int j=Optimal_Function::trajectory_id_*50;j!=(Optimal_Function::trajectory_id_+1)*50;j++)
+        for (int j=Optimal_Function::trajectory_id_*temp;j!=(Optimal_Function::trajectory_id_+1)*temp;j++)
         {
             Optimal_Function::global_node_[j].trajectory_id_=Optimal_Function::trajectory_id_;
-        //---------------------------------------------------------------节点--------------------------------------------------------------------
-            pthread_mutex_lock(&node_mutex);
+            //---------------------------------------------------------------节点--------------------------------------------------------------------
+
             //不直接用global_node的原因是会对nodes进行修改和处理,防止约束添加的线程和优化线程冲突
             Optimal_Function::nodes.push_back(Opt_Node(j,Optimal_Function::global_node_[j].trajectory_id_,
-                                                                  Optimal_Function::global_node_[j].time_,
-                                                                  std::array<double, 3>{{Optimal_Function::global_node_[j].pose_translation_[0],
-                                                                                                Optimal_Function::global_node_[j].pose_translation_[1],
-                                                                                                Optimal_Function::global_node_[j].pose_translation_[2]}},
-                                                                  std::array<double, 4>{{Optimal_Function::global_node_[j].pose_rotation_.x(),
-                                                                                                Optimal_Function::global_node_[j].pose_rotation_.y(),
-                                                                                                Optimal_Function::global_node_[j].pose_rotation_.z(),
-                                                                                                Optimal_Function::global_node_[j].pose_rotation_.w()}}));
-            pthread_mutex_unlock(&node_mutex);
+                                                       Optimal_Function::global_node_[j].time_,
+                                                       std::array<double, 3>{{Optimal_Function::global_node_[j].pose_translation_[0],
+                                                                                     Optimal_Function::global_node_[j].pose_translation_[1],
+                                                                                     Optimal_Function::global_node_[j].pose_translation_[2]}},
+                                                       std::array<double, 4>{{Optimal_Function::global_node_[j].pose_rotation_.x(),
+                                                                                     Optimal_Function::global_node_[j].pose_rotation_.y(),
+                                                                                     Optimal_Function::global_node_[j].pose_rotation_.z(),
+                                                                                     Optimal_Function::global_node_[j].pose_rotation_.w()}}));
+
             //--------------------------------------------------------------------节点本身的约束------------------------------------------
             if (Optimal_Function::nodes.size()>=2)
             {
@@ -323,7 +315,7 @@ void Optimal_Function::Local_Constraint() {
                     //约束两端对应的位置值,这个并不重要,重要的是通过坐标变换构建约束
                     Optimal_Function::constraint_node_.push_back(
                             Optimal_Function::Interpolation(p,Optimal_Function::imu_odom_,Optimal_Function::global_node_[j].time_)) ;
-                   //保证有两个约束节点才能构建第一个约束
+                    //保证有两个约束节点才能构建第一个约束
                     if (Optimal_Function::constraint_node_.size()>=2)
                     {
                         //对应的约束
@@ -370,7 +362,7 @@ void Optimal_Function::Local_Constraint() {
                 else {
                     if(fix_odom_[p].time_>=nodes[j].time_){
                         std::cout<<"dfix_odom_time_"<<(fix_odom_[p].time_.toSec()-fix_odom_[p-1].time_.toSec())
-                               <<std::endl;
+                                 <<std::endl;
                     }
                 }
             }
@@ -394,8 +386,10 @@ void Optimal_Function::AddImuNodeConstraintThread() {
     {
         if(Optimal_Function::imu_odom_.size()>0 && Optimal_Function::laser_odom_.size()>0)
         {
+            pthread_mutex_lock(&node_mutex);
             Optimal_Function::AddGlobalNode();
             Optimal_Function::Local_Constraint();
+            pthread_mutex_unlock(&node_mutex);
             //理论上小于10000
             usleep(500);
         }
@@ -412,65 +406,78 @@ void Optimal_Function::OptimalSolve(const std::vector<Constraint> &constraints,
     ceres::LocalParameterization* quaternion_local_parameterization =
             new ceres::EigenQuaternionParameterization;
     bool first_flag=true;
-  //  std::cout<<"constraints:"<<constraints.size()<<std::endl;
+    //  std::cout<<"constraints:"<<constraints.size()<<std::endl;
+
+    first_rotation=Eigen::Quaterniond(nodes[fix_constraints[fix_constraints.size()-1].second_id_].pose_rotation_array_[3],
+                                      nodes[fix_constraints[fix_constraints.size()-1].second_id_].pose_rotation_array_[0],
+                                      nodes[fix_constraints[fix_constraints.size()-1].second_id_].pose_rotation_array_[1],
+                                      nodes[fix_constraints[fix_constraints.size()-1].second_id_].pose_rotation_array_[2]);
+
+    std::cout<<"first_rotation:"<<first_rotation<<std::endl;
+
+    first_origin=Eigen::Vector3d(nodes[fix_constraints[fix_constraints.size()-1].second_id_].pose_translation_array_[0],
+                                 nodes[fix_constraints[fix_constraints.size()-1].second_id_].pose_translation_array_[1],
+                                 nodes[fix_constraints[fix_constraints.size()-1].second_id_].pose_translation_array_[2]);
+
+    std::cout<<"first_origin:"<<first_origin<<std::endl;
 
     if(fix_constraints.size()!=0){
-    //    std::cout<<"fix_constraint_temp:"<<fix_constraints.size()<<std::endl;
+        //    std::cout<<"fix_constraint_temp:"<<fix_constraints.size()<<std::endl;
 
         //std::cout<<"fix_constraints[0].first_id:"<<fix_constraints[0].first_id_<<std::endl;
-        if(fix_constraints[0].first_id_+1<fix_constraints[0].second_id_)
-        {
-            if(fix_constraints[0].first_id_<constraints[0].first_id_)
-            {
-                for(int i=fix_constraints[0].first_id_;i!=constraints[0].first_id_;i++)
-                {
-//                    if(i==fix_constraints[0].first_id_)
-//                    {
-//                        std::cout<<Optimal_Function::constraint_[i].first_id_;
-//                    }
-//                    std::cout <<"f-c"<<Optimal_Function::constraint_[i].second_id_;
-//                    if(i==constraints[0].first_id_-1)
-//                    {
-//                        std::cout<< std::endl;
-//                    }
-                    Constraint_Pose pose;
-                    pose.rotation_weight=15.0;
-                    pose.translation_weight=15.0;
-                    pose.rotation= Eigen::Vector4d(Optimal_Function::constraint_[i].pose_rotation_.w(),
-                                                   Optimal_Function::constraint_[i].pose_rotation_.x(),
-                                                   Optimal_Function::constraint_[i].pose_rotation_.y(),
-                                                   Optimal_Function::constraint_[i].pose_rotation_.z());
-                    pose.translation=Eigen::Vector3d(Optimal_Function::constraint_[i].pose_translation_);
-                    //  std::cout<<"nodes:"<<nodes.size()<<std::endl;
-
-                    problem.AddParameterBlock(nodes[Optimal_Function::constraint_[i].first_id_].pose_rotation_array_.data(),4);
-                    problem.AddParameterBlock(nodes[Optimal_Function::constraint_[i].first_id_].pose_translation_array_.data(),3);
-                    problem.AddParameterBlock(nodes[Optimal_Function::constraint_[i].second_id_].pose_rotation_array_.data(),4);
-                    problem.AddParameterBlock(nodes[Optimal_Function::constraint_[i].second_id_].pose_translation_array_.data(),3);
-//                    if (first_flag)
-//                    {
-//                        problem.SetParameterBlockConstant(nodes[Optimal_Function::constraint_[i].first_id_].pose_rotation_array_.data());
-//                        problem.SetParameterBlockConstant(nodes[Optimal_Function::constraint_[i].first_id_].pose_translation_array_.data());
-//                        first_flag=false;
-//                    }
-                    problem.AddResidualBlock(
-                            SpaCostFunction::CreateAutoDiffCostFunction(pose),
-                            nullptr /* loss function */,
-                            nodes[Optimal_Function::constraint_[i].first_id_].pose_rotation_array_.data(),
-                            nodes[Optimal_Function::constraint_[i].first_id_].pose_translation_array_.data(),
-                            nodes[Optimal_Function::constraint_[i].second_id_].pose_rotation_array_.data(),
-                            nodes[Optimal_Function::constraint_[i].second_id_].pose_translation_array_.data());
-
-
-                }
-            }
-        }
+//        if(fix_constraints[0].first_id_+1<fix_constraints[0].second_id_)
+//        {
+//            if(fix_constraints[0].first_id_<constraints[0].first_id_)
+//            {
+//                for(int i=fix_constraints[0].first_id_;i!=constraints[0].first_id_;i++)
+//                {
+////                    if(i==fix_constraints[0].first_id_)
+////                    {
+////                        std::cout<<Optimal_Function::constraint_[i].first_id_;
+////                    }
+////                    std::cout <<"f-c"<<Optimal_Function::constraint_[i].second_id_;
+////                    if(i==constraints[0].first_id_-1)
+////                    {
+////                        std::cout<< std::endl;
+////                    }
+//                    Constraint_Pose pose;
+//                    pose.rotation_weight=15.0;
+//                    pose.translation_weight=15.0;
+//                    pose.rotation= Eigen::Vector4d(Optimal_Function::constraint_[i].pose_rotation_.w(),
+//                                                   Optimal_Function::constraint_[i].pose_rotation_.x(),
+//                                                   Optimal_Function::constraint_[i].pose_rotation_.y(),
+//                                                   Optimal_Function::constraint_[i].pose_rotation_.z());
+//                    pose.translation=Eigen::Vector3d(Optimal_Function::constraint_[i].pose_translation_);
+//                    //  std::cout<<"nodes:"<<nodes.size()<<std::endl;
+//
+//                    problem.AddParameterBlock(nodes[Optimal_Function::constraint_[i].first_id_].pose_rotation_array_.data(),4,quaternion_local_parameterization);
+//                    problem.AddParameterBlock(nodes[Optimal_Function::constraint_[i].first_id_].pose_translation_array_.data(),3);
+//                    problem.AddParameterBlock(nodes[Optimal_Function::constraint_[i].second_id_].pose_rotation_array_.data(),4,quaternion_local_parameterization);
+//                    problem.AddParameterBlock(nodes[Optimal_Function::constraint_[i].second_id_].pose_translation_array_.data(),3);
+////                    if (first_flag)
+////                    {
+////                        problem.SetParameterBlockConstant(nodes[Optimal_Function::constraint_[i].first_id_].pose_rotation_array_.data());
+////                        problem.SetParameterBlockConstant(nodes[Optimal_Function::constraint_[i].first_id_].pose_translation_array_.data());
+////                        first_flag=false;
+////                    }
+//                    problem.AddResidualBlock(
+//                            SpaCostFunction::CreateAutoDiffCostFunction(pose),
+//                            nullptr /* loss function */,
+//                            nodes[Optimal_Function::constraint_[i].first_id_].pose_rotation_array_.data(),
+//                            nodes[Optimal_Function::constraint_[i].first_id_].pose_translation_array_.data(),
+//                            nodes[Optimal_Function::constraint_[i].second_id_].pose_rotation_array_.data(),
+//                            nodes[Optimal_Function::constraint_[i].second_id_].pose_translation_array_.data());
+//
+//
+//                }
+//            }
+//        }
         for(const Constraint& fix_constraint : fix_constraints)
         {
-        //    std::cout<<fix_constraint.first_id_<<"f-f"<<fix_constraint.second_id_<<std::endl;
+            //    std::cout<<fix_constraint.first_id_<<"f-f"<<fix_constraint.second_id_<<std::endl;
             Constraint_Pose pose;
-            pose.translation_weight=100.0;
-            pose.rotation_weight=120.0;
+            pose.translation_weight=4.0;
+            pose.rotation_weight=5.0;
             pose.rotation= Eigen::Vector4d(fix_constraint.pose_rotation_.w(),
                                            fix_constraint.pose_rotation_.x(),
                                            fix_constraint.pose_rotation_.y(),
@@ -478,19 +485,28 @@ void Optimal_Function::OptimalSolve(const std::vector<Constraint> &constraints,
             pose.translation=Eigen::Vector3d(fix_constraint.pose_translation_);
             //  std::cout<<"nodes:"<<nodes.size()<<std::endl;
 
+        //    std::cout<<"dd"<<std::endl;
             problem.AddParameterBlock(nodes[fix_constraint.first_id_].pose_rotation_array_.data(),4,quaternion_local_parameterization);
             problem.AddParameterBlock(nodes[fix_constraint.first_id_].pose_translation_array_.data(),3);
             problem.AddParameterBlock(nodes[fix_constraint.second_id_].pose_rotation_array_.data(),4,quaternion_local_parameterization);
             problem.AddParameterBlock(nodes[fix_constraint.second_id_].pose_translation_array_.data(),3);
-            if (first_flag)
+
+        //    std::cout<<"dddd"<<std::endl;
+
+//            if (first_flag)
+//            {
+//                problem.SetParameterBlockConstant(nodes[fix_constraint.first_id_].pose_rotation_array_.data());
+//                problem.SetParameterBlockConstant(nodes[fix_constraint.first_id_].pose_translation_array_.data());
+//                first_flag=false;
+//            }
+            if(fix_constraint.first_id_==0 )
             {
-                problem.SetParameterBlockConstant(nodes[fix_constraint.first_id_].pose_rotation_array_.data());
-                problem.SetParameterBlockConstant(nodes[fix_constraint.first_id_].pose_translation_array_.data());
-                first_flag=false;
+                pose.rotation_weight=10000000000000000.0;
+                pose.translation_weight=10000000000000000.0;
             }
             problem.AddResidualBlock(
                     SpaCostFunction::CreateAutoDiffCostFunction(pose),
-                    nullptr /* loss function */,
+                    nullptr/* new ceres::CauchyLoss(1) /* loss function */,
                     nodes[fix_constraint.first_id_].pose_rotation_array_.data(),
                     nodes[fix_constraint.first_id_].pose_translation_array_.data(),
                     nodes[fix_constraint.second_id_].pose_rotation_array_.data(),
@@ -499,67 +515,91 @@ void Optimal_Function::OptimalSolve(const std::vector<Constraint> &constraints,
         }
         //Optimal_Function::fix_constraint_temp_.clear();
 
-   }
+    }
 
 
     bool constraint_flag=true;
 
-   // std::cout<<"constraints:"<<constraints.size()<<std::endl;
-    for (const Constraint& constraint : constraints) {
-    //    std::cout<<"test:"<<constraint.trajectory_id_<<std::endl;
-//        if(constraint_flag)
-//        {
-//            std::cout<<constraint.first_id_;
-//            constraint_flag=false;
-//        }
-
-
-        Constraint_Pose pose;
-        pose.rotation= Eigen::Vector4d(constraint.pose_rotation_.w(),
-                                       constraint.pose_rotation_.x(),
-                                       constraint.pose_rotation_.y(),
-                                       constraint.pose_rotation_.z());
-        pose.translation=Eigen::Vector3d(constraint.pose_translation_);
-       // std::cout<<"nodes:"<<nodes.size()<<std::endl;
-        problem.AddParameterBlock(nodes[constraint.first_id_].pose_rotation_array_.data(),4);
-        problem.AddParameterBlock(nodes[constraint.first_id_].pose_translation_array_.data(),3);
-        problem.AddParameterBlock(nodes[constraint.second_id_].pose_rotation_array_.data(),4);
-        problem.AddParameterBlock(nodes[constraint.second_id_].pose_translation_array_.data(),3);
-
-//        if (first_flag)
-//        {
-//            problem.SetParameterBlockConstant(nodes[constraint.first_id_].pose_rotation_array_.data());
-//            problem.SetParameterBlockConstant(nodes[constraint.first_id_].pose_translation_array_.data());
-//            first_flag=false;
-//        }
-        problem.AddResidualBlock(
-                SpaCostFunction::CreateAutoDiffCostFunction(pose),
-                nullptr /* loss function */,
-                nodes[constraint.first_id_].pose_rotation_array_.data(),
-                nodes[constraint.first_id_].pose_translation_array_.data(),
-                nodes[constraint.second_id_].pose_rotation_array_.data(),
-                nodes[constraint.second_id_].pose_translation_array_.data());
-
+    // std::cout<<"constraints:"<<constraints.size()<<std::endl;
+//    for (const Constraint& constraint : constraints) {
+//        //    std::cout<<"test:"<<constraint.trajectory_id_<<std::endl;
+////        if(constraint_flag)
+////        {
+////            std::cout<<constraint.first_id_;
+////            constraint_flag=false;
+////        }
+//
+//
+//        Constraint_Pose pose;
+//        pose.rotation= Eigen::Vector4d(constraint.pose_rotation_.w(),
+//                                       constraint.pose_rotation_.x(),
+//                                       constraint.pose_rotation_.y(),
+//                                       constraint.pose_rotation_.z());
+//        pose.translation=Eigen::Vector3d(constraint.pose_translation_);
+//        // std::cout<<"nodes:"<<nodes.size()<<std::endl;
+//        problem.AddParameterBlock(nodes[constraint.first_id_].pose_rotation_array_.data(),4);
+//        problem.AddParameterBlock(nodes[constraint.first_id_].pose_translation_array_.data(),3);
+//        problem.AddParameterBlock(nodes[constraint.second_id_].pose_rotation_array_.data(),4);
+//        problem.AddParameterBlock(nodes[constraint.second_id_].pose_translation_array_.data(),3);
+//
+////        if (first_flag)
+////        {
+////            problem.SetParameterBlockConstant(nodes[constraint.first_id_].pose_rotation_array_.data());
+////            problem.SetParameterBlockConstant(nodes[constraint.first_id_].pose_translation_array_.data());
+////            first_flag=false;
+////        }
+//        problem.AddResidualBlock(
+//                SpaCostFunction::CreateAutoDiffCostFunction(pose),
+//                nullptr /* loss function */,
+//                nodes[constraint.first_id_].pose_rotation_array_.data(),
+//                nodes[constraint.first_id_].pose_translation_array_.data(),
+//                nodes[constraint.second_id_].pose_rotation_array_.data(),
+//                nodes[constraint.second_id_].pose_translation_array_.data());
+//
+//    }
+    if(fix_constraints.size()>50)
+    {
+        std::cout<<"constant:"<<fix_constraints.size()-50<<std::endl;
+        for(int i=0;i!=fix_constraints.size()-50;i++)
+        {
+            problem.SetParameterBlockConstant(nodes[fix_constraints[i].first_id_].pose_rotation_array_.data());
+            problem.SetParameterBlockConstant(nodes[fix_constraints[i].first_id_].pose_translation_array_.data());
+        }
     }
+    problem.SetParameterBlockConstant(nodes[0].pose_rotation_array_.data());
+    problem.SetParameterBlockConstant(nodes[0].pose_translation_array_.data());
 
     ceres::Solver::Options options;
     options.linear_solver_type=ceres::DENSE_QR;
     //options.minimizer_progress_to_stdout=true;
-    options.num_threads=3;
-    options.max_num_iterations=25;
+    options.num_threads=2;
+    options.max_num_iterations=100;
     //options.max_solver_time_in_seconds
 
     ceres::Solver::Summary summary;
-   std::chrono::steady_clock::time_point t1=std::chrono::steady_clock::now();
+    std::chrono::steady_clock::time_point t1=std::chrono::steady_clock::now();
     ceres::Solve(options,&problem,&summary);
+
+    second_rotation=Eigen::Quaterniond(nodes[fix_constraints[fix_constraints.size()-1].second_id_].pose_rotation_array_[3],
+                                      nodes[fix_constraints[fix_constraints.size()-1].second_id_].pose_rotation_array_[0],
+                                      nodes[fix_constraints[fix_constraints.size()-1].second_id_].pose_rotation_array_[1],
+                                      nodes[fix_constraints[fix_constraints.size()-1].second_id_].pose_rotation_array_[2]);
+
+    std::cout<<"second_rotation:"<<second_rotation<<std::endl;
+
+    second_origin=Eigen::Vector3d(nodes[fix_constraints[fix_constraints.size()-1].second_id_].pose_translation_array_[0],
+                                 nodes[fix_constraints[fix_constraints.size()-1].second_id_].pose_translation_array_[1],
+                                 nodes[fix_constraints[fix_constraints.size()-1].second_id_].pose_translation_array_[2]);
+
+    std::cout<<"second_origin:"<<second_origin<<std::endl;
 
     std::chrono::steady_clock::time_point t2=std::chrono::steady_clock::now();
     std::chrono::duration<double> time_used = std::chrono::duration_cast<std::chrono::duration<double>>(t2-t1);
     std::cout<<"solve time cost= "<<time_used.count()<<"seconds."<<std::endl;
     std::cout<<summary.BriefReport() <<std::endl;
-   // std::cout<<"estimated a,b,c = ";
- //   for ( auto node :nodes ) std::cout<<node<<" ";
-  //  std::cout<<std::endl;
+    // std::cout<<"estimated a,b,c = ";
+    //   for ( auto node :nodes ) std::cout<<node<<" ";
+    //  std::cout<<std::endl;
 
 }
 
@@ -570,6 +610,7 @@ void Optimal_Function::OptimalThread() {
 
     while(ros::ok())
     {
+        pthread_mutex_lock(&node_mutex);
         if (Optimal_Function::constraint_.size()!=0 &&
             Optimal_Function::nodes.size()!=0)
         {
@@ -651,19 +692,42 @@ void Optimal_Function::OptimalThread() {
 
                 if(constraints_temp[constraints_temp.size()-1].trajectory_id_==Optimal_Function::compare_constraint_id)
                 {
+
+                    fix_constraints_temp.push_back(Constraint(fix_constraint_[0].first_id_,
+                                                              fix_constraints_temp[fix_constraints_temp.size()-1].second_id_,
+                                                              Optimal_Function::fix_constraint_node_[fix_constraints_temp[fix_constraints_temp.size()-1].second_id_].node_.trajectory_id_,
+                                                              Optimal_Function::fix_constraint_node_[fix_constraint_[0].first_id_].node_.pose_rotation_.inverse() *
+                                                                      (Optimal_Function::fix_constraint_node_[fix_constraints_temp[fix_constraints_temp.size()-1].second_id_].node_.pose_translation_
+                                                               - Optimal_Function::fix_constraint_node_[fix_constraint_[0].first_id_].node_.pose_translation_),
+                                                              (Optimal_Function::fix_constraint_node_[fix_constraint_[0].first_id_].node_.pose_rotation_.inverse() *
+                                                                      Optimal_Function::fix_constraint_node_[fix_constraints_temp[fix_constraints_temp.size()-1].second_id_].node_.pose_rotation_)));
+
+                    fix_constraints_temp.push_back(Constraint(fix_constraint_[0].first_id_,
+                                                              fix_constraints_temp[0].second_id_,
+                                                              Optimal_Function::fix_constraint_node_[fix_constraints_temp[0].second_id_].node_.trajectory_id_,
+                                                              Optimal_Function::fix_constraint_node_[fix_constraint_[0].first_id_].node_.pose_rotation_.inverse() *
+                                                              ( Optimal_Function::fix_constraint_node_[fix_constraints_temp[0].second_id_].node_.pose_translation_
+                                                               - Optimal_Function::fix_constraint_node_[fix_constraint_[0].first_id_].node_.pose_translation_),
+                                                              (Optimal_Function::fix_constraint_node_[fix_constraint_[0].first_id_].node_.pose_rotation_.inverse() *
+                                                                      Optimal_Function::fix_constraint_node_[fix_constraints_temp[0].second_id_].node_.pose_rotation_)));
                     fix_constraints_temp.push_back(Constraint(fix_constraints_temp[0].first_id_,
-                                                              fix_constraints_temp[fix_constraints_temp.size()-1].second_id_,//gaidaozheli
-                                                              Optimal_Function::fix_constraint_node_[fix_constraint_node_.size()-1].node_.trajectory_id_,
-                                                              Optimal_Function::fix_constraint_node_[fix_constraint_node_.size()-2].node_.pose_rotation_.inverse() *
-                                                              (Optimal_Function::fix_constraint_node_[fix_constraint_node_.size()-1].node_.pose_translation_
-                                                               - Optimal_Function::fix_constraint_node_[fix_constraint_node_.size()-2].node_.pose_translation_),
-                                                              (Optimal_Function::fix_constraint_node_[fix_constraint_node_.size()-2].node_.pose_rotation_.inverse() *
-                                                               Optimal_Function::fix_constraint_node_[fix_constraint_node_.size()-1].node_.pose_rotation_)))
+                                                              fix_constraints_temp[fix_constraints_temp.size()-1].second_id_,
+                                                              Optimal_Function::fix_constraint_node_[fix_constraints_temp[fix_constraints_temp.size()-1].second_id_].node_.trajectory_id_,
+                                                              Optimal_Function::fix_constraint_node_[fix_constraints_temp[0].first_id_].node_.pose_rotation_.inverse() *
+                                                              (Optimal_Function::fix_constraint_node_[fix_constraints_temp[fix_constraints_temp.size()-1].second_id_].node_.pose_translation_
+                                                               - Optimal_Function::fix_constraint_node_[fix_constraints_temp[0].first_id_].node_.pose_translation_),
+                                                              (Optimal_Function::fix_constraint_node_[fix_constraints_temp[0].first_id_].node_.pose_rotation_.inverse() *
+                                                               Optimal_Function::fix_constraint_node_[fix_constraints_temp[fix_constraints_temp.size()-1].second_id_].node_.pose_rotation_)));
                     Optimal_Function::compare_constraint_id++;
+                   std::cout<<"first_id:"<<fix_constraint_[0].first_id_<<std::endl;
+                   std::cout<<"second_id:"<<fix_constraints_temp[fix_constraints_temp.size()-1].second_id_<<std::endl;
+                   // OptimizationPreprocess(fix_constraints_temp[0].first_id_,
+                   //                        fix_constraints_temp[fix_constraints_temp.size()-1].second_id_);
                     Optimal_Function::OptimalSolve(node_constraints_temp,fix_constraints_temp);
                 }
             }
         }
+        pthread_mutex_unlock(&node_mutex);
         usleep(500);
     }
 }

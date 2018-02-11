@@ -44,6 +44,7 @@ public:
     //进程
     void AddImuNodeConstraintThread();
     void OptimalThread();
+    void OptimizationPreprocess(int first_id,int second_id);
 
 
 private:
@@ -101,6 +102,8 @@ private:
 
 
 
+
+
     //flag
     bool first_pose_flag=true;
 
@@ -112,6 +115,11 @@ private:
     std::ofstream opt_solution;
     std::ofstream fix_node;
 
+    //优化前预处理坐标变换
+    Eigen::Quaterniond first_rotation = Eigen::Quaterniond(1.0,0.0,0.0,0.0);
+    Eigen::Quaterniond second_rotation = Eigen::Quaterniond(1.0,0.0,0.0,0.0);
+    Eigen::Vector3d first_origin = Eigen::Vector3d (0.0,0.0,0.0);
+    Eigen::Vector3d second_origin = Eigen::Vector3d (0.0,0.0,0.0);
 };
 
 
