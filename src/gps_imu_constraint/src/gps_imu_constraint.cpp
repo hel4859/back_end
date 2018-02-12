@@ -24,7 +24,6 @@ Gps_constraint::~Gps_constraint() {
 
 }
 
-
 void Gps_constraint::gps_pose_callback(const sensor_msgs::NavSatFix::ConstPtr &fixIn) {
 
     static const double Ellipse_n = (Ellipse_a - Ellipse_b) / (Ellipse_a + Ellipse_b);
@@ -107,8 +106,8 @@ void Gps_constraint::gps_pose_callback(const sensor_msgs::NavSatFix::ConstPtr &f
 
             //  std::cout<<"first_gps_x: "<<first_gps_x<<"  first_gps_y: "<<first_gps_y<<"  first_gps_z: "<<first_gps_z<<std::endl;
         }
-        if (fixIn->position_covariance[0]<0.01 && fixIn->position_covariance[4]<0.01
-            && fixIn->position_covariance[8]<0.05 ) {
+//        if (fixIn->position_covariance[0]<0.01 && fixIn->position_covariance[4]<0.01
+//            && fixIn->position_covariance[8]<0.05 ) {
             past_gps_time = now_gps_time;
             now_gps_time = fixIn->header.stamp.toSec();
 
@@ -143,7 +142,7 @@ void Gps_constraint::gps_pose_callback(const sensor_msgs::NavSatFix::ConstPtr &f
             //  << now_gps_y << " " << now_gps_z << std::endl;
             // }
             gps_flag = true;
-        }
+//        }
 
     }
 
@@ -169,8 +168,8 @@ void Gps_constraint::imu_orientation_callback(const sensor_msgs::Imu::ConstPtr &
     //std::cout<<"first_time_gps_orientation: "<<first_time_gps_orientation<<std::endl;
 
 
-    //if (!first_time_gps_orientation&& !first_time_gps && now_gps_time-past_gps_time<0.015 &&gps_flag)
-   // {
+    if (!first_time_gps_orientation&& !first_time_gps && now_gps_time-past_gps_time<0.015 &&gps_flag)
+    {
 
         now_orientation= first_orientation.inverse()*tf::Quaternion(imuIn->orientation.x,imuIn->orientation.y,imuIn->orientation.z,imuIn->orientation.w);
         now_imu_time=imuIn->header.stamp.toSec();
@@ -215,7 +214,7 @@ void Gps_constraint::imu_orientation_callback(const sensor_msgs::Imu::ConstPtr &
            gps_data << std::fixed << std::setprecision(12) << gps_imu_odom.header.stamp << " " << gps_x << " "
                     << gps_y << " " << gps_z << std::endl;
            gps_flag=false;
-        //}
+    }
 
 
 

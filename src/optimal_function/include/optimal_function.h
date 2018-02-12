@@ -39,12 +39,14 @@ public:
 
     void Local_Constraint();
     Node Interpolation (int id,std::vector<Node>odom,ros::Time time);
+    void OptimizationPreprocess(int first_id,int second_id);
 
 
     //进程
     void AddImuNodeConstraintThread();
     void OptimalThread();
-    void OptimizationPreprocess(int first_id,int second_id);
+    void GlobalOptimalThread();
+
 
 
 private:
@@ -90,6 +92,7 @@ private:
     //线程定义
     pthread_t imu_thread_id_;
     pthread_t optimal_thread_id_;
+    pthread_t global_optimal_thread_id_;
 
     //线程锁
     pthread_mutex_t imu_mutex_;
@@ -106,6 +109,7 @@ private:
 
     //flag
     bool first_pose_flag=true;
+    bool global_opt_flag=false;
 
 
     //优化结果

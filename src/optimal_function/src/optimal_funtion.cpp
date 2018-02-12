@@ -32,10 +32,12 @@ Optimal_Function::Optimal_Function() {
     typedef void* (*FUNC)(void*);//定义FUNC类型是一个指向函数的指针，该函数参数为void*，返回值为void*
     FUNC AddImuNodeConstraintThread = (FUNC)&Optimal_Function::AddImuNodeConstraintThread;//强制转换func()的类型
     FUNC OptimalThread = (FUNC)&Optimal_Function::OptimalThread;//强制转换func()的类型
+    FUNC GlobalOptimalThread = (FUNC)&Optimal_Function::GlobalOptimalThread;//强制转换func()的类型
 
     //创造两个线程,一个用于约束创建,一个用于优化
     pthread_create(&imu_thread_id_,NULL, AddImuNodeConstraintThread ,this);
     pthread_create(&optimal_thread_id_,NULL, OptimalThread ,this);
+    pthread_create(&optimal_thread_id_,NULL, GlobalOptimalThread ,this);
 
 
 }
@@ -597,6 +599,7 @@ void Optimal_Function::OptimalSolve(const std::vector<Constraint> &constraints,
     std::chrono::duration<double> time_used = std::chrono::duration_cast<std::chrono::duration<double>>(t2-t1);
     std::cout<<"solve time cost= "<<time_used.count()<<"seconds."<<std::endl;
     std::cout<<summary.BriefReport() <<std::endl;
+    global_opt_flag=!global_opt_flag;
     // std::cout<<"estimated a,b,c = ";
     //   for ( auto node :nodes ) std::cout<<node<<" ";
     //  std::cout<<std::endl;
@@ -732,6 +735,19 @@ void Optimal_Function::OptimalThread() {
     }
 }
 
+void Optimal_Function::GlobalOptimalThread()
+{
+    std::cout<<"GlobalOptimalThread"<<std::endl;
+
+    while(ros::ok())
+    {
+        if(global_opt_flag)
+        {
+            Optimal_Function::OptimalSolve(node_constraint_,fix_constraint_);
+        }
+        usleep(500);
+    }
+}
 //-------------------------------------------主函数----------------------------------------------------------
 int main(int argc, char** argv)
 {
