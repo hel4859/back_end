@@ -56,7 +56,9 @@ public:
     void gps_pose_callback(const sensor_msgs::NavSatFix::ConstPtr& gpsIn);
     void imu_orientation_callback(const sensor_msgs::Imu::ConstPtr& imuIn);
     void gps_orientation_callback(const tiggo_msgs::Heading::ConstPtr& gps_oriIn);
+    void Interpolation();
 
+private:
     //flag
     bool  first_time_imu=true;
     bool first_time_gps=true;

@@ -273,7 +273,7 @@ void Optimal_Function::Local_Constraint() {
 
    int temp=30;
 
-    //每十帧做一次处理,其中 10可以作为一个参数传入
+    //每十帧做一次处理,其中temp可以作为一个参数传入
     if(Optimal_Function::global_node_.size()>=((Optimal_Function::trajectory_id_+1)*temp) &&
        Optimal_Function::global_node_.size()<((Optimal_Function::trajectory_id_+2)*temp))
     {
@@ -478,8 +478,8 @@ void Optimal_Function::OptimalSolve(const std::vector<Constraint> &constraints,
         {
             //    std::cout<<fix_constraint.first_id_<<"f-f"<<fix_constraint.second_id_<<std::endl;
             Constraint_Pose pose;
-            pose.translation_weight=4.0;
-            pose.rotation_weight=5.0;
+            pose.translation_weight=400.0;
+            pose.rotation_weight=500.0;
             pose.rotation= Eigen::Vector4d(fix_constraint.pose_rotation_.w(),
                                            fix_constraint.pose_rotation_.x(),
                                            fix_constraint.pose_rotation_.y(),
@@ -505,14 +505,15 @@ void Optimal_Function::OptimalSolve(const std::vector<Constraint> &constraints,
             {
                 pose.rotation_weight=10000000000000000.0;
                 pose.translation_weight=10000000000000000.0;
+                problem.AddResidualBlock(
+                        SpaCostFunction::CreateAutoDiffCostFunction(pose),
+                        nullptr/* new ceres::CauchyLoss(1) /* loss function */,
+                        nodes[fix_constraint.first_id_].pose_rotation_array_.data(),
+                        nodes[fix_constraint.first_id_].pose_translation_array_.data(),
+                        nodes[fix_constraint.second_id_].pose_rotation_array_.data(),
+                        nodes[fix_constraint.second_id_].pose_translation_array_.data());
             }
-            problem.AddResidualBlock(
-                    SpaCostFunction::CreateAutoDiffCostFunction(pose),
-                    nullptr/* new ceres::CauchyLoss(1) /* loss function */,
-                    nodes[fix_constraint.first_id_].pose_rotation_array_.data(),
-                    nodes[fix_constraint.first_id_].pose_translation_array_.data(),
-                    nodes[fix_constraint.second_id_].pose_rotation_array_.data(),
-                    nodes[fix_constraint.second_id_].pose_translation_array_.data());
+
 
         }
         //Optimal_Function::fix_constraint_temp_.clear();
@@ -523,42 +524,44 @@ void Optimal_Function::OptimalSolve(const std::vector<Constraint> &constraints,
     bool constraint_flag=true;
 
     // std::cout<<"constraints:"<<constraints.size()<<std::endl;
-//    for (const Constraint& constraint : constraints) {
-//        //    std::cout<<"test:"<<constraint.trajectory_id_<<std::endl;
-////        if(constraint_flag)
-////        {
-////            std::cout<<constraint.first_id_;
-////            constraint_flag=false;
-////        }
-//
-//
-//        Constraint_Pose pose;
-//        pose.rotation= Eigen::Vector4d(constraint.pose_rotation_.w(),
-//                                       constraint.pose_rotation_.x(),
-//                                       constraint.pose_rotation_.y(),
-//                                       constraint.pose_rotation_.z());
-//        pose.translation=Eigen::Vector3d(constraint.pose_translation_);
-//        // std::cout<<"nodes:"<<nodes.size()<<std::endl;
-//        problem.AddParameterBlock(nodes[constraint.first_id_].pose_rotation_array_.data(),4);
-//        problem.AddParameterBlock(nodes[constraint.first_id_].pose_translation_array_.data(),3);
-//        problem.AddParameterBlock(nodes[constraint.second_id_].pose_rotation_array_.data(),4);
-//        problem.AddParameterBlock(nodes[constraint.second_id_].pose_translation_array_.data(),3);
-//
-////        if (first_flag)
-////        {
-////            problem.SetParameterBlockConstant(nodes[constraint.first_id_].pose_rotation_array_.data());
-////            problem.SetParameterBlockConstant(nodes[constraint.first_id_].pose_translation_array_.data());
-////            first_flag=false;
-////        }
-//        problem.AddResidualBlock(
-//                SpaCostFunction::CreateAutoDiffCostFunction(pose),
-//                nullptr /* loss function */,
-//                nodes[constraint.first_id_].pose_rotation_array_.data(),
-//                nodes[constraint.first_id_].pose_translation_array_.data(),
-//                nodes[constraint.second_id_].pose_rotation_array_.data(),
-//                nodes[constraint.second_id_].pose_translation_array_.data());
-//
-//    }
+    for (const Constraint& constraint : constraints) {
+        //    std::cout<<"test:"<<constraint.trajectory_id_<<std::endl;
+//        if(constraint_flag)
+//        {
+//            std::cout<<constraint.first_id_;
+//            constraint_flag=false;
+//        }
+
+
+        Constraint_Pose pose;
+        pose.translation_weight=40.0;
+        pose.rotation_weight=50.0;
+        pose.rotation= Eigen::Vector4d(constraint.pose_rotation_.w(),
+                                       constraint.pose_rotation_.x(),
+                                       constraint.pose_rotation_.y(),
+                                       constraint.pose_rotation_.z());
+        pose.translation=Eigen::Vector3d(constraint.pose_translation_);
+        // std::cout<<"nodes:"<<nodes.size()<<std::endl;
+        problem.AddParameterBlock(nodes[constraint.first_id_].pose_rotation_array_.data(),4);
+        problem.AddParameterBlock(nodes[constraint.first_id_].pose_translation_array_.data(),3);
+        problem.AddParameterBlock(nodes[constraint.second_id_].pose_rotation_array_.data(),4);
+        problem.AddParameterBlock(nodes[constraint.second_id_].pose_translation_array_.data(),3);
+
+//        if (first_flag)
+//        {
+//            problem.SetParameterBlockConstant(nodes[constraint.first_id_].pose_rotation_array_.data());
+//            problem.SetParameterBlockConstant(nodes[constraint.first_id_].pose_translation_array_.data());
+//            first_flag=false;
+//        }
+        problem.AddResidualBlock(
+                SpaCostFunction::CreateAutoDiffCostFunction(pose),
+                nullptr /* loss function */,
+                nodes[constraint.first_id_].pose_rotation_array_.data(),
+                nodes[constraint.first_id_].pose_translation_array_.data(),
+                nodes[constraint.second_id_].pose_rotation_array_.data(),
+                nodes[constraint.second_id_].pose_translation_array_.data());
+
+    }
     if(fix_constraints.size()>50)
     {
         std::cout<<"constant:"<<fix_constraints.size()-50<<std::endl;
@@ -743,7 +746,7 @@ void Optimal_Function::GlobalOptimalThread()
     {
         if(global_opt_flag)
         {
-            Optimal_Function::OptimalSolve(node_constraint_,fix_constraint_);
+           // Optimal_Function::OptimalSolve(constraint_,fix_constraint_);
         }
         usleep(500);
     }

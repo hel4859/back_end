@@ -24,6 +24,15 @@ Gps_constraint::~Gps_constraint() {
 
 }
 
+void Gps_constraint::Interpolation() {
+    const double duration=now_gps_time-past_gps_time;
+    const double factor = (now_imu_time-past_gps_time)/duration;
+    gps_x =past_gps_x + factor * (now_gps_x - past_gps_x) ;
+    gps_y =past_gps_y + factor * (now_gps_y - past_gps_y) ;
+    gps_z =past_gps_z + factor * (now_gps_z - past_gps_z) ;
+    //std::cout<<"now_gps_x - past_gps_x:"<<now_gps_x - past_gps_x<<std::endl;
+}
+
 void Gps_constraint::gps_pose_callback(const sensor_msgs::NavSatFix::ConstPtr &fixIn) {
 
     static const double Ellipse_n = (Ellipse_a - Ellipse_b) / (Ellipse_a + Ellipse_b);
@@ -168,29 +177,33 @@ void Gps_constraint::imu_orientation_callback(const sensor_msgs::Imu::ConstPtr &
     //std::cout<<"first_time_gps_orientation: "<<first_time_gps_orientation<<std::endl;
 
 
-    if (!first_time_gps_orientation&& !first_time_gps && now_gps_time-past_gps_time<0.015 &&gps_flag)
+    if (!first_time_gps_orientation&&
+            !first_time_gps &&
+            now_gps_time-past_gps_time<0.015 &&gps_flag &&
+            now_gps_time>=imuIn->header.stamp.toSec())
     {
 
         now_orientation= first_orientation.inverse()*tf::Quaternion(imuIn->orientation.x,imuIn->orientation.y,imuIn->orientation.z,imuIn->orientation.w);
         now_imu_time=imuIn->header.stamp.toSec();
-        if (now_gps_time-past_gps_time!=0) {
-
-            gps_x = past_gps_x +
-                    (now_gps_x - past_gps_x) * (now_imu_time - past_gps_time) / (now_gps_time - past_gps_time);
-            gps_y = past_gps_y +
-                    (now_gps_y - past_gps_y) * (now_imu_time - past_gps_time) / (now_gps_time - past_gps_time);
-            gps_z = past_gps_z +
-                    (now_gps_z - past_gps_z) * (now_imu_time - past_gps_time) / (now_gps_time - past_gps_time);
-
-        }
-        else
-        {
-            gps_x = now_gps_x;
-            gps_y = now_gps_y;
-            gps_z = now_gps_z;
-
-        }
-
+//        if (now_gps_time-past_gps_time!=0 ) {
+//
+////            gps_x = past_gps_x +
+////                    (now_gps_x - past_gps_x) * (now_imu_time - past_gps_time) / (now_gps_time - past_gps_time);
+////            gps_y = past_gps_y +
+////                    (now_gps_y - past_gps_y) * (now_imu_time - past_gps_time) / (now_gps_time - past_gps_time);
+////            gps_z = past_gps_z +
+////                    (now_gps_z - past_gps_z) * (now_imu_time - past_gps_time) / (now_gps_time - past_gps_time);
+//
+//        }
+//        else
+//        {
+//            gps_x = now_gps_x;
+//            gps_y = now_gps_y;
+//            gps_z = now_gps_z;
+//
+//        }
+    //    std::cout<<"ddd"<<std::endl;
+        Interpolation();
 
        // std::cout<<"gps_x: "<<gps_x<<" gps_y: "<<gps_y<<" gps_z: "<<gps_z<<std::endl;
 
