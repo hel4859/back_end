@@ -64,6 +64,8 @@ bool newSurfPointsFlat = false;
 bool newSurfPointsLessFlat = false;
 bool newLaserCloudFullRes = false;
 bool newImuTrans = false;
+ //优化消息
+bool opt_flag = false;
 
 pcl::PointCloud<PointType>::Ptr cornerPointsSharp(new pcl::PointCloud<PointType>());
 pcl::PointCloud<PointType>::Ptr cornerPointsLessSharp(new pcl::PointCloud<PointType>());
@@ -92,6 +94,9 @@ float pointSearchSurfInd3[40000];
 
 float transform[6] = {0};
 float transformSum[6] = {0};
+
+//优化结果
+float optTransformSum[7] = {0};
 
 float imuRollStart = 0, imuPitchStart = 0, imuYawStart = 0;
 float imuRollLast = 0, imuPitchLast = 0, imuYawLast = 0;
@@ -353,6 +358,19 @@ void imuTransHandler(const sensor_msgs::PointCloud2ConstPtr& imuTrans2)
   newImuTrans = true;
 }
 
+void optOdometryHandler(const nav_msgs::Odometry::ConstPtr &optOdometry) {
+
+    double roll, pitch, yaw;
+    geometry_msgs::Quaternion geoQuat = optOdometry->pose.pose.orientation;
+    tf::Matrix3x3(tf::Quaternion(geoQuat.z, -geoQuat.x, -geoQuat.y, geoQuat.w)).getRPY(roll, pitch, yaw);
+
+    transformSum[0] = -pitch;
+    transformSum[1] = -yaw;
+    transformSum[2] = roll;
+    transformSum[3]=optOdometry->pose.pose.position.x;
+    transformSum[4]=optOdometry->pose.pose.position.y;
+    transformSum[5]=optOdometry->pose.pose.position.z;
+}
 
 int main(int argc, char** argv)
 {
@@ -376,6 +394,8 @@ int main(int argc, char** argv)
 
   ros::Subscriber subImuTrans = nh.subscribe<sensor_msgs::PointCloud2> 
                                 ("/imu_trans", 5, imuTransHandler);
+  ros::Subscriber optOdometry = nh.subscribe<nav_msgs::Odometry>
+                                 ("/all_opt_odom", 5, optOdometryHandler);
 
   ros::Publisher pubLaserCloudCornerLast = nh.advertise<sensor_msgs::PointCloud2>
                                            ("/laser_cloud_corner_last", 2);

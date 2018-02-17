@@ -27,7 +27,7 @@ Optimal_Function::Optimal_Function() {
 
     //GPS结果,间歇性gps值
     fix_odom=nh.subscribe("/gps_constraint",100,&Optimal_Function::fix_odom_callback,this);
-    all_opt_odom = nh.advertise<nav_msgs::Odometry>("opt_odom", 10);
+    all_opt_odom = nh.advertise<nav_msgs::Odometry>("all_opt_odom", 10);
     //如果将线程定义在类中,需要将对应线程的函数进行类型转化
     typedef void* (*FUNC)(void*);//定义FUNC类型是一个指向函数的指针，该函数参数为void*，返回值为void*
     FUNC AddImuNodeConstraintThread = (FUNC)&Optimal_Function::AddImuNodeConstraintThread;//强制转换func()的类型
@@ -751,19 +751,19 @@ void Optimal_Function::GlobalOptimalThread()
         if(global_opt_flag)
         {
             Optimal_Function::OptimalSolve(constraint_,fix_constraint_);
-
-            past_imu_time=imuIn->header.stamp.toSec();
-            gps_imu_odom.header.stamp=ros::Time().fromSec(now_imu_time);
-            gps_imu_odom.header.frame_id = "/camera_init";
-            gps_imu_odom.child_frame_id = "/gps_imu_odom";
-            gps_imu_odom.pose.pose.orientation.x = now_orientation.x();
-            gps_imu_odom.pose.pose.orientation.y = now_orientation.y();
-            gps_imu_odom.pose.pose.orientation.z = now_orientation.z();
-            gps_imu_odom.pose.pose.orientation.w = now_orientation.w();
-            gps_imu_odom.pose.pose.position.x = gps_x;
-            gps_imu_odom.pose.pose.position.y = gps_y;
-            gps_imu_odom.pose.pose.position.z = gps_z;
-            gps_odom.publish(gps_imu_odom);
+            nav_msgs::Odometry odomAllOpt;
+            odomAllOpt.header.stamp=nodes[nodes.size()-1].time_;
+            odomAllOpt.header.frame_id = "/camera_init";
+            odomAllOpt.child_frame_id = "/all_opt_odom";
+            odomAllOpt.pose.pose.orientation.x = nodes[nodes.size()-1].pose_rotation_array_[0];
+            odomAllOpt.pose.pose.orientation.y = nodes[nodes.size()-1].pose_rotation_array_[1];
+            odomAllOpt.pose.pose.orientation.z = nodes[nodes.size()-1].pose_rotation_array_[2];
+            odomAllOpt.pose.pose.orientation.w = nodes[nodes.size()-1].pose_rotation_array_[3];
+            odomAllOpt.pose.pose.position.x = nodes[nodes.size()-1].pose_translation_array_[0];
+            odomAllOpt.pose.pose.position.y = nodes[nodes.size()-1].pose_translation_array_[1];
+            odomAllOpt.pose.pose.position.z = nodes[nodes.size()-1].pose_translation_array_[2];
+            std::cout<<"opt_solution_Z:"<<odomAllOpt.pose.pose.position.z<<std::endl;
+            all_opt_odom.publish(odomAllOpt);
         }
         usleep(500);
     }

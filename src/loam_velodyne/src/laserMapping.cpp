@@ -326,7 +326,21 @@ void imuHandler(const sensor_msgs::Imu::ConstPtr &imuIn)
   imuRoll[imuPointerLast] = roll;
   imuPitch[imuPointerLast] = pitch;
 }
-
+//void optOdometryHandler(const nav_msgs::Odometry::ConstPtr &optOdometry) {
+//
+//    double roll, pitch, yaw;
+//    geometry_msgs::Quaternion geoQuat = optOdometry->pose.pose.orientation;
+//    tf::Matrix3x3(tf::Quaternion(geoQuat.z, -geoQuat.x, -geoQuat.y, geoQuat.w)).getRPY(roll, pitch, yaw);
+//
+//    transformTobeMapped[0] = -pitch;
+//    transformTobeMapped[1] = -yaw;
+//    transformTobeMapped[2] = roll;
+//    transformTobeMapped[3]=optOdometry->pose.pose.position.x;
+//    transformTobeMapped[4]=optOdometry->pose.pose.position.y;
+//    transformTobeMapped[5]=optOdometry->pose.pose.position.z;
+//    std::cout<<"opt_zmapping:"<<transformTobeMapped[5]<<std::endl;
+//
+//}
 int main(int argc, char **argv)
 {
   ros::init(argc, argv, "laserMapping");
@@ -337,6 +351,7 @@ int main(int argc, char **argv)
   ros::Subscriber subLaserCloudSurfLast = nh.subscribe<sensor_msgs::PointCloud2>("/laser_cloud_surf_last", 2, laserCloudSurfLastHandler);
 
   ros::Subscriber subLaserOdometry = nh.subscribe<nav_msgs::Odometry>("/laser_odom_to_init", 5, laserOdometryHandler);
+ // ros::Subscriber optOdometry = nh.subscribe<nav_msgs::Odometry>("/all_opt_odom", 5, optOdometryHandler);
 
   ros::Subscriber subLaserCloudFullRes = nh.subscribe<sensor_msgs::PointCloud2>("/velodyne_cloud_3", 2, laserCloudFullResHandler);
 
@@ -415,6 +430,7 @@ int main(int argc, char **argv)
       frameCount++;
       if (frameCount >= stackFrameNum)
       {
+          std::cout<<"opt_zmapping1111:"<<transformTobeMapped[5]<<std::endl;
         transformAssociateToMap();
 
         int laserCloudCornerLastNum = laserCloudCornerLast->points.size();
@@ -440,8 +456,9 @@ int main(int argc, char **argv)
         pointOnYAxis.x = 0.0;
         pointOnYAxis.y = 10.0;
         pointOnYAxis.z = 0.0;
+          std::cout<<"opt_zmapping111:"<<transformTobeMapped[5]<<std::endl;
         pointAssociateToMap(&pointOnYAxis, &pointOnYAxis);
-
+          std::cout<<"opt_zmapping1:"<<transformTobeMapped[5]<<std::endl;
         int centerCubeI = int((transformTobeMapped[3] + 25.0) / 50.0) + laserCloudCenWidth;
         int centerCubeJ = int((transformTobeMapped[4] + 25.0) / 50.0) + laserCloudCenHeight;
         int centerCubeK = int((transformTobeMapped[5] + 25.0) / 50.0) + laserCloudCenDepth;
@@ -993,7 +1010,9 @@ int main(int argc, char **argv)
             transformTobeMapped[2] += matX.at<float>(2, 0);
             transformTobeMapped[3] += matX.at<float>(3, 0);
             transformTobeMapped[4] += matX.at<float>(4, 0);
+              std::cout<<"opt_zmapping2:"<<transformTobeMapped[5]<<std::endl;
             transformTobeMapped[5] += matX.at<float>(5, 0);
+              std::cout<<"opt_zmapping3:"<<transformTobeMapped[5]<<std::endl;
 
             float deltaR = sqrt(
                 pow(rad2deg(matX.at<float>(0, 0)), 2) +
@@ -1124,6 +1143,10 @@ int main(int argc, char **argv)
         geometry_msgs::Quaternion geoQuat = tf::createQuaternionMsgFromRollPitchYaw(transformAftMapped[2], -transformAftMapped[0], -transformAftMapped[1]);
 //	geometry_msgs::Quaternion heihei = tf::createQuaternionMsgFromRollPitchYaw(0, 0, 2.456151-0.392802);
 //	std::cout<<heihei<<std::endl;
+          geometry_msgs::Quaternion geoQuat1 = tf::createQuaternionMsgFromRollPitchYaw(1.5, -1, 1);
+          std::cout<<"right:"<<geoQuat1.x<<","<<geoQuat1.y<<","<<geoQuat1.z<<","<<geoQuat1.w<<std::endl;
+          geometry_msgs::Quaternion geoQuat2 = tf::createQuaternionMsgFromRollPitchYaw(1, -1.5, -1);
+          std::cout<<"no_right:"<<-geoQuat2.y<<","<<-geoQuat2.z<<","<<geoQuat2.x<<","<<geoQuat2.w<<std::endl;
         odomAftMapped.header.stamp = ros::Time().fromSec(timeLaserOdometry);
         odomAftMapped.pose.pose.orientation.x = -geoQuat.y;
         odomAftMapped.pose.pose.orientation.y = -geoQuat.z;
