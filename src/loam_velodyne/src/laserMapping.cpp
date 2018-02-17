@@ -106,8 +106,8 @@ pcl::PointCloud<PointType>::Ptr laserCloudCornerFromMap(new pcl::PointCloud<Poin
 pcl::PointCloud<PointType>::Ptr laserCloudSurfFromMap(new pcl::PointCloud<PointType>());
 pcl::PointCloud<PointType>::Ptr laserCloudFullRes(new pcl::PointCloud<PointType>());
 pcl::PointCloud<PointType>::Ptr laserCloudFullRes4(new pcl::PointCloud<PointType>());
-pcl::PointCloud<PointType>::Ptr laserCloudCornerArray[laserCloudNum];
-pcl::PointCloud<PointType>::Ptr laserCloudSurfArray[laserCloudNum];
+pcl::PointCloud<PointType>::Ptr laserCloudCornerArray[laserCloudNum];//所有的角点
+pcl::PointCloud<PointType>::Ptr laserCloudSurfArray[laserCloudNum];//所有的边点
 pcl::PointCloud<PointType>::Ptr laserCloudCornerArray2[laserCloudNum];
 pcl::PointCloud<PointType>::Ptr laserCloudSurfArray2[laserCloudNum];
 
@@ -165,7 +165,7 @@ void transformAssociateToMap()
   float caly = cos(transformAftMapped[1]);
   float salz = sin(transformAftMapped[2]);
   float calz = cos(transformAftMapped[2]);
-
+//ddd  主要需要改变的位置
   float srx = -sbcx * (salx * sblx + calx * cblx * salz * sblz + calx * calz * cblx * cblz) - cbcx * sbcy * (calx * calz * (cbly * sblz - cblz * sblx * sbly) - calx * salz * (cbly * cblz + sblx * sbly * sblz) + cblx * salx * sbly) - cbcx * cbcy * (calx * salz * (cblz * sbly - cbly * sblx * sblz) - calx * calz * (sbly * sblz + cbly * cblz * sblx) + cblx * cbly * salx);
   transformTobeMapped[0] = -asin(srx);
 
@@ -220,7 +220,7 @@ void transformUpdate()
       imuRollLast = imuRoll[imuPointerFront] * ratioFront + imuRoll[imuPointerBack] * ratioBack;
       imuPitchLast = imuPitch[imuPointerFront] * ratioFront + imuPitch[imuPointerBack] * ratioBack;
     }
-
+///ddd
     transformTobeMapped[0] = 0.998 * transformTobeMapped[0] + 0.002 * imuPitchLast;
     transformTobeMapped[2] = 0.998 * transformTobeMapped[2] + 0.002 * imuRollLast;
   }

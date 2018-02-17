@@ -21,6 +21,8 @@ class Optimal_Function
     ros::Subscriber imu_odom;
     ros::Subscriber laser_odom;
     ros::Subscriber fix_odom;
+
+    ros::Publisher all_opt_odom;
 public:
     Optimal_Function();
 
@@ -81,6 +83,11 @@ private:
     std::vector<Opt_Node> nodes;
 
 
+    std::vector<Constraint> constraints_temp;
+    std::vector<Constraint> node_constraints_temp;
+    std::vector<Constraint> fix_constraints_temp;
+
+
     std::vector<Node> local_node_;
     std::vector<Node> global_node_;
     std::vector<Node> constraint_node_;
@@ -105,7 +112,10 @@ private:
 
 
 
-
+   // temp_flag
+    bool node_constraint_flag=false;
+    bool constraint_flag=false;
+    bool fix_constraint_flag=false;
 
     //flag
     bool first_pose_flag=true;

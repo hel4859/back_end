@@ -25,7 +25,6 @@
       <config projectName="Project" targetName="laserMapping" />
       <config projectName="Project" targetName="mrpt_localization_gencfg" />
       <config projectName="Project" targetName="tiggo_msgs_generate_messages" />
-      <config projectName="Project" targetName="_tiggo_msgs_generate_messages_check_deps_LaneData" />
       <config projectName="Project" targetName="loam_velodyne_test_data" />
       <config projectName="Project" targetName="filter" />
       <config projectName="Project" targetName="joy_node" />
@@ -143,6 +142,7 @@
       <config projectName="Project" targetName="laserOdometry" />
       <config projectName="Project" targetName="_tiggo_msgs_generate_messages_check_deps_CanFrame" />
       <config projectName="Project" targetName="_can_msgs_generate_messages_check_deps_CarSwitchControl" />
+      <config projectName="Project" targetName="_gl8_msgs_generate_messages_check_deps_VehicleSpeedFeedBack" />
       <config projectName="Project" targetName="_tiggo_msgs_generate_messages_check_deps_Signal" />
       <config projectName="Project" targetName="_can_msgs_generate_messages_check_deps_Float64Vector" />
       <config projectName="Project" targetName="clean_test_results_loam_velodyne" />
@@ -295,7 +295,7 @@
       <config projectName="Project" targetName="gl8_msgs_generate_messages" />
       <config projectName="Project" targetName="run_tests_robot_localization_rostest_test_test_ekf_localization_node_bag1.test" />
       <config projectName="Project" targetName="gps_to_plane" />
-      <config projectName="Project" targetName="_gl8_msgs_generate_messages_check_deps_VehicleSpeedFeedBack" />
+      <config projectName="Project" targetName="_tiggo_msgs_generate_messages_check_deps_LaneData" />
       <config projectName="Project" targetName="_geographic_msgs_generate_messages_check_deps_GeographicMap" />
       <config projectName="Project" targetName="_tiggo_msgs_generate_messages_check_deps_StopLine" />
       <config projectName="Project" targetName="gl8_msgs_generate_messages_lisp" />
@@ -361,16 +361,41 @@
       <file leaf-file-name="optimal_funtion.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/optimal_function/src/optimal_funtion.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="486">
-              <caret line="731" column="40" lean-forward="true" selection-start-line="731" selection-start-column="40" selection-end-line="731" selection-end-column="40" />
+            <state relative-caret-position="2205">
+              <caret line="752" column="54" lean-forward="false" selection-start-line="752" selection-start-column="43" selection-end-line="752" selection-end-column="54" />
               <folding>
-                <element signature="e#65#1758#0" expanded="false" />
-                <element signature="e#1760#2539#0" expanded="false" />
-                <element signature="e#3314#4031#0" expanded="false" />
-                <element signature="e#4033#6550#0" expanded="false" />
-                <element signature="e#6658#7654#0" expanded="false" />
-                <element signature="e#9621#12798#0" expanded="false" />
+                <element signature="e#1828#2607#0" expanded="false" />
+                <element signature="e#2609#3380#0" expanded="false" />
+                <element signature="e#3382#4099#0" expanded="false" />
+                <element signature="e#4101#6618#0" expanded="false" />
+                <element signature="e#6726#7722#0" expanded="false" />
+                <element signature="e#7724#8690#0" expanded="false" />
+                <element signature="e#8692#9687#0" expanded="false" />
+                <element signature="e#9689#13080#0" expanded="false" />
+                <element signature="e#13082#21011#0" expanded="false" />
+                <element signature="e#21013#21519#0" expanded="false" />
+                <element signature="e#21522#33411#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="laserMapping.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/loam_velodyne/src/laserMapping.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="135">
+              <caret line="348" column="1" lean-forward="false" selection-start-line="348" selection-start-column="1" selection-end-line="348" selection-end-column="94" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="optimal_function.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/optimal_function/include/optimal_function.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="24" column="31" lean-forward="false" selection-start-line="24" selection-start-column="19" selection-end-line="24" selection-end-column="31" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -378,13 +403,13 @@
       <file leaf-file-name="gps_imu_constraint.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gps_imu_constraint/src/gps_imu_constraint.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5670">
-              <caret line="210" column="0" lean-forward="false" selection-start-line="210" selection-start-column="0" selection-end-line="210" selection-end-column="0" />
+            <state relative-caret-position="425">
+              <caret line="224" column="43" lean-forward="true" selection-start-line="213" selection-start-column="11" selection-end-line="224" selection-end-column="43" />
               <folding>
                 <element signature="e#97#794#0" expanded="false" />
                 <element signature="e#796#897#0" expanded="false" />
-                <element signature="e#1279#7191#0" expanded="false" />
-                <element signature="e#10329#10728#0" expanded="false" />
+                <element signature="e#899#1317#0" expanded="false" />
+                <element signature="e#1319#7231#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -393,7 +418,7 @@
       <file leaf-file-name="SpaCostFunction.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/optimal_function/include/SpaCostFunction.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="648">
+            <state relative-caret-position="527">
               <caret line="24" column="21" lean-forward="false" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
               <folding>
                 <element signature="e#103#131#0" expanded="true" />
@@ -430,29 +455,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>node_mutex</find>
-      <find>compare_node_id</find>
-      <find>laser_odom_map</find>
-      <find>Constraint_Pose</find>
-      <find>compare_constraint_id</find>
-      <find>txt</find>
-      <find>use_nonmonotonic_steps</find>
-      <find>max_solver_time_in_seconds</find>
-      <find>opt_solution</find>
-      <find>constraint_trajectory</find>
-      <find>solve_constraint_id</find>
-      <find>constraint_</find>
-      <find>Constraint</find>
-      <find>lm</find>
-      <find>10</find>
-      <find>ddd</find>
-      <find>std::cout&lt;&lt;&quot;nodes:&quot;</find>
-      <find>pointAssociateTo</find>
-      <find>pointAssociateTobeMapped</find>
-      <find>transformTobeMapped</find>
-      <find>transformAssociateToMap</find>
-      <find>Node</find>
-      <find>nodes</find>
       <find>second_origin</find>
       <find>transform_2</find>
       <find>second_id_</find>
@@ -460,6 +462,29 @@
       <find>gps_data</find>
       <find>past_gps_x</find>
       <find>gps_x</find>
+      <find>std::cout</find>
+      <find>globe_node</find>
+      <find>node_trajectory</find>
+      <find>30</find>
+      <find>mapFrameCount</find>
+      <find>laserCloudSurround2</find>
+      <find>pubLaserCloudSurround</find>
+      <find>pubLaserCloudFullRes</find>
+      <find>laserCloudCornerLastHandler</find>
+      <find>laserCloudCornerLast</find>
+      <find>pointAssociateToMap</find>
+      <find>transformTobeMapped[</find>
+      <find>transformAssociateToMap()</find>
+      <find>stackFrameNum</find>
+      <find>mapFrameNum</find>
+      <find>laserCloudCornerArray</find>
+      <find>transformAssociateToMap</find>
+      <find>laserCloudCornerStack2</find>
+      <find>pointAssociateTobeMapped</find>
+      <find>transformUpdate</find>
+      <find>transformTobeMapped</find>
+      <find>transformAftMapped</find>
+      <find>gps_odom</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -468,14 +493,14 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/loam_velodyne/src/laserMapping.cpp" />
         <option value="$PROJECT_DIR$/optimal_function/src/test.cpp" />
         <option value="$PROJECT_DIR$/optimal_function/include/SpaCostFunction.h" />
         <option value="$PROJECT_DIR$/optimal_function/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/optimal_function/include/quaterniontorpy.h" />
-        <option value="$PROJECT_DIR$/optimal_function/include/optimal_function.h" />
         <option value="$PROJECT_DIR$/gps_imu_constraint/include/gps_imu_constraint.h" />
         <option value="$PROJECT_DIR$/gps_imu_constraint/src/gps_imu_constraint.cpp" />
+        <option value="$PROJECT_DIR$/loam_velodyne/src/laserMapping.cpp" />
+        <option value="$PROJECT_DIR$/optimal_function/include/optimal_function.h" />
         <option value="$PROJECT_DIR$/optimal_function/src/optimal_funtion.cpp" />
       </list>
     </option>
@@ -488,10 +513,10 @@
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="65" />
-    <option name="y" value="30" />
-    <option name="width" value="1265" />
-    <option name="height" value="567" />
+    <option name="x" value="68" />
+    <option name="y" value="29" />
+    <option name="width" value="1257" />
+    <option name="height" value="566" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -548,7 +573,20 @@
               <item name="src" type="47feb1d3:ProjectViewModuleNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="gps_imu_constraint" type="462c0819:PsiDirectoryNode" />
-              <item name="include" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="src" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
+              <item name="src" type="47feb1d3:ProjectViewModuleNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="loam_velodyne" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="src" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
+              <item name="src" type="47feb1d3:ProjectViewModuleNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="loam_velodyne" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -1999,12 +2037,16 @@
       <workItem from="1518496520520" duration="1456000" />
       <workItem from="1518501226440" duration="83000" />
       <workItem from="1518502339734" duration="1905000" />
-      <workItem from="1518509956005" duration="616000" />
+      <workItem from="1518509956005" duration="1281000" />
+      <workItem from="1518602541083" duration="1054000" />
+      <workItem from="1518662735593" duration="4931000" />
+      <workItem from="1518769036149" duration="5450000" />
+      <workItem from="1518836243786" duration="2397000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="165602000" />
+    <option name="totallyTimeSpent" value="180099000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -2016,19 +2058,18 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="24" width="1301" height="744" extended-state="6" />
-    <editor active="true" />
+    <frame x="68" y="29" width="1303" height="773" extended-state="6" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26778576" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26618704" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295082" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35993487" sideWeight="0.4940048" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3672131" sideWeight="0.4940048" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33770493" sideWeight="0.5059952" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295082" sideWeight="0.49720225" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295082" sideWeight="0.49720225" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295082" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32933652" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -2067,7 +2108,14 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="97" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/optimal_function/src/optimal_funtion.cpp</url>
+          <line>6</line>
+          <option name="timeStamp" value="98" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="107" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -2076,9 +2124,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2781">
           <caret line="103" column="8" lean-forward="false" selection-start-line="103" selection-start-column="8" selection-end-line="103" selection-end-column="8" />
-          <folding>
-            <element signature="e#107#131#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2087,9 +2132,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#107#131#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2098,9 +2140,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2781">
           <caret line="103" column="8" lean-forward="false" selection-start-line="103" selection-start-column="8" selection-end-line="103" selection-end-column="8" />
-          <folding>
-            <element signature="e#107#131#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2109,9 +2148,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6210">
           <caret line="230" column="65" lean-forward="true" selection-start-line="230" selection-start-column="65" selection-end-line="230" selection-end-column="65" />
-          <folding>
-            <element signature="e#107#131#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2120,9 +2156,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#107#131#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2131,9 +2164,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#107#131#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2142,9 +2172,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6291">
           <caret line="233" column="0" lean-forward="false" selection-start-line="233" selection-start-column="0" selection-end-line="233" selection-end-column="0" />
-          <folding>
-            <element signature="e#107#131#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2153,9 +2180,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="7614">
           <caret line="282" column="0" lean-forward="false" selection-start-line="282" selection-start-column="0" selection-end-line="283" selection-end-column="0" />
-          <folding>
-            <element signature="e#107#131#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2164,9 +2188,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="7614">
           <caret line="282" column="0" lean-forward="false" selection-start-line="282" selection-start-column="0" selection-end-line="283" selection-end-column="0" />
-          <folding>
-            <element signature="e#107#131#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2175,9 +2196,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="7668">
           <caret line="284" column="42" lean-forward="true" selection-start-line="284" selection-start-column="42" selection-end-line="284" selection-end-column="42" />
-          <folding>
-            <element signature="e#107#131#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2186,9 +2204,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#107#131#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2200,13 +2215,6 @@
     <entry file="file://$PROJECT_DIR$/optimal_function/src/optimal_funtion.cpp" />
     <entry file="file://$PROJECT_DIR$/optimal_function/src/optimal_funtion.cpp" />
     <entry file="file://$PROJECT_DIR$/cartographer_ros-master/cartographer_ros_msgs/CMakeLists.txt" />
-    <entry file="file://$PROJECT_DIR$/loam_velodyne/src/laserMapping.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="137" column="28" lean-forward="false" selection-start-line="137" selection-start-column="28" selection-end-line="137" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/optimal_function/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="918">
@@ -2289,16 +2297,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/optimal_function/include/optimal_function.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="118">
-          <caret line="40" column="22" lean-forward="false" selection-start-line="40" selection-start-column="9" selection-end-line="40" selection-end-column="22" />
-          <folding>
-            <element signature="e#107#131#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/gps_imu_constraint/include/gps_imu_constraint.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-152">
@@ -2320,27 +2318,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gps_imu_constraint/src/gps_imu_constraint.cpp">
+    <entry file="file:///usr/local/include/ceres/problem.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5670">
-          <caret line="210" column="0" lean-forward="false" selection-start-line="210" selection-start-column="0" selection-end-line="210" selection-end-column="0" />
-          <folding>
-            <element signature="e#97#794#0" expanded="false" />
-            <element signature="e#796#897#0" expanded="false" />
-            <element signature="e#1279#7191#0" expanded="false" />
-            <element signature="e#10329#10728#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/optimal_function/include/SpaCostFunction.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="648">
-          <caret line="24" column="21" lean-forward="false" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
-          <folding>
-            <element signature="e#103#131#0" expanded="true" />
-            <element signature="e#3246#3258#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="6237">
+          <caret line="231" column="47" lean-forward="false" selection-start-line="231" selection-start-column="35" selection-end-line="231" selection-end-column="47" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2355,25 +2337,62 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/local/include/ceres/problem.h">
+    <entry file="file://$PROJECT_DIR$/loam_velodyne/src/laserMapping.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6237">
-          <caret line="231" column="47" lean-forward="false" selection-start-line="231" selection-start-column="35" selection-end-line="231" selection-end-column="47" />
+        <state relative-caret-position="135">
+          <caret line="348" column="1" lean-forward="false" selection-start-line="348" selection-start-column="1" selection-end-line="348" selection-end-column="94" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/optimal_function/include/SpaCostFunction.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="24" column="21" lean-forward="false" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
+          <folding>
+            <element signature="e#103#131#0" expanded="true" />
+            <element signature="e#3246#3258#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/optimal_function/include/optimal_function.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="24" column="31" lean-forward="false" selection-start-line="24" selection-start-column="19" selection-end-line="24" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gps_imu_constraint/src/gps_imu_constraint.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="224" column="43" lean-forward="true" selection-start-line="213" selection-start-column="11" selection-end-line="224" selection-end-column="43" />
+          <folding>
+            <element signature="e#97#794#0" expanded="false" />
+            <element signature="e#796#897#0" expanded="false" />
+            <element signature="e#899#1317#0" expanded="false" />
+            <element signature="e#1319#7231#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/optimal_function/src/optimal_funtion.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="486">
-          <caret line="731" column="40" lean-forward="true" selection-start-line="731" selection-start-column="40" selection-end-line="731" selection-end-column="40" />
+        <state relative-caret-position="2205">
+          <caret line="752" column="54" lean-forward="false" selection-start-line="752" selection-start-column="43" selection-end-line="752" selection-end-column="54" />
           <folding>
-            <element signature="e#65#1758#0" expanded="false" />
-            <element signature="e#1760#2539#0" expanded="false" />
-            <element signature="e#3314#4031#0" expanded="false" />
-            <element signature="e#4033#6550#0" expanded="false" />
-            <element signature="e#6658#7654#0" expanded="false" />
-            <element signature="e#9621#12798#0" expanded="false" />
+            <element signature="e#1828#2607#0" expanded="false" />
+            <element signature="e#2609#3380#0" expanded="false" />
+            <element signature="e#3382#4099#0" expanded="false" />
+            <element signature="e#4101#6618#0" expanded="false" />
+            <element signature="e#6726#7722#0" expanded="false" />
+            <element signature="e#7724#8690#0" expanded="false" />
+            <element signature="e#8692#9687#0" expanded="false" />
+            <element signature="e#9689#13080#0" expanded="false" />
+            <element signature="e#13082#21011#0" expanded="false" />
+            <element signature="e#21013#21519#0" expanded="false" />
+            <element signature="e#21522#33411#0" expanded="false" />
           </folding>
         </state>
       </provider>
