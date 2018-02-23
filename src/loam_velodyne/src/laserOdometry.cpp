@@ -370,6 +370,7 @@ void optOdometryHandler(const nav_msgs::Odometry::ConstPtr &optOdometry) {
     transformSum[3]=optOdometry->pose.pose.position.x;
     transformSum[4]=optOdometry->pose.pose.position.y;
     transformSum[5]=optOdometry->pose.pose.position.z;
+   // std::cout<<"before:"<<transformSum[5]<<std::endl;
 }
 
 int main(int argc, char** argv)
@@ -866,7 +867,7 @@ int main(int argc, char** argv)
       transformSum[3] = tx;
       transformSum[4] = ty;
       transformSum[5] = tz;
-
+       // std::cout<<"after:"<<transformSum[5]<<std::endl;
       geometry_msgs::Quaternion geoQuat = tf::createQuaternionMsgFromRollPitchYaw(rz, -rx, -ry);
 
       laserOdometry.header.stamp = ros::Time().fromSec(timeSurfPointsLessFlat);

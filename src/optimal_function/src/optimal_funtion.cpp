@@ -288,7 +288,7 @@ void Optimal_Function::Local_Constraint() {
                                                                                  Optimal_Function::global_node_[global_node_.size()-1].pose_rotation_.w()}}));
         node_trajectory=int(global_node_.size());
        // std::cout<<"globe_node:"<<global_node_.size()<<std::endl;
-        std::cout<<"nodes:"<<nodes.size()<<std::endl;
+      //  std::cout<<"nodes:"<<nodes.size()<<std::endl;
 
     //--------------------------------------------------------------------节点本身的约束------------------------------------------
         if (Optimal_Function::nodes.size()>=2)
@@ -566,7 +566,7 @@ void Optimal_Function::OptimalSolve(const std::vector<Constraint> &constraints,
 //    }
     if(fix_constraints.size()>50)
     {
-        std::cout<<"constant:"<<fix_constraints.size()-50<<std::endl;
+      //  std::cout<<"constant:"<<fix_constraints.size()-50<<std::endl;
         for(int i=0;i!=fix_constraints.size()-50;i++)
         {
             problem.SetParameterBlockConstant(nodes[fix_constraints[i].first_id_].pose_rotation_array_.data());
@@ -602,8 +602,8 @@ void Optimal_Function::OptimalSolve(const std::vector<Constraint> &constraints,
 
     std::chrono::steady_clock::time_point t2=std::chrono::steady_clock::now();
     std::chrono::duration<double> time_used = std::chrono::duration_cast<std::chrono::duration<double>>(t2-t1);
-    std::cout<<"solve time cost= "<<time_used.count()<<"seconds."<<std::endl;
-    std::cout<<summary.BriefReport() <<std::endl;
+   // std::cout<<"solve time cost= "<<time_used.count()<<"seconds."<<std::endl;
+  //  std::cout<<summary.BriefReport() <<std::endl;
     global_opt_flag=!global_opt_flag;
     // std::cout<<"estimated a,b,c = ";
     //   for ( auto node :nodes ) std::cout<<node<<" ";
@@ -642,7 +642,7 @@ void Optimal_Function::OptimalThread() {
                   //  solve_fix_constraint_id=solve_constraint_id;
                     constraint_trajectory=j+1;
                     constraints_temp.push_back(constraint_[j]);
-                    std::cout<<"constraints_temp:"<<constraints_temp.size()<<std::endl;
+              //      std::cout<<"constraints_temp:"<<constraints_temp.size()<<std::endl;
                 }
             }
 
@@ -664,7 +664,7 @@ void Optimal_Function::OptimalThread() {
                         node_constraints_temp.clear();
                     }
                     node_constraints_temp.push_back(node_constraint_[j]);
-                    std::cout<<"node_constraints_temp:"<<node_constraints_temp.size()<<std::endl;
+                  //  std::cout<<"node_constraints_temp:"<<node_constraints_temp.size()<<std::endl;
                     node_constraint_trajectory=j+1;
                    // solve_fix_constraint_id=solve_node_constraint_id;
                 }
@@ -687,7 +687,7 @@ void Optimal_Function::OptimalThread() {
                         }
                         fix_constraints_temp.push_back(fix_constraint_[j]);
                         fix_constraint_trajectory=j+1;
-                        std::cout<<"fix_constraints_temp:"<<fix_constraints_temp.size()<<std::endl;
+                      //  std::cout<<"fix_constraints_temp:"<<fix_constraints_temp.size()<<std::endl;
                         fix_constraint_flag=true;
                //     }
 
@@ -762,7 +762,7 @@ void Optimal_Function::GlobalOptimalThread()
             odomAllOpt.pose.pose.position.x = nodes[nodes.size()-1].pose_translation_array_[0];
             odomAllOpt.pose.pose.position.y = nodes[nodes.size()-1].pose_translation_array_[1];
             odomAllOpt.pose.pose.position.z = nodes[nodes.size()-1].pose_translation_array_[2];
-            std::cout<<"opt_solution_Z:"<<odomAllOpt.pose.pose.position.z<<std::endl;
+          //  std::cout<<"opt_solution_Z:"<<odomAllOpt.pose.pose.position.z<<std::endl;
             all_opt_odom.publish(odomAllOpt);
         }
         usleep(500);

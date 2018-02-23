@@ -212,7 +212,7 @@ int main(int argc, char** argv)
 {
   ros::init(argc, argv, "transformMaintenance");
   ros::NodeHandle nh;
-    laser_odom.open ("/home/hl/helei_ws/src/loam_velodyne/txt/laser_odom_all.txt");//保存x,y
+    laser_odom.open ("/home/hl/google/src/loam_velodyne/txt/laser_odom_all.txt");//保存x,y
   ros::Subscriber subLaserOdometry = nh.subscribe<nav_msgs::Odometry> 
                                      ("/laser_odom_to_init", 5, laserOdometryHandler);
 
