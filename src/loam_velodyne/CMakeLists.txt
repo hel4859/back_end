@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(loam_velodyne)
-
+set( CMAKE_BUILD_TYPE "Release" )
+set( CMAKE_CXX_FLAGS "-std=c++11 -O3" )
 find_package(catkin REQUIRED COMPONENTS
       geometry_msgs
       nav_msgs
@@ -44,8 +45,9 @@ target_link_libraries(scanRegistration ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${Op
 
 add_executable(laserOdometry src/laserOdometry.cpp)
 target_link_libraries(laserOdometry ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBS} ${catkin_LIBRARIES} ${MRPT_LIBS})
-
-add_executable(laserMapping src/laserMapping.cpp)
+add_executable(saveMap src/saveMap.cpp)
+target_link_libraries(saveMap ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBS} ${catkin_LIBRARIES} ${MRPT_LIBS})
+add_executable(laserMapping src/laserMapping.cpp )
 target_link_libraries(laserMapping ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${OpenCV_LIBS} ${catkin_LIBRARIES} ${MRPT_LIBS})
 
 add_executable(transformMaintenance src/transformMaintenance.cpp)

@@ -67,6 +67,17 @@ test/fast: test
 
 .PHONY : test/fast
 
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/local/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
+
 # Special rule for the target install
 install: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
@@ -78,17 +89,6 @@ install/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
 	/usr/local/bin/cmake -P cmake_install.cmake
 .PHONY : install/fast
-
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/local/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
 
 # Special rule for the target install/local
 install/local: preinstall
@@ -179,6 +179,21 @@ loam_velodyne_test_data: loam_velodyne/CMakeFiles/loam_velodyne_test_data.dir/ru
 loam_velodyne_test_data/fast:
 	cd /home/hl/google/build && $(MAKE) -f loam_velodyne/CMakeFiles/loam_velodyne_test_data.dir/build.make loam_velodyne/CMakeFiles/loam_velodyne_test_data.dir/build
 .PHONY : loam_velodyne_test_data/fast
+
+# Convenience name for target.
+loam_velodyne/CMakeFiles/saveMap.dir/rule:
+	cd /home/hl/google/build && $(MAKE) -f CMakeFiles/Makefile2 loam_velodyne/CMakeFiles/saveMap.dir/rule
+.PHONY : loam_velodyne/CMakeFiles/saveMap.dir/rule
+
+# Convenience name for target.
+saveMap: loam_velodyne/CMakeFiles/saveMap.dir/rule
+
+.PHONY : saveMap
+
+# fast build rule for target.
+saveMap/fast:
+	cd /home/hl/google/build && $(MAKE) -f loam_velodyne/CMakeFiles/saveMap.dir/build.make loam_velodyne/CMakeFiles/saveMap.dir/build
+.PHONY : saveMap/fast
 
 # Convenience name for target.
 loam_velodyne/CMakeFiles/scanRegistration.dir/rule:
@@ -286,21 +301,6 @@ mrpt_msgs_generate_messages_lisp/fast:
 .PHONY : mrpt_msgs_generate_messages_lisp/fast
 
 # Convenience name for target.
-loam_velodyne/CMakeFiles/run_tests_loam_velodyne.dir/rule:
-	cd /home/hl/google/build && $(MAKE) -f CMakeFiles/Makefile2 loam_velodyne/CMakeFiles/run_tests_loam_velodyne.dir/rule
-.PHONY : loam_velodyne/CMakeFiles/run_tests_loam_velodyne.dir/rule
-
-# Convenience name for target.
-run_tests_loam_velodyne: loam_velodyne/CMakeFiles/run_tests_loam_velodyne.dir/rule
-
-.PHONY : run_tests_loam_velodyne
-
-# fast build rule for target.
-run_tests_loam_velodyne/fast:
-	cd /home/hl/google/build && $(MAKE) -f loam_velodyne/CMakeFiles/run_tests_loam_velodyne.dir/build.make loam_velodyne/CMakeFiles/run_tests_loam_velodyne.dir/build
-.PHONY : run_tests_loam_velodyne/fast
-
-# Convenience name for target.
 loam_velodyne/CMakeFiles/mrpt_msgs_generate_messages_cpp.dir/rule:
 	cd /home/hl/google/build && $(MAKE) -f CMakeFiles/Makefile2 loam_velodyne/CMakeFiles/mrpt_msgs_generate_messages_cpp.dir/rule
 .PHONY : loam_velodyne/CMakeFiles/mrpt_msgs_generate_messages_cpp.dir/rule
@@ -329,6 +329,21 @@ run_tests_loam_velodyne_rostest: loam_velodyne/CMakeFiles/run_tests_loam_velodyn
 run_tests_loam_velodyne_rostest/fast:
 	cd /home/hl/google/build && $(MAKE) -f loam_velodyne/CMakeFiles/run_tests_loam_velodyne_rostest.dir/build.make loam_velodyne/CMakeFiles/run_tests_loam_velodyne_rostest.dir/build
 .PHONY : run_tests_loam_velodyne_rostest/fast
+
+# Convenience name for target.
+loam_velodyne/CMakeFiles/run_tests_loam_velodyne.dir/rule:
+	cd /home/hl/google/build && $(MAKE) -f CMakeFiles/Makefile2 loam_velodyne/CMakeFiles/run_tests_loam_velodyne.dir/rule
+.PHONY : loam_velodyne/CMakeFiles/run_tests_loam_velodyne.dir/rule
+
+# Convenience name for target.
+run_tests_loam_velodyne: loam_velodyne/CMakeFiles/run_tests_loam_velodyne.dir/rule
+
+.PHONY : run_tests_loam_velodyne
+
+# fast build rule for target.
+run_tests_loam_velodyne/fast:
+	cd /home/hl/google/build && $(MAKE) -f loam_velodyne/CMakeFiles/run_tests_loam_velodyne.dir/build.make loam_velodyne/CMakeFiles/run_tests_loam_velodyne.dir/build
+.PHONY : run_tests_loam_velodyne/fast
 
 # Convenience name for target.
 loam_velodyne/CMakeFiles/_run_tests_loam_velodyne_rostest.dir/rule:
@@ -486,6 +501,33 @@ src/point_cloud2.cpp.s:
 	cd /home/hl/google/build && $(MAKE) -f loam_velodyne/CMakeFiles/scanRegistration.dir/build.make loam_velodyne/CMakeFiles/scanRegistration.dir/src/point_cloud2.cpp.s
 .PHONY : src/point_cloud2.cpp.s
 
+src/saveMap.o: src/saveMap.cpp.o
+
+.PHONY : src/saveMap.o
+
+# target to build an object file
+src/saveMap.cpp.o:
+	cd /home/hl/google/build && $(MAKE) -f loam_velodyne/CMakeFiles/saveMap.dir/build.make loam_velodyne/CMakeFiles/saveMap.dir/src/saveMap.cpp.o
+.PHONY : src/saveMap.cpp.o
+
+src/saveMap.i: src/saveMap.cpp.i
+
+.PHONY : src/saveMap.i
+
+# target to preprocess a source file
+src/saveMap.cpp.i:
+	cd /home/hl/google/build && $(MAKE) -f loam_velodyne/CMakeFiles/saveMap.dir/build.make loam_velodyne/CMakeFiles/saveMap.dir/src/saveMap.cpp.i
+.PHONY : src/saveMap.cpp.i
+
+src/saveMap.s: src/saveMap.cpp.s
+
+.PHONY : src/saveMap.s
+
+# target to generate assembly for a file
+src/saveMap.cpp.s:
+	cd /home/hl/google/build && $(MAKE) -f loam_velodyne/CMakeFiles/saveMap.dir/build.make loam_velodyne/CMakeFiles/saveMap.dir/src/saveMap.cpp.s
+.PHONY : src/saveMap.cpp.s
+
 src/scanRegistration.o: src/scanRegistration.cpp.o
 
 .PHONY : src/scanRegistration.o
@@ -548,6 +590,8 @@ help:
 	@echo "... depend"
 	@echo "... test"
 	@echo "... loam_velodyne_test_data"
+	@echo "... edit_cache"
+	@echo "... saveMap"
 	@echo "... scanRegistration"
 	@echo "... loam_velodyne_test_data.tar.gz"
 	@echo "... mrpt_msgs_generate_messages_py"
@@ -556,10 +600,9 @@ help:
 	@echo "... _run_tests_loam_velodyne"
 	@echo "... install"
 	@echo "... mrpt_msgs_generate_messages_lisp"
-	@echo "... edit_cache"
-	@echo "... run_tests_loam_velodyne"
 	@echo "... mrpt_msgs_generate_messages_cpp"
 	@echo "... run_tests_loam_velodyne_rostest"
+	@echo "... run_tests_loam_velodyne"
 	@echo "... _run_tests_loam_velodyne_rostest"
 	@echo "... install/local"
 	@echo "... laserOdometry"
@@ -578,6 +621,9 @@ help:
 	@echo "... src/point_cloud2.o"
 	@echo "... src/point_cloud2.i"
 	@echo "... src/point_cloud2.s"
+	@echo "... src/saveMap.o"
+	@echo "... src/saveMap.i"
+	@echo "... src/saveMap.s"
 	@echo "... src/scanRegistration.o"
 	@echo "... src/scanRegistration.i"
 	@echo "... src/scanRegistration.s"

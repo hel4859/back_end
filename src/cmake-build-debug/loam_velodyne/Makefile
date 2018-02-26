@@ -486,6 +486,33 @@ src/point_cloud2.cpp.s:
 	cd /home/hl/google/src/cmake-build-debug && $(MAKE) -f loam_velodyne/CMakeFiles/scanRegistration.dir/build.make loam_velodyne/CMakeFiles/scanRegistration.dir/src/point_cloud2.cpp.s
 .PHONY : src/point_cloud2.cpp.s
 
+src/saveMap.o: src/saveMap.cpp.o
+
+.PHONY : src/saveMap.o
+
+# target to build an object file
+src/saveMap.cpp.o:
+	cd /home/hl/google/src/cmake-build-debug && $(MAKE) -f loam_velodyne/CMakeFiles/laserMapping.dir/build.make loam_velodyne/CMakeFiles/laserMapping.dir/src/saveMap.cpp.o
+.PHONY : src/saveMap.cpp.o
+
+src/saveMap.i: src/saveMap.cpp.i
+
+.PHONY : src/saveMap.i
+
+# target to preprocess a source file
+src/saveMap.cpp.i:
+	cd /home/hl/google/src/cmake-build-debug && $(MAKE) -f loam_velodyne/CMakeFiles/laserMapping.dir/build.make loam_velodyne/CMakeFiles/laserMapping.dir/src/saveMap.cpp.i
+.PHONY : src/saveMap.cpp.i
+
+src/saveMap.s: src/saveMap.cpp.s
+
+.PHONY : src/saveMap.s
+
+# target to generate assembly for a file
+src/saveMap.cpp.s:
+	cd /home/hl/google/src/cmake-build-debug && $(MAKE) -f loam_velodyne/CMakeFiles/laserMapping.dir/build.make loam_velodyne/CMakeFiles/laserMapping.dir/src/saveMap.cpp.s
+.PHONY : src/saveMap.cpp.s
+
 src/scanRegistration.o: src/scanRegistration.cpp.o
 
 .PHONY : src/scanRegistration.o
@@ -578,6 +605,9 @@ help:
 	@echo "... src/point_cloud2.o"
 	@echo "... src/point_cloud2.i"
 	@echo "... src/point_cloud2.s"
+	@echo "... src/saveMap.o"
+	@echo "... src/saveMap.i"
+	@echo "... src/saveMap.s"
 	@echo "... src/scanRegistration.o"
 	@echo "... src/scanRegistration.i"
 	@echo "... src/scanRegistration.s"

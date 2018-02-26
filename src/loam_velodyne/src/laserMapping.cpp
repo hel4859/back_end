@@ -51,17 +51,13 @@
 #include <vector>
 
 #include <fstream>
-
+#include <iostream>
 
 
 using namespace std;
 using namespace mrpt;
 
 //mrpt simple points map
-mrpt::maps::CSimplePointsMap global_points_map;
-mrpt::maps::CSimplePointsMap local_points_map;
-mrpt::maps::CSimplePointsMap current_points_map;
-mrpt::maps::CSimplePointsMap temp_points_map;
 
 std::ofstream laser_odom_map;
 std::ofstream submap_index;
@@ -114,8 +110,8 @@ pcl::PointCloud<PointType>::Ptr laserCloudSurfArray2[laserCloudNum];
 pcl::KdTreeFLANN<PointType>::Ptr kdtreeCornerFromMap(new pcl::KdTreeFLANN<PointType>());
 pcl::KdTreeFLANN<PointType>::Ptr kdtreeSurfFromMap(new pcl::KdTreeFLANN<PointType>());
 pcl::KdTreeFLANN<PointType>::Ptr AllMap(new pcl::KdTreeFLANN<PointType>());
-std::vector<pcl::PointCloud<PointType> > Map;
-pcl::PointCloud<PointType>::Ptr Map1(new pcl::PointCloud<PointType>());
+
+
 
 float transformSum[6] = {0};
 float transformIncre[6] = {0};
@@ -130,6 +126,8 @@ const int imuQueLength = 200;
 double imuTime[imuQueLength] = {0};
 float imuRoll[imuQueLength] = {0};
 float imuPitch[imuQueLength] = {0};
+int frame_id=0;
+
 
 void transformAssociateToMap()
 {
@@ -350,6 +348,7 @@ int main(int argc, char **argv)
   ros::init(argc, argv, "laserMapping");
   ros::NodeHandle nh;
 
+
   ros::Subscriber subLaserCloudCornerLast = nh.subscribe<sensor_msgs::PointCloud2>("/laser_cloud_corner_last", 2, laserCloudCornerLastHandler);
 
   ros::Subscriber subLaserCloudSurfLast = nh.subscribe<sensor_msgs::PointCloud2>("/laser_cloud_surf_last", 2, laserCloudSurfLastHandler);
@@ -376,8 +375,10 @@ int main(int argc, char **argv)
   aftMappedTrans.frame_id_ = "camera_init";
   aftMappedTrans.child_frame_id_ = "aft_mapped";
 
+  //Saveap.join();
+ // pthread_create(&SaveMap_thread,NULL,SaveMap_thread,NULL);  //创建缺省线程
   laser_odom_map.open ("/home/hl/google/src/loam_velodyne/txt/laser_odom_map.txt");
-    submap_index.open("/home/hl/google/src/loam_velodyne/txt/submap_index.txt");
+  submap_index.open("/home/hl/google/src/loam_velodyne/txt/submap_index.txt");
   std::vector<int> pointSearchInd;
   std::vector<float> pointSearchSqDis;
 
@@ -1143,7 +1144,7 @@ int main(int argc, char **argv)
         pubLaserCloudFullRes.publish(laserCloudFullRes3);
 //          downSizeFilterMap.setInputCloud(laserCloudFullRes);
 //          downSizeFilterMap.filter(*laserCloudFullRes);
-      Map.push_back(*laserCloudFullRes);
+
           submap_index<<laserCloudFullRes4->size()<<std::endl;
         geometry_msgs::Quaternion geoQuat = tf::createQuaternionMsgFromRollPitchYaw(transformAftMapped[2], -transformAftMapped[0], -transformAftMapped[1]);
 //	geometry_msgs::Quaternion heihei = tf::createQuaternionMsgFromRollPitchYaw(0, 0, 2.456151-0.392802);
@@ -1184,25 +1185,7 @@ int main(int argc, char **argv)
     rate.sleep();
   }
 
-//  sensor_msgs::PointCloud2 output;
-//  sensor_msgs::PointCloud2 g_output;
-//  pcl::PCLPointCloud2 pcl_pc2;
-//  for(int i=0;i!=Map.size();i++)
-//  {
-//    *Map1+=Map[i];
-//  }
-//  pcl::toROSMsg(*Map1, g_output);
-//  pcl_conversions::toPCL(g_output,pcl_pc2);
-//    pcl::PointCloud<pcl::PointXYZ> pcl_pc;
-//    pcl::fromPCLPointCloud2(pcl_pc2,pcl_pc);
-//
-//
-//
-//    global_points_map.setFromPCLPointCloud(pcl_pc);
-//    ROS_INFO("points map size %i", (int)global_points_map.size());
-//    ROS_INFO("saving ply file");
-//    global_points_map.saveToPlyFile("/home/hl/helei_ws/src/loam_velodyne/pointcloud/new.ply",1);
-//    ROS_INFO("ply file saved successfully");
+
 
 
     outfile.close();

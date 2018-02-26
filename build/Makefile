@@ -3026,6 +3026,19 @@ loam_velodyne_test_data/fast:
 .PHONY : loam_velodyne_test_data/fast
 
 #=============================================================================
+# Target rules for targets named saveMap
+
+# Build rule for target.
+saveMap: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 saveMap
+.PHONY : saveMap
+
+# fast build rule for target.
+saveMap/fast:
+	$(MAKE) -f loam_velodyne/CMakeFiles/saveMap.dir/build.make loam_velodyne/CMakeFiles/saveMap.dir/build
+.PHONY : saveMap/fast
+
+#=============================================================================
 # Target rules for targets named scanRegistration
 
 # Build rule for target.
@@ -3117,19 +3130,6 @@ mrpt_msgs_generate_messages_lisp/fast:
 .PHONY : mrpt_msgs_generate_messages_lisp/fast
 
 #=============================================================================
-# Target rules for targets named run_tests_loam_velodyne
-
-# Build rule for target.
-run_tests_loam_velodyne: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 run_tests_loam_velodyne
-.PHONY : run_tests_loam_velodyne
-
-# fast build rule for target.
-run_tests_loam_velodyne/fast:
-	$(MAKE) -f loam_velodyne/CMakeFiles/run_tests_loam_velodyne.dir/build.make loam_velodyne/CMakeFiles/run_tests_loam_velodyne.dir/build
-.PHONY : run_tests_loam_velodyne/fast
-
-#=============================================================================
 # Target rules for targets named mrpt_msgs_generate_messages_cpp
 
 # Build rule for target.
@@ -3154,6 +3154,19 @@ run_tests_loam_velodyne_rostest: cmake_check_build_system
 run_tests_loam_velodyne_rostest/fast:
 	$(MAKE) -f loam_velodyne/CMakeFiles/run_tests_loam_velodyne_rostest.dir/build.make loam_velodyne/CMakeFiles/run_tests_loam_velodyne_rostest.dir/build
 .PHONY : run_tests_loam_velodyne_rostest/fast
+
+#=============================================================================
+# Target rules for targets named run_tests_loam_velodyne
+
+# Build rule for target.
+run_tests_loam_velodyne: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 run_tests_loam_velodyne
+.PHONY : run_tests_loam_velodyne
+
+# fast build rule for target.
+run_tests_loam_velodyne/fast:
+	$(MAKE) -f loam_velodyne/CMakeFiles/run_tests_loam_velodyne.dir/build.make loam_velodyne/CMakeFiles/run_tests_loam_velodyne.dir/build
+.PHONY : run_tests_loam_velodyne/fast
 
 #=============================================================================
 # Target rules for targets named _run_tests_loam_velodyne_rostest
@@ -4753,6 +4766,7 @@ help:
 	@echo "... imu_bias_remover"
 	@echo "... imu_integrator"
 	@echo "... loam_velodyne_test_data"
+	@echo "... saveMap"
 	@echo "... scanRegistration"
 	@echo "... loam_velodyne_test_data.tar.gz"
 	@echo "... mrpt_msgs_generate_messages_py"
@@ -4760,9 +4774,9 @@ help:
 	@echo "... transformMaintenance"
 	@echo "... _run_tests_loam_velodyne"
 	@echo "... mrpt_msgs_generate_messages_lisp"
-	@echo "... run_tests_loam_velodyne"
 	@echo "... mrpt_msgs_generate_messages_cpp"
 	@echo "... run_tests_loam_velodyne_rostest"
+	@echo "... run_tests_loam_velodyne"
 	@echo "... _run_tests_loam_velodyne_rostest"
 	@echo "... laserOdometry"
 	@echo "... _run_tests_loam_velodyne_rostest_test_loam.test"

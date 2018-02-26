@@ -49,6 +49,8 @@ vector
 -
 fstream
 -
+iostream
+-
 
 /opt/ros/indigo/include/XmlRpcDecl.h
 ros/macros.h

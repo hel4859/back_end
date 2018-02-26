@@ -5,6 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/hl/google/src/loam_velodyne/src/laserMapping.cpp" "/home/hl/google/src/cmake-build-debug/loam_velodyne/CMakeFiles/laserMapping.dir/src/laserMapping.cpp.o"
+  "/home/hl/google/src/loam_velodyne/src/saveMap.cpp" "/home/hl/google/src/cmake-build-debug/loam_velodyne/CMakeFiles/laserMapping.dir/src/saveMap.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

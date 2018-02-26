@@ -493,7 +493,6 @@ void Optimal_Function::OptimalSolve(const std::vector<Constraint> &constraints,
             problem.AddParameterBlock(nodes[fix_constraint.first_id_].pose_translation_array_.data(),3);
             problem.AddParameterBlock(nodes[fix_constraint.second_id_].pose_rotation_array_.data(),4,quaternion_local_parameterization);
             problem.AddParameterBlock(nodes[fix_constraint.second_id_].pose_translation_array_.data(),3);
-
         //    std::cout<<"dddd"<<std::endl;
 
 //            if (first_flag)
@@ -573,6 +572,8 @@ void Optimal_Function::OptimalSolve(const std::vector<Constraint> &constraints,
             problem.SetParameterBlockConstant(nodes[fix_constraints[i].first_id_].pose_translation_array_.data());
         }
     }
+    problem.SetParameterBlockConstant(nodes[0].pose_rotation_array_.data());
+    problem.SetParameterBlockConstant(nodes[0].pose_translation_array_.data());
     problem.SetParameterBlockConstant(nodes[0].pose_rotation_array_.data());
     problem.SetParameterBlockConstant(nodes[0].pose_translation_array_.data());
 
@@ -706,7 +707,7 @@ void Optimal_Function::OptimalThread() {
                                                            - Optimal_Function::fix_constraint_node_[fix_constraint_[0].first_id_].node_.pose_translation_),
                                                           (Optimal_Function::fix_constraint_node_[fix_constraint_[0].first_id_].node_.pose_rotation_.inverse() *
                                                            Optimal_Function::fix_constraint_node_[fix_constraints_temp[fix_constraints_temp.size()-1].second_id_].node_.pose_rotation_)));
-//0 ->
+                //0 ->
                 fix_constraints_temp.push_back(Constraint(fix_constraint_[0].first_id_,
                                                           fix_constraints_temp[0].second_id_,
                                                           Optimal_Function::fix_constraint_node_[fix_constraints_temp[0].second_id_].node_.trajectory_id_,

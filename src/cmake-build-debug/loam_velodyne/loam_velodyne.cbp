@@ -547,6 +547,9 @@
 		<Unit filename="/home/hl/google/src/loam_velodyne/src/point_cloud2.cpp">
 			<Option target="scanRegistration"/>
 		</Unit>
+		<Unit filename="/home/hl/google/src/loam_velodyne/src/saveMap.cpp">
+			<Option target="laserMapping"/>
+		</Unit>
 		<Unit filename="/home/hl/google/src/loam_velodyne/src/scanRegistration.cpp">
 			<Option target="scanRegistration"/>
 		</Unit>
