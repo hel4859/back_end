@@ -24,11 +24,11 @@
 -- ~~  - open_karto
 -- ~~  - optimal_function
 -- ~~  - point_show
--- ~~  - serial
 -- ~~  - can_msgs
 -- ~~  - gl8_utils
 -- ~~  - traffic_object
 -- ~~  - geographic_msgs
+-- ~~  - change_pointcloud
 -- ~~  - gl8_msgs
 -- ~~  - gps_to_plane
 -- ~~  - tiggo_msgs
@@ -78,8 +78,6 @@
 -- +++ processing catkin package: 'point_show'
 -- ==> add_subdirectory(point_show)
 -- Using these message generators: gencpp;genlisp;genpy
--- +++ processing catkin package: 'serial'
--- ==> add_subdirectory(serial)
 -- +++ processing catkin package: 'can_msgs'
 -- ==> add_subdirectory(can_msgs)
 -- Using these message generators: gencpp;genlisp;genpy
@@ -92,6 +90,9 @@
 -- ==> add_subdirectory(geographic_info-master/geographic_msgs)
 -- Using these message generators: gencpp;genlisp;genpy
 -- geographic_msgs: 14 messages, 4 services
+-- +++ processing catkin package: 'change_pointcloud'
+-- ==> add_subdirectory(change_pointcloud)
+-- Using these message generators: gencpp;genlisp;genpy
 -- +++ processing catkin package: 'gl8_msgs'
 -- ==> add_subdirectory(gl8_msgs )
 -- Using these message generators: gencpp;genlisp;genpy

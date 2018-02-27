@@ -222,87 +222,6 @@ examples/serial_example.cc.s:
 	cd /home/hl/google/build && $(MAKE) -f serial/CMakeFiles/serial_example.dir/build.make serial/CMakeFiles/serial_example.dir/examples/serial_example.cc.s
 .PHONY : examples/serial_example.cc.s
 
-src/impl/list_ports/list_ports_linux.o: src/impl/list_ports/list_ports_linux.cc.o
-
-.PHONY : src/impl/list_ports/list_ports_linux.o
-
-# target to build an object file
-src/impl/list_ports/list_ports_linux.cc.o:
-	cd /home/hl/google/build && $(MAKE) -f serial/CMakeFiles/serial.dir/build.make serial/CMakeFiles/serial.dir/src/impl/list_ports/list_ports_linux.cc.o
-.PHONY : src/impl/list_ports/list_ports_linux.cc.o
-
-src/impl/list_ports/list_ports_linux.i: src/impl/list_ports/list_ports_linux.cc.i
-
-.PHONY : src/impl/list_ports/list_ports_linux.i
-
-# target to preprocess a source file
-src/impl/list_ports/list_ports_linux.cc.i:
-	cd /home/hl/google/build && $(MAKE) -f serial/CMakeFiles/serial.dir/build.make serial/CMakeFiles/serial.dir/src/impl/list_ports/list_ports_linux.cc.i
-.PHONY : src/impl/list_ports/list_ports_linux.cc.i
-
-src/impl/list_ports/list_ports_linux.s: src/impl/list_ports/list_ports_linux.cc.s
-
-.PHONY : src/impl/list_ports/list_ports_linux.s
-
-# target to generate assembly for a file
-src/impl/list_ports/list_ports_linux.cc.s:
-	cd /home/hl/google/build && $(MAKE) -f serial/CMakeFiles/serial.dir/build.make serial/CMakeFiles/serial.dir/src/impl/list_ports/list_ports_linux.cc.s
-.PHONY : src/impl/list_ports/list_ports_linux.cc.s
-
-src/impl/unix.o: src/impl/unix.cc.o
-
-.PHONY : src/impl/unix.o
-
-# target to build an object file
-src/impl/unix.cc.o:
-	cd /home/hl/google/build && $(MAKE) -f serial/CMakeFiles/serial.dir/build.make serial/CMakeFiles/serial.dir/src/impl/unix.cc.o
-.PHONY : src/impl/unix.cc.o
-
-src/impl/unix.i: src/impl/unix.cc.i
-
-.PHONY : src/impl/unix.i
-
-# target to preprocess a source file
-src/impl/unix.cc.i:
-	cd /home/hl/google/build && $(MAKE) -f serial/CMakeFiles/serial.dir/build.make serial/CMakeFiles/serial.dir/src/impl/unix.cc.i
-.PHONY : src/impl/unix.cc.i
-
-src/impl/unix.s: src/impl/unix.cc.s
-
-.PHONY : src/impl/unix.s
-
-# target to generate assembly for a file
-src/impl/unix.cc.s:
-	cd /home/hl/google/build && $(MAKE) -f serial/CMakeFiles/serial.dir/build.make serial/CMakeFiles/serial.dir/src/impl/unix.cc.s
-.PHONY : src/impl/unix.cc.s
-
-src/serial.o: src/serial.cc.o
-
-.PHONY : src/serial.o
-
-# target to build an object file
-src/serial.cc.o:
-	cd /home/hl/google/build && $(MAKE) -f serial/CMakeFiles/serial.dir/build.make serial/CMakeFiles/serial.dir/src/serial.cc.o
-.PHONY : src/serial.cc.o
-
-src/serial.i: src/serial.cc.i
-
-.PHONY : src/serial.i
-
-# target to preprocess a source file
-src/serial.cc.i:
-	cd /home/hl/google/build && $(MAKE) -f serial/CMakeFiles/serial.dir/build.make serial/CMakeFiles/serial.dir/src/serial.cc.i
-.PHONY : src/serial.cc.i
-
-src/serial.s: src/serial.cc.s
-
-.PHONY : src/serial.s
-
-# target to generate assembly for a file
-src/serial.cc.s:
-	cd /home/hl/google/build && $(MAKE) -f serial/CMakeFiles/serial.dir/build.make serial/CMakeFiles/serial.dir/src/serial.cc.s
-.PHONY : src/serial.cc.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -321,15 +240,6 @@ help:
 	@echo "... examples/serial_example.o"
 	@echo "... examples/serial_example.i"
 	@echo "... examples/serial_example.s"
-	@echo "... src/impl/list_ports/list_ports_linux.o"
-	@echo "... src/impl/list_ports/list_ports_linux.i"
-	@echo "... src/impl/list_ports/list_ports_linux.s"
-	@echo "... src/impl/unix.o"
-	@echo "... src/impl/unix.i"
-	@echo "... src/impl/unix.s"
-	@echo "... src/serial.o"
-	@echo "... src/serial.i"
-	@echo "... src/serial.s"
 .PHONY : help
 
 

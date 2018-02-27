@@ -4,6 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/home/hl/google/src/change_pointcloud/src/change_pointcloud.cpp" "/home/hl/google/src/cmake-build-debug/serial/CMakeFiles/serial.dir/__/change_pointcloud/src/change_pointcloud.cpp.o"
   "/home/hl/google/src/serial/src/impl/list_ports/list_ports_linux.cc" "/home/hl/google/src/cmake-build-debug/serial/CMakeFiles/serial.dir/src/impl/list_ports/list_ports_linux.cc.o"
   "/home/hl/google/src/serial/src/impl/unix.cc" "/home/hl/google/src/cmake-build-debug/serial/CMakeFiles/serial.dir/src/impl/unix.cc.o"
   "/home/hl/google/src/serial/src/serial.cc" "/home/hl/google/src/cmake-build-debug/serial/CMakeFiles/serial.dir/src/serial.cc.o"

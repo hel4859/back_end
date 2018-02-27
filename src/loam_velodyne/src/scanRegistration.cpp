@@ -241,8 +241,8 @@ void laserCloudHandler(const sensor_msgs::PointCloud2ConstPtr& laserCloudMsg)
   transform_2.translation() << 2.122, -0.015, 1.74;
 
 
-    transform_2.rotate (Eigen::AngleAxisf (0.02618, Eigen::Vector3f::UnitX()));
-    transform_2.rotate (Eigen::AngleAxisf (0.238166, Eigen::Vector3f::UnitY()));
+  transform_2.rotate (Eigen::AngleAxisf (0.02618, Eigen::Vector3f::UnitX()));
+  transform_2.rotate (Eigen::AngleAxisf (0.238166, Eigen::Vector3f::UnitY()));
   transform_2.rotate (Eigen::AngleAxisf (-0.04696, Eigen::Vector3f::UnitZ()));
 
   

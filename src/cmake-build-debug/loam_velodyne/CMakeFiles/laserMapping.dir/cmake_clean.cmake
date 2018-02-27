@@ -1,6 +1,5 @@
 file(REMOVE_RECURSE
   "CMakeFiles/laserMapping.dir/src/laserMapping.cpp.o"
-  "CMakeFiles/laserMapping.dir/src/saveMap.cpp.o"
   "../devel/lib/loam_velodyne/laserMapping.pdb"
   "../devel/lib/loam_velodyne/laserMapping"
 )

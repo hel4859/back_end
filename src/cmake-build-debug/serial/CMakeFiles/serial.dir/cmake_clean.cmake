@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/serial.dir/src/serial.cc.o"
+  "CMakeFiles/serial.dir/__/change_pointcloud/src/change_pointcloud.cpp.o"
   "CMakeFiles/serial.dir/src/impl/unix.cc.o"
   "CMakeFiles/serial.dir/src/impl/list_ports/list_ports_linux.cc.o"
   "../devel/lib/libserial.pdb"

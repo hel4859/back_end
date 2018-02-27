@@ -22,15 +22,12 @@
   <arg name="rviz" default="true" />
 
    <node pkg="loam_velodyne" type="scanRegistration" name="scanRegistration" output="screen">
-
-       <remap from="/imu/data" to="/Inertial/imu/data" />
    </node>
 
   <node pkg="loam_velodyne" type="laserOdometry" name="laserOdometry" output="screen" respawn="true">
   </node>
 
   <node pkg="loam_velodyne" type="laserMapping" name="laserMapping" output="screen">
-    <remap from="/imu/data" to="/Inertial/imu/data" />
      </node>
   <!--node pkg="loam_velodyne" type="closeConstraint" name="closeConstraint" output="screen"/-->
   <node pkg="loam_velodyne" type="transformMaintenance" name="transformMaintenance" output="screen"/>

@@ -195,6 +195,33 @@ serial/fast:
 	cd /home/hl/google/src/cmake-build-debug && $(MAKE) -f serial/CMakeFiles/serial.dir/build.make serial/CMakeFiles/serial.dir/build
 .PHONY : serial/fast
 
+__/change_pointcloud/src/change_pointcloud.o: __/change_pointcloud/src/change_pointcloud.cpp.o
+
+.PHONY : __/change_pointcloud/src/change_pointcloud.o
+
+# target to build an object file
+__/change_pointcloud/src/change_pointcloud.cpp.o:
+	cd /home/hl/google/src/cmake-build-debug && $(MAKE) -f serial/CMakeFiles/serial.dir/build.make serial/CMakeFiles/serial.dir/__/change_pointcloud/src/change_pointcloud.cpp.o
+.PHONY : __/change_pointcloud/src/change_pointcloud.cpp.o
+
+__/change_pointcloud/src/change_pointcloud.i: __/change_pointcloud/src/change_pointcloud.cpp.i
+
+.PHONY : __/change_pointcloud/src/change_pointcloud.i
+
+# target to preprocess a source file
+__/change_pointcloud/src/change_pointcloud.cpp.i:
+	cd /home/hl/google/src/cmake-build-debug && $(MAKE) -f serial/CMakeFiles/serial.dir/build.make serial/CMakeFiles/serial.dir/__/change_pointcloud/src/change_pointcloud.cpp.i
+.PHONY : __/change_pointcloud/src/change_pointcloud.cpp.i
+
+__/change_pointcloud/src/change_pointcloud.s: __/change_pointcloud/src/change_pointcloud.cpp.s
+
+.PHONY : __/change_pointcloud/src/change_pointcloud.s
+
+# target to generate assembly for a file
+__/change_pointcloud/src/change_pointcloud.cpp.s:
+	cd /home/hl/google/src/cmake-build-debug && $(MAKE) -f serial/CMakeFiles/serial.dir/build.make serial/CMakeFiles/serial.dir/__/change_pointcloud/src/change_pointcloud.cpp.s
+.PHONY : __/change_pointcloud/src/change_pointcloud.cpp.s
+
 examples/serial_example.o: examples/serial_example.cc.o
 
 .PHONY : examples/serial_example.o
@@ -318,6 +345,9 @@ help:
 	@echo "... install/local"
 	@echo "... install/strip"
 	@echo "... serial"
+	@echo "... __/change_pointcloud/src/change_pointcloud.o"
+	@echo "... __/change_pointcloud/src/change_pointcloud.i"
+	@echo "... __/change_pointcloud/src/change_pointcloud.s"
 	@echo "... examples/serial_example.o"
 	@echo "... examples/serial_example.i"
 	@echo "... examples/serial_example.s"

@@ -6,6 +6,20 @@
 
 #IncludeRegexTransform: 
 
+/home/hl/google/src/change_pointcloud/src/change_pointcloud.cpp
+ros/ros.h
+-
+pcl_conversions/pcl_conversions.h
+-
+pcl/point_cloud.h
+-
+pcl/point_types.h
+-
+pcl/common/transforms.h
+-
+sensor_msgs/PointCloud2.h
+-
+
 /home/hl/google/src/serial/include/serial/impl/unix.h
 serial/serial.h
 /home/hl/google/src/serial/include/serial/impl/serial/serial.h
